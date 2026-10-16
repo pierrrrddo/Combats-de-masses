@@ -1,0 +1,1689 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Les Armées — Fiches d'unités pour le combat de masse</title>
+<meta name="description" content="Fiches d'armées Pathfinder 1re édition pour le combat de masse : croisés, paladins, paladins de légende, prêtres de guerre et chevaliers infernaux, en onze tailles chacun (1 à 10 000 combattants).">
+<!-- Page liée à « index.html » (Topo — Le combat de masse).
+     Fiches établies à partir du dossier « Troupes » du coffre. -->
+<!-- Polices « manuscrites ». Chargement non bloquant : la page s'affiche
+     immédiatement avec Palatino/Georgia, puis les polices arrivent (ou pas,
+     si l'on est hors connexion). -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" media="print" onload="this.media='all'"
+      href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&amp;family=EB+Garamond:ital,wght@0,400;0,600;1,400&amp;family=IM+Fell+English:ital@0;1&amp;display=swap">
+<noscript>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&amp;family=EB+Garamond:ital,wght@0,400;0,600;1,400&amp;family=IM+Fell+English:ital@0;1&amp;display=swap">
+</noscript>
+
+<style>
+/* =========================================================================
+   LES ARMÉES — FICHES D'UNITÉS (page liée au topo « Combat de masse »)
+   Fichier autonome : tout le CSS est ici. Aucune dépendance (hors polices).
+   Plan du style :
+     1. Variables & remise à zéro
+     2. Le bureau en bois (fond)
+     3. Le parchemin (feuille + enluminures)
+     4. Typographie & ornements
+     5. Ruban de navigation + barre de progression
+     6. Sections & animations d'apparition
+     7. Encadrés (callouts), citations, jetons de formule
+     8. Tableaux
+     9. Listes : étapes, phases, runes
+    10. Cartes de tactiques
+    11. Sceaux de cire & médaillons
+    12. Section « Armées » (page future) + gabarit de fiche d'armée
+    13. Bouton retour, pied de page
+    14. Responsive / impression / mouvement réduit
+   ========================================================================= */
+
+/* ---------- 1. Variables & remise à zéro ---------- */
+:root{
+  /* Parchemins */
+  --parchemin-clair:#f9f0da;
+  --parchemin:      #f2e3c2;
+  --parchemin-fonce:#e6d2a6;
+  --parchemin-ombre:#d8c092;
+  /* Encres */
+  --encre:      #3a2914;
+  --encre-douce:#6b543a;
+  --encre-pale: #8d7551;
+  /* Métaux & cuirs */
+  --or:        #b08d4a;
+  --or-sombre: #8a6a33;
+  --or-clair:  #e2c784;
+  --cuir:      #4a2d15;
+  --cuir-fonce:#241407;
+  /* Accents colorés */
+  --cire:      #9b2226;
+  --cire-clair:#c0392b;
+  --olive:     #556b2f;
+  --bleu-encre:#2c4a6e;
+  --ambre:     #a05a1a;
+  --pourpre:   #6a3f6b;
+  --sarcelle:  #2f6b63;
+  /* Typographies */
+  --font-titre:"Cinzel","Trajan Pro","Palatino Linotype","Book Antiqua",Georgia,serif;
+  --font-texte:"EB Garamond","Palatino Linotype","Book Antiqua",Georgia,"Times New Roman",serif;
+  --font-main: "IM Fell English","Palatino Linotype",Georgia,serif;
+  --font-code: "Consolas","Courier New",monospace;
+  /* Textures (data-URI SVG, aucune image externe) */
+  --grain:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23g)' opacity='0.55'/%3E%3C/svg%3E");
+  --ornement:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 20' preserveAspectRatio='none'%3E%3Cpath d='M0,10 H120' stroke='%238a6a33' stroke-width='1.4' fill='none'/%3E%3Cpath d='M200,10 H320' stroke='%238a6a33' stroke-width='1.4' fill='none'/%3E%3Cpath d='M160,2 L168,10 L160,18 L152,10 Z' fill='%23b08d4a' stroke='%238a6a33' stroke-width='1'/%3E%3Ccircle cx='130' cy='10' r='2.5' fill='%238a6a33'/%3E%3Ccircle cx='190' cy='10' r='2.5' fill='%238a6a33'/%3E%3C/svg%3E");
+  --coin-fleuron:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath d='M42,6 C24,6 6,24 6,42' fill='none' stroke='%238a6a33' stroke-width='2'/%3E%3Cpath d='M30,6 C16,6 6,16 6,30' fill='none' stroke='%23b08d4a' stroke-width='1.2'/%3E%3Ccircle cx='6' cy='42' r='2.6' fill='%238a6a33'/%3E%3Ccircle cx='42' cy='6' r='2.6' fill='%238a6a33'/%3E%3C/svg%3E");
+}
+*,*::before,*::after{ margin:0; padding:0; box-sizing:border-box; }
+
+html{
+  scroll-behavior:smooth;
+  scroll-padding-top:96px;
+  -webkit-text-size-adjust:100%;
+}
+body{
+  /* ---------- 2. Le bureau en bois ---------- */
+  background-color:#241508;
+  background-image:
+    repeating-linear-gradient(90deg, rgba(0,0,0,.18) 0 2px, transparent 2px 7px),
+    repeating-linear-gradient(88deg, rgba(255,214,150,.05) 0 1px, transparent 1px 13px),
+    radial-gradient(120% 80% at 50% -10%, rgba(255,204,128,.14), transparent 60%),
+    linear-gradient(160deg,#3b2616,#22140a 60%,#170e06);
+  color:var(--encre);
+  font-family:var(--font-texte);
+  font-size:17.5px;
+  line-height:1.68;
+  overflow-x:hidden;
+}
+/* veines + grain du bois, puis vignettage chaleureux */
+body::before{
+  content:""; position:fixed; inset:0; z-index:1; pointer-events:none;
+  background-image:var(--grain); opacity:.07; mix-blend-mode:overlay;
+}
+body::after{
+  content:""; position:fixed; inset:0; z-index:3; pointer-events:none;
+  background:radial-gradient(ellipse at 50% 45%, transparent 58%, rgba(0,0,0,.45) 100%);
+}
+
+::selection{ background:rgba(176,141,74,.4); color:#2b1c0c; }
+
+html{ -webkit-tap-highlight-color:rgba(176,141,74,.25); }
+
+/* Poussière dorée flottant au-dessus du bureau */
+.poussiere{ position:fixed; inset:0; z-index:2; pointer-events:none; overflow:hidden; }
+.poussiere span{
+  position:absolute; bottom:-10vh; left:0;
+  width:4px; height:4px; border-radius:50%;
+  background:radial-gradient(circle, rgba(255,228,163,.9), rgba(255,228,163,0) 70%);
+  animation:monte linear infinite;
+}
+.poussiere span:nth-child(1){ left:5%;  animation-duration:29s; animation-delay:-2s;  }
+.poussiere span:nth-child(2){ left:17%; animation-duration:37s; animation-delay:-9s;  width:3px; height:3px; }
+.poussiere span:nth-child(3){ left:31%; animation-duration:24s; animation-delay:-15s; }
+.poussiere span:nth-child(4){ left:44%; animation-duration:41s; animation-delay:-4s;  width:6px; height:6px; }
+.poussiere span:nth-child(5){ left:58%; animation-duration:33s; animation-delay:-21s; width:3px; height:3px; }
+.poussiere span:nth-child(6){ left:71%; animation-duration:27s; animation-delay:-12s; }
+.poussiere span:nth-child(7){ left:84%; animation-duration:44s; animation-delay:-6s;  width:5px; height:5px; }
+.poussiere span:nth-child(8){ left:94%; animation-duration:31s; animation-delay:-18s; width:3px; height:3px; }
+@keyframes monte{
+  0%  { transform:translate3d(0,0,0) scale(.8);      opacity:0; }
+  12% {                                             opacity:.85; }
+  50% { transform:translate3d(22px,-58vh,0) scale(1); opacity:.45; }
+  100%{ transform:translate3d(-16px,-118vh,0) scale(.7); opacity:0; }
+}
+
+/* ---------- 3. Le parchemin ---------- */
+.feuille{
+  position:relative;
+  isolation:isolate;                 /* le grain reste sous le texte */
+  max-width:1080px;
+  margin:34px auto 0;
+  padding:clamp(24px,4vw,58px) clamp(18px,5.2vw,72px) clamp(40px,6vw,80px);
+  background:
+    radial-gradient(150% 55% at 50% 0%, rgba(255,250,232,.95), transparent 60%),
+    radial-gradient(circle at 11% 17%, rgba(160,120,58,.13), transparent 21%),
+    radial-gradient(circle at 86% 33%, rgba(160,120,58,.10), transparent 18%),
+    radial-gradient(circle at 24% 62%, rgba(160,120,58,.10), transparent 17%),
+    radial-gradient(circle at 71% 84%, rgba(160,120,58,.12), transparent 20%),
+    linear-gradient(176deg, var(--parchemin-clair) 0%, var(--parchemin) 36%, var(--parchemin-fonce) 72%, var(--parchemin-ombre) 100%);
+  border-radius:5px 9px 6px 10px / 7px 5px 9px 6px;
+  box-shadow:
+    inset 0 0 0 1px rgba(120,88,40,.30),
+    inset 0 0 26px rgba(120,80,30,.20),
+    inset 0 0 90px rgba(126,86,32,.28),
+    0 28px 66px rgba(0,0,0,.55),
+    0 8px 24px rgba(0,0,0,.35);
+  animation:apparait .9s ease both;
+}
+@keyframes apparait{ from{ opacity:0; } to{ opacity:1; } }
+/* grain du parchemin */
+.feuille::before{
+  content:""; position:absolute; inset:0; z-index:-1;
+  border-radius:inherit;
+  background-image:var(--grain);
+  opacity:.5; mix-blend-mode:multiply; pointer-events:none;
+}
+/* cadre enluminé (double filet) */
+.feuille::after{
+  content:""; position:absolute; inset:15px; z-index:-1; pointer-events:none;
+  border:2px solid rgba(138,106,51,.45);
+  outline:1px solid rgba(138,106,51,.28);
+  outline-offset:5px;
+  border-radius:3px;
+}
+.coin{
+  position:absolute; z-index:-1; width:46px; height:46px; pointer-events:none;
+  background:var(--coin-fleuron) center/contain no-repeat;
+  opacity:.8;
+}
+.coin.tl{ top:10px;    left:10px; }
+.coin.tr{ top:10px;    right:10px;  transform:rotate(90deg); }
+.coin.br{ bottom:10px; right:10px;  transform:rotate(180deg); }
+.coin.bl{ bottom:10px; left:10px;   transform:rotate(270deg); }
+
+/* ---------- 4. Typographie & ornements ---------- */
+h1,h2,h3,h4{ font-family:var(--font-titre); font-weight:600; line-height:1.25; color:var(--encre); }
+
+.hero{ position:relative; text-align:center; padding:6px 0 30px; }
+.hero .sur-titre{
+  font-family:var(--font-titre); font-size:.72rem; letter-spacing:.34em;
+  text-transform:uppercase; color:var(--or-sombre); margin-bottom:16px;
+}
+.hero .sur-titre::before,
+.hero .sur-titre::after{ content:"❧"; color:var(--or); margin:0 12px; font-size:.95rem; }
+.hero .sur-titre sup{ font-size:.7em; letter-spacing:0; margin-left:-.16em; }
+
+.hero h1{
+  font-size:clamp(2.05rem,6.2vw,3.5rem);
+  font-weight:700; letter-spacing:.05em; margin-bottom:6px;
+  background:linear-gradient(100deg,#4a3116 26%,#8a6a33 38%,#e8cf94 48%,#fff4d6 51%,#e8cf94 54%,#8a6a33 64%,#4a3116 76%);
+  background-size:260% 100%;
+  -webkit-background-clip:text; background-clip:text;
+  color:transparent; -webkit-text-fill-color:transparent;
+  animation:reflet 9s linear infinite;
+  filter:drop-shadow(0 2px 0 rgba(255,246,220,.55)) drop-shadow(0 5px 8px rgba(90,60,20,.30));
+}
+@keyframes reflet{ from{ background-position:130% 0; } to{ background-position:-130% 0; } }
+
+.hero .sous-titre{
+  font-family:var(--font-main); font-style:italic;
+  font-size:clamp(1rem,2.4vw,1.24rem); color:#5c4527; max-width:720px; margin:10px auto 0;
+}
+.hero .ecusson{ width:104px; height:auto; display:block; margin:20px auto 14px; filter:drop-shadow(0 5px 7px rgba(80,52,18,.35)); }
+.hero .ecusson .lame{ animation:lueur 4.2s ease-in-out infinite; }
+@keyframes lueur{ 0%,100%{ opacity:.55; } 50%{ opacity:1; } }
+
+.puces{ display:flex; flex-wrap:wrap; gap:8px; justify-content:center; margin-top:20px; }
+.puce{
+  font-family:var(--font-titre); font-size:.68rem; letter-spacing:.14em; text-transform:uppercase;
+  color:#5b4526; background:linear-gradient(180deg, rgba(255,250,236,.85), rgba(232,214,172,.75));
+  border:1px solid rgba(138,106,51,.45); border-radius:999px; padding:5px 13px;
+  box-shadow:0 2px 4px rgba(90,60,20,.15), inset 0 -2px 0 rgba(138,106,51,.16);
+  transition:transform .25s ease, box-shadow .25s ease;
+}
+.puce:hover{ transform:translateY(-2px); box-shadow:0 5px 10px rgba(90,60,20,.25); }
+
+/* Filet ornementé de séparation */
+.ornement{
+  width:min(460px,72%); height:20px; margin:26px auto;
+  background:var(--ornement) center/100% 100% no-repeat;
+  opacity:.85;
+}
+h2.titre-section{
+  display:flex; align-items:center; gap:15px;
+  font-size:clamp(1.28rem,3.1vw,1.68rem); letter-spacing:.02em;
+  padding-bottom:2px;
+}
+h2.titre-section .intitule{ position:relative; }
+h2.titre-section .intitule::after{
+  content:""; position:absolute; left:0; bottom:-7px; height:2px; width:0;
+  background:linear-gradient(90deg, var(--or), rgba(176,141,74,0));
+  transition:width .9s cubic-bezier(.2,.8,.2,1) .15s;
+}
+.vu h2.titre-section .intitule::after{ width:min(100%,340px); }
+
+.medaillon{
+  flex:0 0 auto; display:grid; place-items:center;
+  width:46px; height:46px; border-radius:50%;
+  font-family:var(--font-titre); font-weight:700; font-size:1rem; color:#33220e;
+  background:radial-gradient(circle at 34% 28%, #f4e0ab, var(--or) 58%, #6f521f);
+  border:2px solid #5c4118;
+  box-shadow:0 3px 8px rgba(70,45,12,.45), inset 0 -3px 6px rgba(60,38,8,.35);
+  transition:transform .5s cubic-bezier(.2,.8,.2,1), box-shadow .5s;
+}
+.vu .medaillon{ transform:rotate(-8deg) scale(1.03); box-shadow:0 5px 14px rgba(70,45,12,.55), inset 0 -3px 6px rgba(60,38,8,.35); }
+
+h3{
+  font-size:1.12rem; letter-spacing:.03em; color:#523414;
+  margin:26px 0 10px; padding-bottom:6px;
+  border-bottom:1px dashed rgba(107,84,58,.45);
+}
+h4{ font-size:1rem; letter-spacing:.05em; color:#5b3f1c; }
+p{ margin:0 0 14px; }
+p:last-child{ margin-bottom:0; }
+strong{ color:#4c3417; }
+em{ color:#5f4a2c; }
+a.lien{
+  color:#8a2b1f; text-decoration:none;
+  border-bottom:1px dotted rgba(138,43,31,.6);
+  transition:color .25s, background .25s, border-color .25s;
+}
+a.lien:hover{ color:#c0392b; background:rgba(192,57,43,.10); border-bottom-style:solid; }
+
+/* Lettrine sur le premier paragraphe du topo */
+.lettrine::first-letter{
+  float:left; font-family:var(--font-titre); font-weight:700;
+  font-size:3.5em; line-height:.82; padding:6px 12px 0 0;
+  color:#7a2318;
+  text-shadow:1px 1px 0 rgba(255,244,214,.8), 3px 3px 6px rgba(90,60,20,.28);
+}
+
+/* ---------- 5. Ruban de navigation + progression ---------- */
+.progression{
+  position:fixed; top:0; left:0; height:4px; width:0; z-index:70;
+  background:linear-gradient(90deg, var(--or-sombre), var(--or), var(--or-clair), var(--cire));
+  box-shadow:0 0 10px rgba(255,214,140,.6);
+}
+.ruban{
+  position:sticky; top:0; z-index:60;
+  background:linear-gradient(180deg,#3f2613,#241407);
+  border-bottom:3px double var(--or-sombre);
+  box-shadow:0 8px 22px rgba(0,0,0,.55);
+}
+.ruban::after{
+  content:""; position:absolute; left:0; right:0; bottom:-1px; height:1px;
+  background:linear-gradient(90deg, transparent, rgba(255,196,110,.75), transparent);
+  animation:vacille 5s ease-in-out infinite;
+}
+@keyframes vacille{ 0%,100%{ opacity:.35; } 42%{ opacity:.9; } 55%{ opacity:.5; } 70%{ opacity:1; } }
+.ruban .interieur{
+  max-width:1080px; margin:0 auto; padding:8px 16px;
+  display:flex; flex-wrap:wrap; align-items:center; gap:2px 4px;
+}
+.ruban .marque{
+  display:flex; align-items:center; gap:8px;
+  font-family:var(--font-titre); font-weight:700; font-size:.76rem;
+  letter-spacing:.2em; text-transform:uppercase; color:var(--or-clair);
+  margin-right:14px; white-space:nowrap;
+  text-shadow:0 1px 0 #000, 0 0 12px rgba(255,196,110,.35);
+}
+.ruban .marque .glyphe{ font-size:1rem; animation:lueur 4s ease-in-out infinite; }
+.ruban .groupe{ display:flex; align-items:center; gap:1px; padding:0 9px; border-left:1px solid rgba(176,141,74,.35); }
+.ruban .groupe:first-of-type{ border-left:none; padding-left:0; }
+.ruban a.ruban-lien{
+  position:relative; display:inline-block;
+  font-family:var(--font-titre); font-size:.68rem; letter-spacing:.11em; text-transform:uppercase;
+  color:#d9c79b; text-decoration:none; padding:7px 9px; border-radius:3px;
+  transition:color .25s, background .25s, transform .25s;
+}
+.ruban a.ruban-lien:hover{ color:#fff3d4; background:rgba(176,141,74,.20); transform:translateY(-1px); }
+.ruban a.ruban-lien.actif{ color:#ffe9b8; background:rgba(176,141,74,.14); }
+.ruban a.ruban-lien.actif::after{
+  content:""; position:absolute; left:9px; right:9px; bottom:2px; height:2px;
+  background:linear-gradient(90deg, transparent, var(--or-clair), transparent);
+}
+.ruban a.ruban-lien.futur{ color:#b9a377; }
+.ruban a.ruban-lien.futur::before{
+  content:"bientôt"; position:absolute; top:-3px; right:-2px;
+  font-size:.42rem; letter-spacing:.16em; color:#2a1a0a;
+  background:linear-gradient(180deg,var(--or-clair),var(--or)); border-radius:3px; padding:1px 4px;
+  opacity:0; transform:translateY(3px); transition:opacity .3s, transform .3s;
+}
+.ruban a.ruban-lien.futur:hover::before{ opacity:1; transform:translateY(0); }
+/* voile de droite : n'apparaît que sur téléphone pour indiquer que le ruban défile */
+.voile{
+  display:none;
+  position:absolute; top:0; right:0; bottom:0; width:24px; z-index:1;
+  pointer-events:none;
+  background:linear-gradient(90deg, rgba(36,20,7,0), rgba(36,20,7,.92));
+}
+
+/* ---------- 6. Sections & apparitions ---------- */
+main{ position:relative; z-index:2; max-width:1080px; margin:0 auto; padding:0 16px 40px; }
+.section{ padding:26px 0 8px; scroll-margin-top:96px; }
+
+/* Optimisation (aucun effet visuel) : le navigateur ne calcule ni ne peint les
+   gros blocs hors écran (tableaux, grilles de cartes). C'est le poste le plus
+   lourd d'une page longue, surtout sur téléphone.
+   On l'applique aux blocs et non aux sections elles-mêmes, pour ne pas gêner
+   les apparitions au défilement. Les navigateurs qui ignorent la propriété
+   affichent simplement tout, comme avant. */
+.bloc-tableau{ content-visibility:auto; contain-intrinsic-size:auto 380px; }
+.bloc-tableau.hauteur{ contain-intrinsic-size:auto 620px; }
+.grille-tactiques{ content-visibility:auto; contain-intrinsic-size:auto 900px; }
+.phases{ content-visibility:auto; contain-intrinsic-size:auto 260px; }
+.apercu-grille{ content-visibility:auto; contain-intrinsic-size:auto 340px; }
+.carte-future{ content-visibility:auto; contain-intrinsic-size:auto 300px; }
+.section::after{
+  content:""; display:block; width:min(440px,70%); height:18px;
+  margin:40px auto 0;
+  background:var(--ornement) center/100% 100% no-repeat;
+  opacity:.7;
+}
+.section:last-of-type::after{ display:none; }
+
+.reveal{
+  opacity:0; transform:translateY(26px); filter:blur(5px);
+  transition:opacity .75s ease, transform .75s cubic-bezier(.2,.8,.2,1), filter .75s ease;
+  transition-delay:calc(var(--i,0) * 60ms);
+}
+.reveal.vu{ opacity:1; transform:none; filter:none; }
+
+/* ---------- 7. Encadrés, citations, jetons ---------- */
+.encadre{
+  position:relative;
+  margin:22px 0; padding:17px 21px 17px 23px;
+  background:linear-gradient(180deg, rgba(255,251,238,.78), rgba(243,228,196,.60));
+  border:1px solid var(--teinte-bord, rgba(138,106,51,.5));
+  border-left:6px solid var(--teinte, var(--or-sombre));
+  border-radius:4px;
+  box-shadow:0 5px 16px rgba(88,58,20,.14), inset 0 0 34px rgba(180,140,70,.10);
+}
+.encadre::before{ /* punaise de cire */
+  content:""; position:absolute; top:-9px; left:-9px; width:19px; height:19px; border-radius:50% 46% 52% 48% / 48% 52% 46% 52%;
+  background:radial-gradient(circle at 35% 30%, #e06a5a, var(--cire) 62%, #5d1414);
+  box-shadow:0 2px 5px rgba(0,0,0,.35), inset 0 -2px 3px rgba(0,0,0,.30);
+}
+.encadre .titre-encadre{
+  display:flex; align-items:center; gap:9px;
+  font-family:var(--font-titre); font-size:.72rem; font-weight:700;
+  letter-spacing:.19em; text-transform:uppercase; color:var(--teinte, var(--or-sombre));
+  margin-bottom:9px;
+}
+.encadre .titre-encadre .icone{ font-size:.95rem; }
+.encadre p:last-child, .encadre ol:last-child, .encadre ul:last-child{ margin-bottom:0; }
+
+.p-info{      --teinte:#8a6a33; --teinte-bord:rgba(138,106,51,.5); }
+.p-attention{ --teinte:#9b2226; --teinte-bord:rgba(155,34,38,.55); background:linear-gradient(180deg, rgba(255,244,236,.85), rgba(246,220,206,.62)); }
+.p-resume{    --teinte:#4f6529; --teinte-bord:rgba(79,101,41,.5); background:linear-gradient(180deg, rgba(250,253,238,.82), rgba(234,240,208,.62)); }
+.p-citation{  --teinte:#42506e; --teinte-bord:rgba(66,80,110,.45); }
+
+blockquote{
+  position:relative; margin:20px 0 20px 6px; padding:10px 20px 10px 26px;
+  font-family:var(--font-main); font-style:italic; font-size:1.06rem; color:#5a4326;
+  border-left:3px solid rgba(138,106,51,.6);
+  background:linear-gradient(90deg, rgba(200,166,104,.16), transparent 85%);
+}
+blockquote::before{
+  content:"❝"; position:absolute; left:6px; top:-4px;
+  font-size:1.9rem; color:rgba(138,106,51,.5); font-family:Georgia,serif;
+}
+
+/* jetons de formule : 1d20 + MA */
+.jet{
+  display:inline-block; font-family:var(--font-code); font-size:.86em; font-weight:700;
+  color:#4a3117; background:linear-gradient(180deg,#f6e7bd,#e6d0a0);
+  border:1px solid rgba(107,84,58,.55); border-radius:5px;
+  padding:1px 8px; margin:0 2px; white-space:nowrap; cursor:pointer;
+  box-shadow:inset 0 -2px 0 rgba(107,84,58,.22), 0 2px 3px rgba(90,60,20,.14);
+  transition:transform .2s ease, box-shadow .2s ease, background .2s ease;
+}
+.jet:hover{ transform:translateY(-2px) rotate(-1deg); box-shadow:0 6px 12px rgba(90,60,20,.25); background:linear-gradient(180deg,#fdf1cf,#ecd8a8); }
+.jet.secoue{ animation:des .62s cubic-bezier(.3,1.6,.4,1); }
+@keyframes des{
+  0%{ transform:rotate(0) scale(1); }
+  22%{ transform:rotate(-9deg) scale(1.09); }
+  44%{ transform:rotate(8deg) scale(1.06); }
+  66%{ transform:rotate(-5deg) scale(1.03); }
+  100%{ transform:rotate(0) scale(1); }
+}
+.formule{
+  display:inline-flex; align-items:center; gap:10px; flex-wrap:wrap;
+  font-family:var(--font-code); font-size:.9rem; font-weight:700; color:#45301a;
+  background:linear-gradient(180deg,#f7e9c4,#e7d3a4);
+  border:1px solid rgba(107,84,58,.5); border-radius:999px;
+  padding:9px 20px; margin:12px 0;
+  box-shadow:inset 0 -3px 0 rgba(107,84,58,.18), 0 3px 9px rgba(90,60,20,.18);
+}
+
+/* ---------- 8. Tableaux ---------- */
+.bloc-tableau{
+  position:relative; margin:18px 0; border:1px solid rgba(107,84,58,.42); border-radius:6px;
+  background:linear-gradient(180deg, rgba(255,252,242,.55), rgba(240,226,196,.35));
+  box-shadow:0 3px 12px rgba(88,58,20,.12);
+  overflow:hidden;
+}
+.bloc-tableau .defile{ overflow-x:auto; }
+.bloc-tableau.hauteur{ max-height:620px; overflow-y:auto; }
+table{ width:100%; border-collapse:collapse; font-size:.94rem; }
+thead th{
+  position:sticky; top:0; z-index:2;
+  background:linear-gradient(180deg,#6d4b25,#4c3013);
+  color:#f7ecd0; font-family:var(--font-titre); font-weight:600;
+  font-size:.72rem; letter-spacing:.14em; text-transform:uppercase;
+  text-align:left; padding:11px 13px; border:1px solid #34210d;
+  white-space:nowrap;
+}
+tbody td{ padding:10px 13px; border:1px solid rgba(107,84,58,.28); vertical-align:top; }
+tbody tr:nth-child(even) td{ background:rgba(139,109,66,.075); }
+tbody tr{ transition:background .25s ease; }
+tbody tr:hover td{ background:rgba(201,162,39,.20); }
+tbody td strong{ color:#54390f; }
+td .jet{ font-size:.82em; }
+
+/* Table des stratégies : code couleur par cran d'agressivité */
+.strategie td:first-child{ border-left:5px solid var(--teinte,#6b543a); }
+.strategie td:first-child strong{ color:var(--teinte,#54390f); }
+.strategie tr{ --teinte:#6b543a; }
+.strategie tr.defensive{ --teinte:var(--bleu-encre); }
+.strategie tr.cauteleuse{ --teinte:var(--sarcelle); }
+.strategie tr.agressive{ --teinte:var(--ambre); }
+.strategie tr.temeraire{ --teinte:var(--cire); }
+.valeur{
+  display:inline-block; font-family:var(--font-code); font-weight:700; font-size:.86rem;
+  padding:1px 9px; border-radius:999px; border:1px solid transparent;
+}
+.valeur.pos{ color:#2f5d1e; background:rgba(85,107,47,.16); border-color:rgba(85,107,47,.4); }
+.valeur.neg{ color:#8f2116; background:rgba(155,34,38,.14); border-color:rgba(155,34,38,.35); }
+.valeur.zero{ color:#5c4b32; background:rgba(107,84,58,.14); border-color:rgba(107,84,58,.3); }
+.prestige{ font-family:var(--font-code); font-size:.84em; color:#8a4a12; white-space:nowrap; }
+
+/* ---------- 9. Listes : phases, étapes, runes ---------- */
+.phases{
+  display:grid; grid-template-columns:repeat(auto-fit,minmax(min(238px,100%),1fr)); gap:16px; margin:20px 0 6px;
+}
+.phase{
+  position:relative; overflow:hidden; padding:20px 20px 18px;
+  background:linear-gradient(180deg, rgba(255,252,240,.8), rgba(238,222,188,.55));
+  border:1px solid rgba(107,84,58,.4); border-radius:6px;
+  box-shadow:0 4px 14px rgba(88,58,20,.15), inset 0 0 26px rgba(180,140,70,.10);
+  transition:transform .35s cubic-bezier(.2,.8,.2,1), box-shadow .35s;
+}
+.phase:hover{ transform:translateY(-5px) rotate(-.3deg); box-shadow:0 14px 28px rgba(88,58,20,.28); }
+.phase .grand{
+  position:absolute; right:8px; top:-14px;
+  font-family:var(--font-titre); font-weight:700; font-size:5.4rem; color:rgba(122,86,36,.13);
+  pointer-events:none; user-select:none;
+}
+.phase h4{ font-size:1rem; margin-bottom:7px; color:#4f3413; }
+.phase p{ font-size:.95rem; color:#4c3a22; }
+
+ol.etapes{ list-style:none; counter-reset:etape; margin:18px 0 6px; padding-left:56px; }
+ol.etapes li{ position:relative; counter-increment:etape; margin-bottom:20px; padding-top:3px; }
+ol.etapes li::before{
+  content:counter(etape); position:absolute; left:-56px; top:0;
+  display:grid; place-items:center; width:36px; height:36px; border-radius:50%;
+  font-family:var(--font-titre); font-weight:700; font-size:.95rem; color:#2f1f0b;
+  background:radial-gradient(circle at 34% 28%, #f4e0ab, var(--or) 60%, #6f521f);
+  border:2px solid #5c4118; box-shadow:0 3px 7px rgba(70,45,12,.4);
+}
+ol.etapes li::after{
+  content:""; position:absolute; left:-39px; top:38px; bottom:-22px; width:2px;
+  background:linear-gradient(rgba(138,106,51,.7), rgba(138,106,51,.05));
+}
+ol.etapes li:last-child::after{ display:none; }
+
+ul.runes{ list-style:none; margin:12px 0 4px; }
+ul.runes li{ position:relative; padding-left:26px; margin-bottom:10px; }
+ul.runes li::before{
+  content:"◆"; position:absolute; left:2px; top:0;
+  color:var(--or-sombre); font-size:.82rem;
+  transition:color .3s, transform .3s;
+}
+ul.runes li:hover::before{ color:var(--cire-clair); transform:rotate(45deg) scale(1.1); }
+
+/* ---------- 10. Cartes de tactiques ---------- */
+.grille-tactiques{
+  display:grid; grid-template-columns:repeat(auto-fill,minmax(min(268px,100%),1fr)); gap:15px; margin:20px 0 6px;
+}
+.tactique{
+  position:relative; overflow:hidden;
+  padding:16px 17px 15px;
+  background:linear-gradient(180deg, rgba(255,252,241,.82), rgba(237,221,187,.58));
+  border:1px solid rgba(107,84,58,.38);
+  border-left:5px solid var(--teinte,#6b543a);
+  border-radius:5px;
+  box-shadow:0 4px 13px rgba(88,58,20,.14), inset 0 0 24px rgba(180,140,70,.09);
+  transition:transform .35s cubic-bezier(.2,.8,.2,1), box-shadow .35s, background .35s;
+}
+.tactique::after{ /* coin corné */
+  content:""; position:absolute; right:0; bottom:0; width:26px; height:26px;
+  background:linear-gradient(135deg, rgba(214,194,150,0) 49%, rgba(198,172,120,.75) 50%);
+  transition:width .35s ease, height .35s ease;
+}
+.tactique:hover{
+  transform:translateY(-6px) rotate(-.5deg);
+  box-shadow:0 16px 30px rgba(88,58,20,.3);
+  background:linear-gradient(180deg, rgba(255,253,244,.95), rgba(240,226,192,.7));
+}
+.tactique:hover::after{ width:36px; height:36px; }
+.tactique h4{
+  display:flex; align-items:center; gap:8px;
+  font-size:.95rem; letter-spacing:.04em; margin-bottom:7px; color:var(--teinte,#4f3413);
+}
+.tactique h4 .icone{ font-size:1.05rem; }
+.tactique h4 .ast{ color:var(--cire); font-size:1.15em; line-height:0; }
+.tactique p{ font-size:.9rem; line-height:1.55; color:#4a381f; }
+.tactique .marque-tous{
+  display:inline-block; margin-top:9px;
+  font-family:var(--font-titre); font-size:.58rem; letter-spacing:.16em; text-transform:uppercase;
+  color:#5a4416; background:linear-gradient(180deg,#f0dda6,#dcc182);
+  border:1px solid rgba(107,84,58,.45); border-radius:999px; padding:2px 9px;
+}
+.tactique.t-offensive{ --teinte:var(--ambre); }
+.tactique.t-defense{   --teinte:var(--bleu-encre); }
+.tactique.t-moral{     --teinte:var(--olive); }
+.tactique.t-ruse{      --teinte:var(--pourpre); }
+.tactique.t-neutre{    --teinte:#6b543a; }
+.legende-tactiques{
+  display:flex; flex-wrap:wrap; gap:10px 18px; align-items:center;
+  font-size:.84rem; color:#5c4a2d; margin:14px 0 0;
+}
+.legende-tactiques .pastille-couleur{
+  display:inline-block; width:13px; height:13px; border-radius:3px; margin-right:6px;
+  vertical-align:-2px; box-shadow:inset 0 0 0 1px rgba(0,0,0,.2);
+}
+
+/* ---------- 11. Sceaux & médaillons ---------- */
+.sceau{
+  flex:0 0 auto; display:grid; place-items:center;
+  width:74px; height:74px; position:relative;
+  border-radius:48% 52% 45% 55% / 52% 47% 53% 48%;
+  background:radial-gradient(circle at 35% 30%, #d8604f, var(--cire) 58%, #571213);
+  box-shadow:0 6px 14px rgba(60,10,10,.45), inset 0 -4px 8px rgba(0,0,0,.35), inset 0 3px 6px rgba(255,180,150,.25);
+  color:#f9e6cd; font-family:var(--font-titre); font-size:1.6rem;
+  text-shadow:0 1px 2px rgba(0,0,0,.5);
+  animation:pulse 6s ease-in-out infinite;
+}
+@keyframes pulse{ 0%,100%{ transform:rotate(-3deg) scale(1); } 50%{ transform:rotate(3deg) scale(1.04); } }
+
+/* ---------- 12. Section « Armées » (page future) ---------- */
+.carte-future{
+  display:flex; gap:22px; align-items:flex-start; flex-wrap:wrap;
+  margin:22px 0; padding:24px;
+  background:
+    radial-gradient(circle at 88% 12%, rgba(176,141,74,.18), transparent 42%),
+    linear-gradient(180deg, rgba(255,252,241,.85), rgba(236,219,183,.62));
+  border:1px solid rgba(107,84,58,.45);
+  border-top:4px double var(--or-sombre);
+  border-radius:6px;
+  box-shadow:0 6px 20px rgba(88,58,20,.18), inset 0 0 40px rgba(180,140,70,.10);
+}
+.carte-future .corps{ flex:1 1 320px; min-width:260px; }
+.carte-future h4{ font-size:1.05rem; margin-bottom:8px; }
+.carte-future p{ font-size:.95rem; color:#4c3a22; }
+.bouton-armee{
+  display:inline-flex; align-items:center; gap:9px; margin-top:12px;
+  font-family:var(--font-titre); font-size:.72rem; letter-spacing:.16em; text-transform:uppercase;
+  color:#4a3116; text-decoration:none;
+  background:linear-gradient(180deg,#f3e0ae,#d9bd80);
+  border:1px solid #7a5a24; border-radius:5px; padding:10px 18px;
+  box-shadow:0 3px 0 #6d4f1e, 0 6px 14px rgba(88,58,20,.28);
+  transition:transform .2s ease, box-shadow .2s ease, filter .2s ease;
+}
+.bouton-armee:hover{ transform:translateY(-2px); box-shadow:0 5px 0 #6d4f1e, 0 12px 22px rgba(88,58,20,.34); filter:brightness(1.05); }
+.bouton-armee:active{ transform:translateY(1px); box-shadow:0 2px 0 #6d4f1e, 0 4px 10px rgba(88,58,20,.3); }
+.bouton-armee.attente{ cursor:default; filter:saturate(.55); opacity:.85; }
+.aide-code{
+  margin-top:14px; padding:12px 14px;
+  font-family:var(--font-code); font-size:.8rem; line-height:1.6; color:#4c3a22;
+  background:rgba(255,252,240,.7); border:1px dashed rgba(107,84,58,.5); border-radius:5px;
+}
+.apercu-grille{ display:grid; grid-template-columns:repeat(auto-fit,minmax(min(220px,100%),1fr)); gap:14px; margin-top:18px; }
+
+/* Gabarit de fiche d'armée — prêt pour la future page « Armées » */
+.fiche-armee{
+  padding:0 0 14px; overflow:hidden;
+  background:linear-gradient(180deg, rgba(255,252,241,.9), rgba(238,223,190,.65));
+  border:1px solid rgba(107,84,58,.45); border-radius:6px;
+  box-shadow:0 5px 16px rgba(88,58,20,.18);
+  break-inside:avoid;
+}
+.fiche-armee .fiche-entete{
+  display:flex; align-items:center; justify-content:space-between; gap:12px;
+  padding:10px 16px;
+  background:linear-gradient(180deg,#6d4b25,#4c3013); color:#f7ecd0;
+}
+.fiche-armee .fiche-entete h4{ color:#f7ecd0; font-size:1rem; margin:0; letter-spacing:.06em; }
+.fiche-armee .fiche-fpa{
+  font-family:var(--font-code); font-size:.8rem; white-space:nowrap;
+  background:linear-gradient(180deg,#f3e0ae,#d9bd80); color:#4a3116;
+  border:1px solid #6d4f1e; border-radius:999px; padding:2px 10px;
+}
+.fiche-armee .fiche-stats{
+  display:grid; grid-template-columns:repeat(auto-fit,minmax(min(112px,100%),1fr));
+  gap:1px; margin:0; background:rgba(107,84,58,.25);
+}
+.fiche-armee .fiche-stats > div{ background:rgba(255,252,242,.92); padding:8px 12px; }
+.fiche-armee dt{
+  font-family:var(--font-titre); font-size:.6rem; letter-spacing:.15em; text-transform:uppercase;
+  color:var(--or-sombre); margin-bottom:2px;
+}
+.fiche-armee dd{ font-size:.92rem; color:#3f2e15; }
+.fiche-armee .fiche-tactiques,
+.fiche-armee .fiche-note{ padding:10px 16px 0; font-size:.9rem; color:#4a381f; }
+
+/* ---------- 13. Retour en haut, pied de page ---------- */
+#retour-haut{
+  position:fixed; right:20px; bottom:20px; z-index:80;
+  display:grid; place-items:center; width:52px; height:52px;
+  font-size:1.3rem; color:#f7ecd0; cursor:pointer;
+  border:2px solid var(--or-sombre);
+  border-radius:48% 52% 45% 55% / 52% 47% 53% 48%;
+  background:radial-gradient(circle at 34% 28%, #8a3a2e, #5b1c14 65%, #3a0f0b);
+  box-shadow:0 6px 16px rgba(0,0,0,.5), inset 0 -3px 7px rgba(0,0,0,.4);
+  opacity:0; transform:translateY(24px) scale(.85); pointer-events:none;
+  transition:opacity .4s ease, transform .4s cubic-bezier(.2,1.5,.4,1), filter .3s;
+}
+#retour-haut.visible{ opacity:1; transform:none; pointer-events:auto; }
+#retour-haut:hover{ filter:brightness(1.15); transform:translateY(-3px) rotate(-4deg); }
+
+.pied{
+  position:relative; z-index:2;
+  max-width:1080px; margin:0 auto; padding:30px 20px 60px;
+  text-align:center; color:#cbb78d;
+}
+.pied .fleur{ color:var(--or); font-size:1.5rem; animation:pulse 7s ease-in-out infinite; display:inline-block; }
+.pied p{ font-family:var(--font-main); font-size:.95rem; margin:10px 0 0; }
+.pied p.mini{ font-family:var(--font-texte); font-size:.8rem; color:#a08d6a; line-height:1.7; }
+.pied a{ color:var(--or-clair); text-decoration:none; border-bottom:1px dotted rgba(226,199,132,.6); }
+.pied a:hover{ color:#fff3d4; border-bottom-style:solid; }
+
+/* ---------- 14. Responsive / impression / mouvement réduit ---------- */
+
+/* --- Tablettes & grands téléphones (≤ 760 px) --- */
+@media (max-width:760px){
+  body{ font-size:16.5px; }
+  html{ scroll-padding-top:72px; }
+  .section{ scroll-margin-top:72px; }
+
+  /* Le vignettage et les ombres du parchemin sont recalculés pour un écran étroit
+     (sinon ils assombrissent toute la page sur téléphone). */
+  body::after{ background:radial-gradient(ellipse 150% 70% at 50% 45%, transparent 70%, rgba(0,0,0,.30) 100%); }
+  .feuille{
+    box-shadow:
+      inset 0 0 0 1px rgba(120,88,40,.30),
+      inset 0 0 18px rgba(120,80,30,.16),
+      inset 0 0 48px rgba(126,86,32,.20),
+      0 16px 36px rgba(0,0,0,.5),
+      0 5px 14px rgba(0,0,0,.32);
+  }
+
+  /* Le ruban tient sur une ligne : il se fait défiler du doigt */
+  .ruban .interieur{
+    flex-wrap:nowrap; gap:0; padding:6px 10px;
+    overflow-x:auto; overflow-y:hidden;
+    scrollbar-width:none; -ms-overflow-style:none;
+    -webkit-overflow-scrolling:touch; overscroll-behavior-x:contain;
+  }
+  .ruban .interieur::-webkit-scrollbar{ display:none; }
+  .ruban .marque{
+    position:sticky; left:0; z-index:2; margin-right:2px; padding-right:12px;
+    font-size:.64rem; letter-spacing:.12em;
+    background:linear-gradient(90deg,#3a2311 76%, rgba(58,35,17,0));
+  }
+  .ruban .groupe{ border-left:none; padding:0 3px; }
+  .ruban a.ruban-lien{ font-size:.62rem; padding:7px 8px; letter-spacing:.08em; white-space:nowrap; }
+  .voile{ display:block; }
+
+  /* --- Allègement des effets coûteux sur téléphone ---
+     On garde le parchemin, les couleurs et les apparitions, mais on supprime
+     ce qui force le téléphone à repeindre en permanence. */
+  body::before{ display:none; }                    /* couche fixe plein écran en mode fusion */
+  .feuille::before{ mix-blend-mode:normal; opacity:.15; }  /* grain sans fusion */
+  .reveal{ filter:none; transform:translateY(14px); }      /* apparitions sans flou */
+  .hero h1,
+  .hero .ecusson .lame,
+  .ruban::after,
+  .sceau,
+  .pied .fleur{ animation:none; }                  /* plus de boucles infinies */
+  .poussiere span:nth-child(n+4){ display:none; }  /* 3 grains de poussière au lieu de 8 */
+  .encadre, .tactique, .phase, .fiche-armee, .carte-future{ box-shadow:0 3px 9px rgba(88,58,20,.16); }
+
+  .medaillon{ width:38px; height:38px; font-size:.85rem; }
+  .coin{ width:32px; height:32px; }
+  .lettrine::first-letter{ font-size:3em; padding:4px 8px 0 0; }
+  ol.etapes{ padding-left:46px; }
+  ol.etapes li::before{ left:-46px; width:32px; height:32px; font-size:.85rem; }
+  ol.etapes li::after{ left:-31px; top:34px; }
+  .carte-future{ padding:18px; gap:16px; }
+  .pied{ padding-bottom:48px; }
+  #retour-haut{ right:12px; bottom:12px; width:46px; height:46px; }
+}
+
+/* --- Téléphones (≤ 620 px) : tableaux en fiches, marges resserrées --- */
+@media (max-width:620px){
+  body{ font-size:16px; }
+  .feuille{ margin-top:20px; padding-left:16px; padding-right:16px; }
+  .feuille::after{ inset:10px; outline-offset:3px; }
+  .coin{ width:26px; height:26px; }
+  .hero{ padding-bottom:18px; }
+  .hero .ecusson{ width:84px; }
+  .ornement{ width:min(320px,80%); }
+  h2.titre-section{ gap:11px; }
+  .encadre{ padding:14px 16px 14px 17px; border-left-width:5px; }
+  .encadre::before{ top:-8px; left:-8px; width:16px; height:16px; }
+  blockquote{ font-size:1rem; margin-left:0; padding:8px 14px 8px 22px; }
+  .jet{ white-space:normal; overflow-wrap:break-word; }
+  .formule{
+    display:flex; width:100%; justify-content:center; text-align:center;
+    border-radius:10px; font-size:.82rem; padding:10px 13px; line-height:1.55;
+  }
+  .phase{ padding:17px 17px 15px; }
+  .tactique{ padding:14px 15px 13px; }
+  .phases, .grille-tactiques, .apercu-grille{ grid-template-columns:1fr; }
+  .carte-future{ flex-direction:column; align-items:center; text-align:center; }
+  .carte-future .bouton-armee{ width:100%; justify-content:center; }
+  .legende-tactiques{ gap:8px 14px; font-size:.8rem; }
+  .sceau{ width:64px; height:64px; font-size:1.35rem; }
+  #retour-haut{ width:42px; height:42px; font-size:1.1rem; }
+
+  /* Tableaux (hors table des stratégies) transformés en fiches empilées ;
+     les étiquettes de colonne sont posées par le script (attribut data-label). */
+  html.js .bloc-tableau.hauteur{ max-height:none; overflow:visible; }
+  html.js .bloc-tableau table:not(.strategie){ display:block; }
+  html.js .bloc-tableau table:not(.strategie) thead{ display:none; }
+  html.js .bloc-tableau table:not(.strategie) tbody{ display:block; padding:10px; }
+  html.js .bloc-tableau table:not(.strategie) tbody tr{
+    display:block; padding:12px 14px;
+    background:linear-gradient(180deg, rgba(255,252,241,.86), rgba(240,226,192,.55));
+    border:1px solid rgba(107,84,58,.38); border-radius:6px;
+    box-shadow:0 3px 10px rgba(88,58,20,.12);
+  }
+  html.js .bloc-tableau table:not(.strategie) tbody tr + tr{ margin-top:9px; }
+  html.js .bloc-tableau table:not(.strategie) tbody td,
+  html.js .bloc-tableau table:not(.strategie) tbody tr:nth-child(even) td,
+  html.js .bloc-tableau table:not(.strategie) tbody tr:hover td{
+    display:block; padding:8px 0; border:none;
+    border-top:1px dashed rgba(107,84,58,.30);
+    background:transparent; font-size:.95rem;
+  }
+  html.js .bloc-tableau table:not(.strategie) tbody td:first-child{
+    padding-top:0; border-top:none; font-size:1.03rem;
+  }
+  html.js .bloc-tableau table:not(.strategie) tbody td::before{
+    content:attr(data-label);
+    display:block; margin-bottom:3px;
+    font-family:var(--font-titre); font-size:.58rem; font-weight:600;
+    letter-spacing:.16em; text-transform:uppercase; color:var(--or-sombre);
+  }
+  html.js .bloc-tableau table:not(.strategie) tbody td:first-child::before{ display:none; }
+
+  /* La table des stratégies reste un tableau (colonnes courtes, à comparer d'un coup d'œil) */
+  .bloc-tableau table.strategie{ font-size:.84rem; }
+  .bloc-tableau table.strategie thead th{ font-size:.56rem; letter-spacing:.06em; padding:8px 6px; }
+  .bloc-tableau table.strategie tbody td{ padding:8px 6px; }
+  .bloc-tableau table.strategie td:first-child{ border-left-width:4px; }
+  .bloc-tableau table.strategie .valeur{ font-size:.76rem; padding:1px 6px; }
+
+  /* Estimations de hauteur adaptées aux tableaux empilés (évite que la page
+     « saute » la première fois qu'un bloc hors écran est rendu) */
+  .bloc-tableau{ contain-intrinsic-size:auto 900px; }
+  .bloc-tableau.hauteur{ contain-intrinsic-size:auto 1700px; }
+  .grille-tactiques{ contain-intrinsic-size:auto 2600px; }
+}
+
+/* --- Petits téléphones (≤ 400 px) --- */
+@media (max-width:400px){
+  body{ font-size:15.5px; }
+  .feuille{ padding-left:13px; padding-right:13px; }
+  h2.titre-section{ font-size:1.14rem; gap:9px; }
+  .medaillon{ width:32px; height:32px; font-size:.74rem; }
+  .hero .sous-titre{ font-size:.96rem; }
+  .puces .puce{ font-size:.6rem; padding:4px 10px; letter-spacing:.1em; }
+  ol.etapes{ padding-left:38px; }
+  ol.etapes li::before{ left:-38px; width:28px; height:28px; font-size:.76rem; }
+  ol.etapes li::after{ left:-25px; top:30px; }
+  .tactique h4{ font-size:.9rem; }
+  .bouton-armee{ font-size:.64rem; padding:9px 14px; }
+  .bloc-tableau table.strategie{ font-size:.78rem; }
+  .bloc-tableau table.strategie thead th{ font-size:.52rem; padding:7px 4px; }
+  .bloc-tableau table.strategie tbody td{ padding:7px 4px; }
+}
+@media print{
+  body{ background:#fff; color:#000; font-size:11.5pt; }
+  body::before, body::after, .poussiere, .ruban, .progression, #retour-haut{ display:none !important; }
+  .feuille{ box-shadow:none; margin:0; max-width:none; padding:0; background:#fff; }
+  .feuille::before, .feuille::after, .coin{ display:none; }
+  .hero h1{ color:#000; -webkit-text-fill-color:#000; background:none; animation:none; }
+  .reveal{ opacity:1 !important; transform:none !important; filter:none !important; }
+  /* tout doit être imprimé, rien ne doit rester « hors écran » */
+  .bloc-tableau, .bloc-tableau.hauteur, .grille-tactiques, .phases, .apercu-grille, .carte-future{ content-visibility:visible; }
+  .encadre, .tactique, .phase, .bloc-tableau, .fiche-armee{ break-inside:avoid; box-shadow:none; }
+  .section::after{ display:none; }
+  table{ font-size:10pt; }
+  thead th{ background:#e8e2d4 !important; color:#000 !important; }
+  .jet{ background:#f2ead6; }
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{ animation-duration:.001ms !important; animation-iteration-count:1 !important; transition-duration:.001ms !important; }
+  html{ scroll-behavior:auto; }
+  .reveal{ opacity:1; transform:none; filter:none; }
+  .poussiere{ display:none; }
+}
+
+/* ---------- 15. Fiches d'unités (page « Les Armées ») ---------- */
+
+/* Astérisque des tactiques connues de tous */
+.ast{ color:var(--cire); font-size:1.15em; line-height:0; }
+
+/* Tableau de toutes les tailles : reste un vrai tableau, même sur téléphone
+   (colonnes courtes, faites pour être comparées d'un coup d'œil) */
+.bloc-taille{
+  margin:16px 0; border:1px solid rgba(107,84,58,.42); border-radius:6px; overflow:hidden;
+  background:linear-gradient(180deg, rgba(255,252,242,.55), rgba(240,226,196,.35));
+  box-shadow:0 3px 12px rgba(88,58,20,.12);
+  content-visibility:auto; contain-intrinsic-size:auto 380px;
+}
+.bloc-taille .defile{ overflow-x:auto; }
+.tableau-tailles tr.reference td{ background:rgba(201,162,39,.20); }
+.tableau-tailles tr.manquant td{ color:#8b7a5c; }
+.ref-note{
+  font-family:var(--font-titre); font-size:.56rem; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--or-sombre); white-space:nowrap;
+}
+.note-table{ font-size:.86rem; color:#5c4a2d; margin:10px 0 0; }
+.note-table .ast{ font-size:1em; }
+.badge-fp{
+  display:inline-block; margin-left:8px; vertical-align:.2em;
+  font-family:var(--font-code); font-size:.58em;
+  background:linear-gradient(180deg,#f3e0ae,#d9bd80); color:#4a3116;
+  border:1px solid #7a5a24; border-radius:999px; padding:2px 9px; white-space:nowrap;
+}
+
+/* Bandeau « camp » qui sépare les groupes de troupes */
+.rappel-camp{
+  display:flex; align-items:center; gap:12px;
+  font-family:var(--font-titre); font-size:.68rem; font-weight:600;
+  letter-spacing:.2em; text-transform:uppercase; color:var(--or-sombre);
+  margin:34px 0 -4px;
+}
+.rappel-camp::after{
+  content:""; flex:1; height:1px;
+  background:linear-gradient(90deg, var(--or), rgba(176,141,74,0));
+}
+
+/* Cartes d'accès rapide aux unités */
+.grille-unis{ display:grid; grid-template-columns:repeat(auto-fit,minmax(min(250px,100%),1fr)); gap:14px; margin:20px 0 0; }
+.carte-unite{
+  display:block; text-decoration:none; padding:16px 17px 15px;
+  border:1px solid rgba(107,84,58,.4); border-left:6px solid var(--teinte);
+  border-radius:6px;
+  background:linear-gradient(180deg, rgba(255,252,241,.85), rgba(240,226,192,.55));
+  box-shadow:0 4px 12px rgba(88,58,20,.14);
+  transition:transform .3s cubic-bezier(.2,.8,.2,1), box-shadow .3s ease;
+}
+.carte-unite:hover{ transform:translateY(-4px); box-shadow:0 14px 26px rgba(88,58,20,.24); }
+.carte-unite .nom{
+  display:flex; align-items:center; gap:8px; flex-wrap:wrap;
+  font-family:var(--font-titre); font-size:.98rem; font-weight:600; color:var(--teinte);
+}
+.carte-unite .nom .icone{ font-size:1.05rem; }
+.carte-unite .detail{ display:block; font-size:.86rem; color:#54401f; margin-top:6px; }
+.carte-unite .stats{ display:flex; flex-wrap:wrap; gap:6px; margin-top:10px; }
+.carte-unite .stat{
+  font-family:var(--font-code); font-size:.68rem; color:#4a3117;
+  background:rgba(107,84,58,.12); border:1px solid rgba(107,84,58,.3);
+  border-radius:999px; padding:1px 8px;
+}
+
+/* Bloc de synthèse d'une unité (réutilise .fiche-armee) */
+.fiche-unite .fiche-entete{ background:linear-gradient(180deg, var(--teinte), var(--teinte-fonce)); }
+.section.unite h3{ border-bottom:1px dashed var(--teinte); }
+.section.unite .medaillon{
+  background:radial-gradient(circle at 34% 28%, #f6e6bb, var(--teinte) 58%, var(--teinte-fonce));
+}
+
+@media (max-width:760px){
+  .carte-unite, .fiche-unite{ box-shadow:0 3px 9px rgba(88,58,20,.16); }
+  .rappel-camp{ font-size:.62rem; letter-spacing:.16em; }
+}
+@media (max-width:620px){
+  .carte-unite{ padding:14px 15px 13px; }
+  .bloc-taille table{ font-size:.78rem; }
+  .bloc-taille thead th{ font-size:.54rem; letter-spacing:.05em; padding:7px 4px; }
+  .bloc-taille tbody td{ padding:7px 4px; }
+  .badge-fp{ margin-left:5px; padding:2px 7px; }
+}
+@media (max-width:400px){
+  .bloc-taille table{ font-size:.72rem; }
+  .bloc-taille thead th{ font-size:.5rem; padding:6px 3px; }
+  .bloc-taille tbody td{ padding:6px 3px; }
+  .ref-note{ display:none; }
+}
+@media print{
+  .bloc-taille{ content-visibility:visible; break-inside:avoid; box-shadow:none; }
+  .carte-unite{ break-inside:avoid; box-shadow:none; }
+}
+</style>
+<noscript><style>.reveal{opacity:1 !important;transform:none !important;filter:none !important;}</style></noscript>
+<!-- Marqueur « JS actif » : sert uniquement à activer la version mobile des tableaux.
+     Sans JavaScript, les tableaux restent des tableaux défilables normalement. -->
+<script>document.documentElement.classList.add("js");</script>
+</head>
+
+<body>
+<!-- poussière dorée -->
+<div class="poussiere" aria-hidden="true">
+  <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+</div>
+
+<!-- barre de progression de lecture -->
+<div class="progression" id="progression" aria-hidden="true"></div>
+
+<!-- ===================== RUBAN DE NAVIGATION ===================== -->
+<nav class="ruban" id="sommaire" aria-label="Sommaire des fiches d'unités">
+  <div class="interieur">
+    <span class="marque"><span class="glyphe">⚔</span> Les Armées</span>
+    <span class="groupe">
+      <a class="ruban-lien" href="index.html">📜 Le topo</a>
+      <a class="ruban-lien" href="#apercu">Vue d'ensemble</a>
+    </span>
+    <span class="groupe">
+      <a class="ruban-lien" href="#croises">Croisés</a>
+      <a class="ruban-lien" href="#paladins-12">Paladins 12</a>
+      <a class="ruban-lien" href="#paladins-15">Paladins 15</a>
+    </span>
+    <span class="groupe">
+      <a class="ruban-lien" href="#pretres">Prêtres</a>
+      <a class="ruban-lien" href="#chevaliers">Chevaliers infernaux</a>
+      <a class="ruban-lien" href="#sources">Sources</a>
+    </span>
+  </div>
+  <span class="voile" aria-hidden="true"></span>
+</nav>
+
+<main>
+  <div class="feuille">
+  <span class="coin tl" aria-hidden="true"></span>
+  <span class="coin tr" aria-hidden="true"></span>
+  <span class="coin br" aria-hidden="true"></span>
+  <span class="coin bl" aria-hidden="true"></span>
+
+  <!-- ===================== TITRE ===================== -->
+  <header class="hero" id="haut">
+    <p class="sur-titre">Combat de masse · Fiches d'unités</p>
+
+    <svg class="ecusson" viewBox="0 0 120 132" role="img" aria-label="Écu orné de deux épées croisées">
+      <defs>
+        <linearGradient id="ecu" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#f6e7bd"/>
+          <stop offset="55%" stop-color="#dcc082"/>
+          <stop offset="100%" stop-color="#a8843f"/>
+        </linearGradient>
+        <linearGradient id="acier" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#fdf6e3"/>
+          <stop offset="50%" stop-color="#b9b0a0"/>
+          <stop offset="100%" stop-color="#6d675c"/>
+        </linearGradient>
+      </defs>
+      <path d="M60 4 L110 22 V64 C110 96 88 116 60 126 C32 116 10 96 10 64 V22 Z"
+            fill="url(#ecu)" stroke="#7a5a24" stroke-width="4"/>
+      <path d="M60 12 L102 27 V64 C102 92 83 109 60 118 C37 109 18 92 18 64 V27 Z"
+            fill="none" stroke="rgba(122,90,36,.55)" stroke-width="1.6"/>
+      <g class="lame">
+        <g stroke="#5f5a50" stroke-width="1.4" fill="url(#acier)">
+          <path d="M60 26 L66 40 V78 L60 86 L54 78 V40 Z"/>
+          <path d="M60 26 L66 40 V78 L60 86 L54 78 V40 Z" transform="rotate(90 60 66)"/>
+        </g>
+        <g fill="#7a5a24">
+          <rect x="40" y="82" width="40" height="7" rx="3"/>
+          <rect x="40" y="82" width="40" height="7" rx="3" transform="rotate(90 60 85)"/>
+          <circle cx="60" cy="98" r="6"/>
+        </g>
+      </g>
+      <path d="M60 110 l4 -8 h-8 z" fill="#7a5a24" opacity=".6"/>
+    </svg>
+
+    <h1>Les Armées</h1>
+    <p class="sous-titre">Cinq troupes prêtes pour la bataille — croisés, paladins, prêtres de guerre et chevaliers infernaux — chacune déclinée en onze tailles, du combattant isolé à dix mille hommes.</p>
+
+    <div class="puces">
+      <span class="puce">FPA · PV · VDéf · MA</span>
+      <span class="puce">11 tailles par unité</span>
+      <span class="puce">Règles du combat de masse</span>
+      <span class="puce">Campagne La Colère des Justes</span>
+    </div>
+
+    <div class="ornement" aria-hidden="true"></div>
+  </header>
+
+  <!-- ===================== I. VUE D'ENSEMBLE ===================== -->
+  <section class="section reveal" id="apercu">
+    <h2 class="titre-section"><span class="medaillon" aria-hidden="true">I</span><span class="intitule">Vue d'ensemble</span></h2>
+
+    <div class="encadre p-info">
+      <p class="titre-encadre"><span class="icone">✎</span> Comment lire ces fiches</p>
+      <ul class="runes">
+        <li>Chaque troupe est d'abord présentée à sa <strong>taille de référence : 2 000 combattants (Colossale)</strong>, puis dans <strong>toutes ses autres tailles</strong>.</li>
+        <li>Rappel des règles : <span class="jet">FPA = FP de l'unité + modificateur de taille</span> • <span class="jet">VDéf = FPA + 10</span> • <span class="jet">MA = FPA</span> • <span class="jet">PV = FPA × 5,5</span> (d10) ou <span class="jet">× 4,5</span> (d8) • <strong>Moral de départ : +0</strong>.</li>
+        <li>Les lignes « <strong>Bonus et malus non compris</strong> » ne sont <strong>pas</strong> comptées dans les valeurs des fiches : on les applique selon la situation, au moment voulu.</li>
+        <li>Le détail des règles (phases, stratégies, tactiques, moral, déroute) est sur la page <a class="lien" href="index.html">Topo — Le combat de masse</a>.</li>
+      </ul>
+    </div>
+
+    <h3>Les unités au complet (2 000 combattants)</h3>
+    <div class="bloc-tableau">
+      <div class="defile">
+        <table class="tableau-tailles">
+          <thead>
+            <tr><th>Unité</th><th>FP ind.</th><th>Dé de vie</th><th>FPA</th><th>PV</th><th>VDéf</th><th>MA</th><th>Vitesse</th></tr>
+          </thead>
+          <tbody>
+            <tr class="reference">
+              <td><strong>Croisés</strong></td><td>8</td><td>d10</td><td>16</td><td>88</td><td>27</td><td>+17</td><td>6 m</td>
+            </tr>
+            <tr>
+              <td><strong>Paladins</strong></td><td>12</td><td>d10</td><td>20</td><td>110</td><td>31</td><td>+22</td><td>6 m</td>
+            </tr>
+            <tr>
+              <td><strong>Paladins de légende</strong></td><td>15</td><td>d10</td><td>23</td><td>126</td><td>37</td><td>+29</td><td>12 m</td>
+            </tr>
+            <tr>
+              <td><strong>Prêtres</strong></td><td>12</td><td>d8</td><td>20</td><td>90</td><td>37</td><td>+27</td><td>9 m</td>
+            </tr>
+            <tr>
+              <td><strong>Chevaliers infernaux</strong></td><td>12</td><td>d10</td><td>20</td><td>110</td><td>33</td><td>+21</td><td>6 m</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <p class="note-table">Moral de départ <strong>+0</strong> pour toutes les unités. Les croisés, paladins et prêtres servent les armées du Bien ; les chevaliers infernaux sont l'élite de la Légion Infernales.</p>
+
+    <h3>Aller directement à une troupe</h3>
+    <div class="grille-unis">
+      <a class="carte-unite" href="#croises" style="--teinte:#a9772f">
+        <span class="nom"><span class="icone">✝</span> Croisés <span class="stat">FP 8</span></span>
+        <span class="detail">Combattants sacrés vétérans, fer froid et potions de soins.</span>
+        <span class="stats"><span class="stat">FPA 16</span><span class="stat">PV 88</span><span class="stat">VDéf 27</span><span class="stat">MA +17</span></span>
+      </a>
+      <a class="carte-unite" href="#paladins-12" style="--teinte:#2c4a6e">
+        <span class="nom"><span class="icone">🛡</span> Paladins <span class="stat">FP 12</span></span>
+        <span class="detail">Champions sacrés : châtiment, aura de courage, archers en soutien.</span>
+        <span class="stats"><span class="stat">FPA 20</span><span class="stat">PV 110</span><span class="stat">VDéf 31</span><span class="stat">MA +22</span></span>
+      </a>
+      <a class="carte-unite" href="#paladins-15" style="--teinte:#6a3f6b">
+        <span class="nom"><span class="icone">👑</span> Paladins de légende <span class="stat">FP 15</span></span>
+        <span class="detail">Champions montés, les plus rapides du champ de bataille.</span>
+        <span class="stats"><span class="stat">FPA 23</span><span class="stat">PV 126</span><span class="stat">VDéf 37</span><span class="stat">MA +29</span></span>
+      </a>
+      <a class="carte-unite" href="#pretres" style="--teinte:#556b2f">
+        <span class="nom"><span class="icone">🕯</span> Prêtres <span class="stat">FP 12</span></span>
+        <span class="detail">Clergé guerrier : incantation, soins, canalisation d'énergie positive.</span>
+        <span class="stats"><span class="stat">FPA 20</span><span class="stat">PV 90</span><span class="stat">VDéf 37</span><span class="stat">MA +27</span></span>
+      </a>
+      <a class="carte-unite" href="#chevaliers" style="--teinte:#9b2226">
+        <span class="nom"><span class="icone">🔥</span> Chevaliers infernaux <span class="stat">FP 12</span></span>
+        <span class="detail">Élite de la Légion Infernales : résistance à la magie, vision dans les ténèbres.</span>
+        <span class="stats"><span class="stat">FPA 20</span><span class="stat">PV 110</span><span class="stat">VDéf 33</span><span class="stat">MA +21</span></span>
+      </a>
+    </div>
+  </section>
+
+  <p class="rappel-camp">Les armées du Bien</p>
+
+  <!-- ===================== II. CROISÉS ===================== -->
+  <section class="section reveal unite" id="croises" style="--teinte:#a9772f;--teinte-fonce:#6a4715">
+    <h2 class="titre-section"><span class="medaillon" aria-hidden="true">✝</span><span class="intitule">Croisés <span class="badge-fp">FP 8</span></span></h2>
+
+    <div class="fiche-armee fiche-unite">
+      <header class="fiche-entete">
+        <h4>Croisés — combattants sacrés vétérans (humains)</h4>
+        <span class="fiche-fpa">FP 8 · d10</span>
+      </header>
+      <dl class="fiche-stats">
+        <div><dt>Taille de référence</dt><dd>2 000 (Colossale)</dd></div>
+        <div><dt>FPA</dt><dd>16</dd></div>
+        <div><dt>PV</dt><dd>88</dd></div>
+        <div><dt>VDéf</dt><dd>27</dd></div>
+        <div><dt>MA</dt><dd>+17</dd></div>
+        <div><dt>Moral</dt><dd>+0</dd></div>
+        <div><dt>Vitesse</dt><dd>6 m (4 cases)</dd></div>
+        <div><dt>PV par FPA</dt><dd>× 5,5 (d10)</dd></div>
+      </dl>
+    </div>
+
+    <h3>Toutes les tailles</h3>
+    <div class="bloc-taille">
+      <div class="defile">
+        <table class="tableau-tailles">
+          <thead><tr><th>Taille</th><th>Effectif</th><th>FPA</th><th>PV</th><th>VDéf</th><th>MA</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Titanesque</strong></td><td>10 000</td><td>20</td><td>110</td><td>31</td><td>+21</td></tr>
+            <tr><td><strong>Monumentale</strong></td><td>5 000</td><td>18</td><td>99</td><td>29</td><td>+19</td></tr>
+            <tr class="reference"><td><strong>Colossale</strong> <span class="ref-note">référence</span></td><td>2 000</td><td>16</td><td>88</td><td>27</td><td>+17</td></tr>
+            <tr><td><strong>Gargantuesque</strong></td><td>1 000</td><td>14</td><td>77</td><td>25</td><td>+15</td></tr>
+            <tr><td><strong>Très grande</strong></td><td>500</td><td>12</td><td>66</td><td>23</td><td>+13</td></tr>
+            <tr><td><strong>Grande</strong></td><td>200</td><td>10</td><td>55</td><td>21</td><td>+11</td></tr>
+            <tr><td><strong>Moyenne</strong></td><td>100</td><td>8</td><td>44</td><td>19</td><td>+9</td></tr>
+            <tr><td><strong>Petite</strong></td><td>50</td><td>6</td><td>33</td><td>17</td><td>+7</td></tr>
+            <tr><td><strong>Très petite</strong></td><td>25</td><td>4</td><td>22</td><td>15</td><td>+5</td></tr>
+            <tr><td><strong>Minuscule</strong></td><td>10</td><td>2</td><td>11</td><td>13</td><td>+3</td></tr>
+            <tr><td><strong>Infime</strong> ⚠</td><td>1</td><td>0</td><td>0</td><td>11</td><td>+1</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <p class="note-table">Toutes les tailles : <strong>Moral +0</strong> et <strong>Vitesse 6 m (4 cases)</strong>. Les tailles <em>Monumentale</em> (5 000) et <em>Titanesque</em> (10 000) prolongent la table au-delà de Colossale en gardant le rythme officiel : <strong>+2 de FPA par palier</strong>.<br>
+    ⚠ <strong>Infime :</strong> avec des unités FP 8, un combattant seul donne un <strong>FPA de 0</strong> — sous le minimum exigé pour former une armée. Pour un croisé isolé, jouez simplement un PNJ <strong>FP 8</strong> en combat classique.</p>
+
+    <h3>Bonus et malus non compris</h3>
+    <p class="note-table">Ces effets ne sont <strong>pas</strong> comptés dans le tableau ci-dessus — à appliquer selon la situation.</p>
+    <div class="bloc-tableau">
+      <div class="defile">
+        <table>
+          <thead><tr><th>Source</th><th>Effet</th><th>Quand</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Battre en retraite<span class="ast">*</span></strong> (tactique)</td><td><strong>MA −2, VDéf −2</strong></td><td>La phase où l'unité se retire</td></tr>
+            <tr><td><strong>Mur protecteur</strong> (tactique)</td><td><strong>MA −2, VDéf +2</strong></td><td>Tant que la tactique est active</td></tr>
+            <tr><td><strong>Armes en fer froid</strong> (ressource)</td><td>Annule la <strong>Défense importante</strong> des démons (<strong>+10 VDéf</strong> ennemie)</td><td>Contre les armées de démons</td></tr>
+            <tr><td><strong>Potions de soins</strong> (ressource)</td><td>Soigne <strong>2 × FPA en PV</strong> (<strong>32 PV</strong>) au lieu d'attaquer pendant la phase</td><td>2 fois maximum par bataille</td></tr>
+            <tr><td><strong>Châtiment du Mal</strong> (pouvoir)</td><td><strong>+2 MA</strong> — <strong>+4</strong> contre morts-vivants / extérieurs mauvais</td><td>1 phase de mêlée par bataille</td></tr>
+            <tr><td><strong>Courage</strong> (pouvoir)</td><td><strong>+2 aux tests de Moral</strong></td><td>Contre la terreur et la déroute</td></tr>
+            <tr><td><strong>Ennemi juré : démon</strong> (pouvoir)</td><td><strong>+1 MA</strong></td><td>Contre les armées de démons</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <h3>Tactiques de l'unité</h3>
+    <ul class="runes">
+      <li><strong>Standard<span class="ast">*</span></strong> — L'unité combat sans artifice particulier : <strong>aucun modificateur au MA ni à la VDéf</strong>.</li>
+      <li><strong>Battre en retraite<span class="ast">*</span></strong> — L'armée tente d'échapper à toutes celles qui l'attaquent : <strong>test de Moral opposé</strong> à chaque attaquante (une armée peut échouer volontairement). Si tous réussissent, elle quitte le champ de bataille ou passe à une phase à distance ; si seulement certains réussissent, elle peut quand même le faire, mais les autres armées l'attaquent comme au corps à corps. Dans tous les cas, <strong>MA et VDéf −2</strong> pour le reste de la phase.</li>
+      <li><strong>Mur protecteur</strong> — L'unité forme un mur de boucliers pour couvrir ses voisines : <strong>MA −2, VDéf +2</strong>.</li>
+    </ul>
+    <p class="note-table">Les tactiques marquées <span class="ast">*</span> sont connues d'office par toutes les armées — elles ne comptent pas dans le nombre de tactiques apprises. Les autres tactiques sont décrites sur la page <a class="lien" href="index.html#tactiques">Topo — Le combat de masse</a>.</p>
+
+    <h3>Ressources</h3>
+    <p class="note-table">Les bonus permanents des ressources sont déjà compris dans les valeurs des fiches — VDéf, MA…</p>
+    <ul class="runes">
+      <li><strong>Armures améliorées</strong> — armures de maître : <strong>+1 VDéf</strong> et <strong>+1 Consommation</strong>.</li>
+      <li><strong>Armes améliorées</strong> — armes de maître : <strong>+1 MA</strong> et <strong>+1 Consommation</strong>.</li>
+      <li><strong>Armes en fer froid</strong> — les lames du contingent sont forgées en fer froid : elles <strong>percent la Défense importante (pouvoir spécial) des démons</strong> — leur <strong>+10 VDéf</strong> ne s'applique pas contre cette unité ; <strong>+1 Consommation</strong>.</li>
+      <li><strong>Potions de soins</strong> — jusqu'à <strong>2 fois par bataille</strong> : l'unité boit ses potions au lieu d'attaquer pendant la phase et récupère <strong>2 × son FPA en PV</strong> (ici <strong>32 PV</strong>). Chaque utilisation : <strong>+3 Consommation</strong> dans la semaine.</li>
+    </ul>
+
+    <h3>Pouvoirs spéciaux</h3>
+    <ul class="runes">
+      <li><strong>Châtiment du Mal</strong> — Une fois par bataille, pendant <strong>une phase de mêlée</strong> : <strong>+2 MA</strong> contre une armée d'alignement mauvais ; <strong>+4 MA</strong> au lieu de +2 si la cible est <strong>morte-vivante</strong> ou composée d'<strong>extérieurs mauvais (démons)</strong>.</li>
+      <li><strong>Courage</strong> — Appliquez le bonus de courage des unités aux tests de Moral contre la terreur et la déroute (soit <strong>+2</strong> pour eux).</li>
+      <li><strong>Ennemi juré : démon</strong> — <strong>+1 MA</strong> contre les armées composées de démons (extérieurs mauvais).</li>
+    </ul>
+  </section>
+
+  <!-- ===================== III. PALADINS FP 12 ===================== -->
+  <section class="section reveal unite" id="paladins-12" style="--teinte:#2c4a6e;--teinte-fonce:#1b3049">
+    <h2 class="titre-section"><span class="medaillon" aria-hidden="true">🛡</span><span class="intitule">Paladins <span class="badge-fp">FP 12</span></span></h2>
+
+    <div class="fiche-armee fiche-unite">
+      <header class="fiche-entete">
+        <h4>Paladins — champions sacrés (humains)</h4>
+        <span class="fiche-fpa">FP 12 · d10</span>
+      </header>
+      <dl class="fiche-stats">
+        <div><dt>Taille de référence</dt><dd>2 000 (Colossale)</dd></div>
+        <div><dt>FPA</dt><dd>20</dd></div>
+        <div><dt>PV</dt><dd>110</dd></div>
+        <div><dt>VDéf</dt><dd>31</dd></div>
+        <div><dt>MA</dt><dd>+22</dd></div>
+        <div><dt>Moral</dt><dd>+0</dd></div>
+        <div><dt>Vitesse</dt><dd>6 m (4 cases)</dd></div>
+        <div><dt>PV par FPA</dt><dd>× 5,5 (d10)</dd></div>
+      </dl>
+    </div>
+
+    <h3>Toutes les tailles</h3>
+    <div class="bloc-taille">
+      <div class="defile">
+        <table class="tableau-tailles">
+          <thead><tr><th>Taille</th><th>Effectif</th><th>FPA</th><th>PV</th><th>VDéf</th><th>MA</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Titanesque</strong></td><td>10 000</td><td>24</td><td>132</td><td>35</td><td>+26</td></tr>
+            <tr><td><strong>Monumentale</strong></td><td>5 000</td><td>22</td><td>121</td><td>33</td><td>+24</td></tr>
+            <tr class="reference"><td><strong>Colossale</strong> <span class="ref-note">référence</span></td><td>2 000</td><td>20</td><td>110</td><td>31</td><td>+22</td></tr>
+            <tr><td><strong>Gargantuesque</strong></td><td>1 000</td><td>18</td><td>99</td><td>29</td><td>+20</td></tr>
+            <tr><td><strong>Très grande</strong></td><td>500</td><td>16</td><td>88</td><td>27</td><td>+18</td></tr>
+            <tr><td><strong>Grande</strong></td><td>200</td><td>14</td><td>77</td><td>25</td><td>+16</td></tr>
+            <tr><td><strong>Moyenne</strong></td><td>100</td><td>12</td><td>66</td><td>23</td><td>+14</td></tr>
+            <tr><td><strong>Petite</strong></td><td>50</td><td>10</td><td>55</td><td>21</td><td>+12</td></tr>
+            <tr><td><strong>Très petite</strong></td><td>25</td><td>8</td><td>44</td><td>19</td><td>+10</td></tr>
+            <tr><td><strong>Minuscule</strong></td><td>10</td><td>6</td><td>33</td><td>17</td><td>+8</td></tr>
+            <tr><td><strong>Infime</strong></td><td>1</td><td>4</td><td>22</td><td>15</td><td>+6</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <p class="note-table">Toutes les tailles : <strong>Moral +0</strong> et <strong>Vitesse 6 m (4 cases)</strong>. Les tailles <em>Monumentale</em> (5 000) et <em>Titanesque</em> (10 000) sont des extensions maison : <strong>+2 de FPA par palier</strong>, dans la continuité de la table officielle.</p>
+
+    <h3>Bonus et malus non compris</h3>
+    <p class="note-table">Ces effets ne sont <strong>pas</strong> comptés dans le tableau ci-dessus — à appliquer selon la situation.</p>
+    <div class="bloc-tableau">
+      <div class="defile">
+        <table>
+          <thead><tr><th>Source</th><th>Effet</th><th>Quand</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Battre en retraite<span class="ast">*</span></strong> (tactique)</td><td><strong>MA −2, VDéf −2</strong></td><td>La phase où l'unité se retire</td></tr>
+            <tr><td><strong>Snipers en soutien</strong> (tactique)</td><td><strong>+2 dégâts</strong></td><td>En blessant la cible au corps à corps</td></tr>
+            <tr><td><strong>Fausse retraite</strong> (tactique)</td><td><strong>MA +6, VDéf +6</strong></td><td>La phase suivant la feinte (1× par combat)</td></tr>
+            <tr><td><strong>Armes en fer froid</strong> (ressource)</td><td>Annule la <strong>Défense importante</strong> des démons (<strong>+10 VDéf</strong> ennemie)</td><td>Contre les armées de démons</td></tr>
+            <tr><td><strong>Châtiment du Mal</strong> (pouvoir)</td><td><strong>+2 MA</strong> — <strong>+4</strong> contre morts-vivants / extérieurs mauvais</td><td>1 phase de mêlée par bataille</td></tr>
+            <tr><td><strong>Aura de courage</strong> (pouvoir)</td><td>Réussite automatique des tests de déroute ; immunité à la peur</td><td>En permanence</td></tr>
+            <tr><td><strong>Imposition des mains</strong> (pouvoir)</td><td><strong>+1d4 dégâts</strong> contre les morts-vivants — ou soin de <strong>son FPA en PV</strong> (<strong>20 PV</strong>) contre <strong>−½ FPA au MA</strong> pour la phase</td><td>À volonté, chaque phase</td></tr>
+            <tr><td><strong>Grâce</strong> (pouvoir)</td><td>Soigne une maladie d'une armée alliée</td><td>Après la bataille</td></tr>
+            <tr><td><strong>Santé divine</strong> (pouvoir)</td><td>Immunité aux maladies</td><td>En permanence</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <h3>Tactiques de l'unité</h3>
+    <ul class="runes">
+      <li><strong>Standard<span class="ast">*</span></strong> — L'unité combat sans artifice particulier : <strong>aucun modificateur au MA ni à la VDéf</strong>.</li>
+      <li><strong>Battre en retraite<span class="ast">*</span></strong> — L'armée tente d'échapper à toutes celles qui l'attaquent : <strong>test de Moral opposé</strong> à chaque attaquante (une armée peut échouer volontairement). Si tous réussissent, elle quitte le champ de bataille ou passe à une phase à distance ; si seulement certains réussissent, elle peut quand même le faire, mais les autres armées l'attaquent comme au corps à corps. Dans tous les cas, <strong>MA et VDéf −2</strong> pour le reste de la phase.</li>
+      <li><strong>Snipers en soutien</strong> — Si l'unité blesse la cible au corps à corps, elle inflige <strong>+2 dégâts</strong> grâce à ses archers (nécessite des attaques à distance).</li>
+      <li><strong>Fausse retraite</strong> — Une fois par combat : <strong>pas de test d'attaque</strong> pendant la phase où l'unité feint de fuir, puis <strong>MA et VDéf +6</strong> contre l'armée visée la phase suivante.</li>
+    </ul>
+    <p class="note-table">Les tactiques marquées <span class="ast">*</span> sont connues d'office par toutes les armées — elles ne comptent pas dans le nombre de tactiques apprises. Pour les autres tactiques : voir la page <a class="lien" href="index.html#tactiques">Topo — Le combat de masse</a>.</p>
+
+    <h3>Ressources</h3>
+    <p class="note-table">Les bonus permanents des ressources et des pouvoirs sont déjà compris dans les valeurs des fiches — VDéf, MA…</p>
+    <ul class="runes">
+      <li><strong>Armures améliorées</strong> — armures de maître : <strong>+1 VDéf</strong> et <strong>+1 Consommation</strong>.</li>
+      <li><strong>Armes magiques (+2)</strong> — armes enchantées : <strong>+2 MA</strong> et <strong>+2 Consommation</strong>.</li>
+      <li><strong>Armes en fer froid</strong> — les lames du contingent sont forgées en fer froid : elles <strong>percent la Défense importante (pouvoir spécial) des démons</strong> — leur <strong>+10 VDéf</strong> ne s'applique pas contre cette unité ; <strong>+1 Consommation</strong>.</li>
+      <li><strong>Armes à distance</strong> — arcs de guerre : l'unité dispose d'<strong>attaques à distance</strong> (pour la tactique <em>Snipers en soutien</em>) ; <strong>+1 Consommation</strong>.</li>
+    </ul>
+
+    <h3>Pouvoirs spéciaux</h3>
+    <ul class="runes">
+      <li><strong>Châtiment du Mal</strong> — Une fois par bataille, pendant <strong>une phase de mêlée</strong> : <strong>+2 MA</strong> contre une armée d'alignement mauvais ; <strong>+4 MA</strong> au lieu de +2 si la cible est <strong>morte-vivante</strong> ou composée d'<strong>extérieurs mauvais (démons)</strong>.</li>
+      <li><strong>Aura de courage</strong> — L'unité est <strong>immunisée aux effets de peur</strong> et <strong>réussit automatiquement</strong> ses tests de Moral pour éviter la déroute.</li>
+      <li><strong>Imposition des mains</strong> — <em>Aucune limite d'utilisation par bataille (règle officielle)</em> : en <strong>phase de mêlée</strong>, <strong>+1d4 dégâts</strong> contre une armée de <strong>morts-vivants</strong>. Ou bien l'unité se soigne : en subissant un <strong>malus au MA égal à la moitié de son FPA</strong> pendant une phase de tir ou de mêlée, elle récupère un nombre de <strong>PV égal à son FPA</strong>.</li>
+      <li><strong>Grâce</strong> — Après une bataille, l'unité peut <strong>soigner une maladie</strong> qui affecte une <strong>armée alliée</strong>.</li>
+      <li><strong>Santé divine</strong> — L'unité est <strong>immunisée à toutes les maladies</strong> (y compris surnaturelles) : les armées ennemies dont les capacités reposent sur la maladie (<strong>peste démoniaque</strong>, etc.) n'en tirent aucun bénéfice contre elle.</li>
+    </ul>
+  </section>
+
+  <!-- ===================== IV. PALADINS FP 15 ===================== -->
+  <section class="section reveal unite" id="paladins-15" style="--teinte:#6a3f6b;--teinte-fonce:#472647">
+    <h2 class="titre-section"><span class="medaillon" aria-hidden="true">👑</span><span class="intitule">Paladins de légende <span class="badge-fp">FP 15</span></span></h2>
+
+    <div class="fiche-armee fiche-unite">
+      <header class="fiche-entete">
+        <h4>Paladins — champions sacrés (humains)</h4>
+        <span class="fiche-fpa">FP 15 · d10</span>
+      </header>
+      <dl class="fiche-stats">
+        <div><dt>Taille de référence</dt><dd>2 000 (Colossale)</dd></div>
+        <div><dt>FPA</dt><dd>23</dd></div>
+        <div><dt>PV</dt><dd>126</dd></div>
+        <div><dt>VDéf</dt><dd>37</dd></div>
+        <div><dt>MA</dt><dd>+29</dd></div>
+        <div><dt>Moral</dt><dd>+0</dd></div>
+        <div><dt>Vitesse</dt><dd>12 m (8 cases)</dd></div>
+        <div><dt>PV par FPA</dt><dd>× 5,5 (d10)</dd></div>
+      </dl>
+    </div>
+
+    <h3>Toutes les tailles</h3>
+    <div class="bloc-taille">
+      <div class="defile">
+        <table class="tableau-tailles">
+          <thead><tr><th>Taille</th><th>Effectif</th><th>FPA</th><th>PV</th><th>VDéf</th><th>MA</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Titanesque</strong></td><td>10 000</td><td>27</td><td>148</td><td>41</td><td>+33</td></tr>
+            <tr><td><strong>Monumentale</strong></td><td>5 000</td><td>25</td><td>137</td><td>39</td><td>+31</td></tr>
+            <tr class="reference"><td><strong>Colossale</strong> <span class="ref-note">référence</span></td><td>2 000</td><td>23</td><td>126</td><td>37</td><td>+29</td></tr>
+            <tr><td><strong>Gargantuesque</strong></td><td>1 000</td><td>21</td><td>115</td><td>35</td><td>+27</td></tr>
+            <tr><td><strong>Très grande</strong></td><td>500</td><td>19</td><td>104</td><td>33</td><td>+25</td></tr>
+            <tr><td><strong>Grande</strong></td><td>200</td><td>17</td><td>93</td><td>31</td><td>+23</td></tr>
+            <tr><td><strong>Moyenne</strong></td><td>100</td><td>15</td><td>82</td><td>29</td><td>+21</td></tr>
+            <tr><td><strong>Petite</strong></td><td>50</td><td>13</td><td>71</td><td>27</td><td>+19</td></tr>
+            <tr><td><strong>Très petite</strong></td><td>25</td><td>11</td><td>60</td><td>25</td><td>+17</td></tr>
+            <tr><td><strong>Minuscule</strong></td><td>10</td><td>9</td><td>49</td><td>23</td><td>+15</td></tr>
+            <tr><td><strong>Infime</strong></td><td>1</td><td>7</td><td>38</td><td>21</td><td>+13</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <p class="note-table">Toutes les tailles : <strong>Moral +0</strong> et <strong>Vitesse 12 m (8 cases)</strong> — la troupe la plus mobile des armées du Bien. Les tailles <em>Monumentale</em> (5 000) et <em>Titanesque</em> (10 000) sont des extensions maison : <strong>+2 de FPA par palier</strong>, dans la continuité de la table officielle.</p>
+
+    <h3>Bonus et malus non compris</h3>
+    <p class="note-table">Ces effets ne sont <strong>pas</strong> comptés dans le tableau ci-dessus — à appliquer selon la situation.</p>
+    <div class="bloc-tableau">
+      <div class="defile">
+        <table>
+          <thead><tr><th>Source</th><th>Effet</th><th>Quand</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Battre en retraite<span class="ast">*</span></strong> (tactique)</td><td><strong>MA −2, VDéf −2</strong></td><td>La phase où l'unité se retire</td></tr>
+            <tr><td><strong>Cavaliers experts</strong> (tactique)</td><td><strong>MA +2</strong></td><td>Contre les armées sans montures</td></tr>
+            <tr><td><strong>Spécialistes de l'encerclement</strong> (tactique)</td><td><strong>MA +2, VDéf −2</strong></td><td>Tant que la tactique est active</td></tr>
+            <tr><td><strong>Armes en fer froid</strong> (ressource)</td><td>Annule la <strong>Défense importante</strong> des démons (<strong>+10 VDéf</strong> ennemie)</td><td>Contre les armées de démons</td></tr>
+            <tr><td><strong>Châtiment du Mal</strong> (pouvoir)</td><td><strong>+2 MA</strong> — <strong>+4</strong> contre morts-vivants / extérieurs mauvais</td><td>1 phase de mêlée par bataille</td></tr>
+            <tr><td><strong>Aura de courage</strong> (pouvoir)</td><td>Réussite automatique des tests de déroute ; immunité à la peur</td><td>En permanence</td></tr>
+            <tr><td><strong>Imposition des mains</strong> (pouvoir)</td><td><strong>+1d4 dégâts</strong> contre les morts-vivants — ou soin de <strong>son FPA en PV</strong> (<strong>23 PV</strong>) contre <strong>−½ FPA au MA</strong> pour la phase</td><td>À volonté, chaque phase</td></tr>
+            <tr><td><strong>Grâce</strong> (pouvoir)</td><td>Soigne une maladie d'une armée alliée</td><td>Après la bataille</td></tr>
+            <tr><td><strong>Santé divine</strong> (pouvoir)</td><td>Immunité aux maladies</td><td>En permanence</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <h3>Tactiques de l'unité</h3>
+    <ul class="runes">
+      <li><strong>Standard<span class="ast">*</span></strong> — L'unité combat sans artifice particulier : <strong>aucun modificateur au MA ni à la VDéf</strong>.</li>
+      <li><strong>Battre en retraite<span class="ast">*</span></strong> — L'armée tente d'échapper à toutes celles qui l'attaquent : <strong>test de Moral opposé</strong> à chaque attaquante (une armée peut échouer volontairement). Si tous réussissent, elle quitte le champ de bataille ou passe à une phase à distance ; si seulement certains réussissent, elle peut quand même le faire, mais les autres armées l'attaquent comme au corps à corps. Dans tous les cas, <strong>MA et VDéf −2</strong> pour le reste de la phase.</li>
+      <li><strong>Cavaliers experts</strong> — L'unité montée frappe plus fort : <strong>MA +2</strong> contre les armées sans montures (nécessite la ressource <em>montures</em>).</li>
+      <li><strong>Spécialistes de l'encerclement</strong> — L'unité déborde l'adversaire : <strong>MA +2, VDéf −2</strong> (l'armée s'éparpille).</li>
+    </ul>
+    <p class="note-table">Les tactiques marquées <span class="ast">*</span> sont connues d'office par toutes les armées — elles ne comptent pas dans le nombre de tactiques apprises. Pour les autres tactiques : voir la page <a class="lien" href="index.html#tactiques">Topo — Le combat de masse</a>.</p>
+
+    <h3>Ressources</h3>
+    <p class="note-table">Les bonus permanents des ressources et des pouvoirs sont déjà compris dans les valeurs des fiches — VDéf, MA…</p>
+    <ul class="runes">
+      <li><strong>Armures améliorées</strong> — armures de maître : <strong>+1 VDéf</strong> et <strong>+1 Consommation</strong>.</li>
+      <li><strong>Armes magiques (+3)</strong> — armes enchantées : <strong>+3 MA</strong> et <strong>+3 Consommation</strong>.</li>
+      <li><strong>Armes en fer froid</strong> — les lames du contingent sont forgées en fer froid : elles <strong>percent la Défense importante (pouvoir spécial) des démons</strong> — leur <strong>+10 VDéf</strong> ne s'applique pas contre cette unité ; <strong>+1 Consommation</strong>.</li>
+      <li><strong>Montures</strong> — montures célestes : <strong>+2 MA et +2 VDéf</strong> ; <strong>+1 Consommation</strong>.</li>
+    </ul>
+
+    <h3>Pouvoirs spéciaux</h3>
+    <ul class="runes">
+      <li><strong>Châtiment du Mal</strong> — Une fois par bataille, pendant <strong>une phase de mêlée</strong> : <strong>+2 MA</strong> contre une armée d'alignement mauvais ; <strong>+4 MA</strong> au lieu de +2 si la cible est <strong>morte-vivante</strong> ou composée d'<strong>extérieurs mauvais (démons)</strong>.</li>
+      <li><strong>Aura de courage</strong> — L'unité est <strong>immunisée aux effets de peur</strong> et <strong>réussit automatiquement</strong> ses tests de Moral pour éviter la déroute.</li>
+      <li><strong>Imposition des mains</strong> — <em>Aucune limite d'utilisation par bataille (règle officielle)</em> : en <strong>phase de mêlée</strong>, <strong>+1d4 dégâts</strong> contre une armée de <strong>morts-vivants</strong>. Ou bien l'unité se soigne : en subissant un <strong>malus au MA égal à la moitié de son FPA</strong> pendant une phase de tir ou de mêlée, elle récupère un nombre de <strong>PV égal à son FPA</strong>.</li>
+      <li><strong>Grâce</strong> — Après une bataille, l'unité peut <strong>soigner une maladie</strong> qui affecte une <strong>armée alliée</strong>.</li>
+      <li><strong>Santé divine</strong> — L'unité est <strong>immunisée à toutes les maladies</strong> (y compris surnaturelles).</li>
+      <li><strong>Monture</strong> — Les montures de l'armée augmentent le <strong>MA et la VDéf de 1</strong>.</li>
+    </ul>
+  </section>
+
+  <!-- ===================== V. PRÊTRES ===================== -->
+  <section class="section reveal unite" id="pretres" style="--teinte:#556b2f;--teinte-fonce:#36441c">
+    <h2 class="titre-section"><span class="medaillon" aria-hidden="true">🕯</span><span class="intitule">Prêtres <span class="badge-fp">FP 12</span></span></h2>
+
+    <div class="fiche-armee fiche-unite">
+      <header class="fiche-entete">
+        <h4>Prêtres — clergé guerrier (humains)</h4>
+        <span class="fiche-fpa">FP 12 · d8</span>
+      </header>
+      <dl class="fiche-stats">
+        <div><dt>Taille de référence</dt><dd>2 000 (Colossale)</dd></div>
+        <div><dt>FPA</dt><dd>20</dd></div>
+        <div><dt>PV</dt><dd>90</dd></div>
+        <div><dt>VDéf</dt><dd>37</dd></div>
+        <div><dt>MA</dt><dd>+27</dd></div>
+        <div><dt>Moral</dt><dd>+0</dd></div>
+        <div><dt>Vitesse</dt><dd>9 m (6 cases)</dd></div>
+        <div><dt>PV par FPA</dt><dd>× 4,5 (d8)</dd></div>
+      </dl>
+    </div>
+
+    <h3>Toutes les tailles</h3>
+    <div class="bloc-taille">
+      <div class="defile">
+        <table class="tableau-tailles">
+          <thead><tr><th>Taille</th><th>Effectif</th><th>FPA</th><th>PV</th><th>VDéf</th><th>MA</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Titanesque</strong></td><td>10 000</td><td>24</td><td>108</td><td>41</td><td>+31</td></tr>
+            <tr><td><strong>Monumentale</strong></td><td>5 000</td><td>22</td><td>99</td><td>39</td><td>+29</td></tr>
+            <tr class="reference"><td><strong>Colossale</strong> <span class="ref-note">référence</span></td><td>2 000</td><td>20</td><td>90</td><td>37</td><td>+27</td></tr>
+            <tr><td><strong>Gargantuesque</strong></td><td>1 000</td><td>18</td><td>81</td><td>35</td><td>+25</td></tr>
+            <tr><td><strong>Très grande</strong></td><td>500</td><td>16</td><td>72</td><td>33</td><td>+23</td></tr>
+            <tr><td><strong>Grande</strong></td><td>200</td><td>14</td><td>63</td><td>31</td><td>+21</td></tr>
+            <tr><td><strong>Moyenne</strong></td><td>100</td><td>12</td><td>54</td><td>29</td><td>+19</td></tr>
+            <tr><td><strong>Petite</strong></td><td>50</td><td>10</td><td>45</td><td>27</td><td>+17</td></tr>
+            <tr><td><strong>Très petite</strong></td><td>25</td><td>8</td><td>36</td><td>25</td><td>+15</td></tr>
+            <tr><td><strong>Minuscule</strong></td><td>10</td><td>6</td><td>27</td><td>23</td><td>+13</td></tr>
+            <tr><td><strong>Infime</strong></td><td>1</td><td>4</td><td>18</td><td>21</td><td>+11</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <p class="note-table">Toutes les tailles : <strong>Moral +0</strong> et <strong>Vitesse 9 m (6 cases)</strong>. Les prêtres ont un dé de vie <strong>d8</strong> : leurs PV valent <strong>FPA × 4,5</strong>. Les tailles <em>Monumentale</em> (5 000) et <em>Titanesque</em> (10 000) sont des extensions maison : <strong>+2 de FPA par palier</strong>.</p>
+
+    <h3>Bonus et malus non compris</h3>
+    <p class="note-table">Ces effets ne sont <strong>pas</strong> comptés dans le tableau ci-dessus — à appliquer selon la situation.</p>
+    <div class="bloc-tableau">
+      <div class="defile">
+        <table>
+          <thead><tr><th>Source</th><th>Effet</th><th>Quand</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Battre en retraite<span class="ast">*</span></strong> (tactique)</td><td><strong>MA −2, VDéf −2</strong></td><td>La phase où l'unité se retire</td></tr>
+            <tr><td><strong>Combat prudent</strong> (tactique)</td><td><strong>MA −2</strong> mais <strong>+2 aux tests de Moral</strong></td><td>Tant que la tactique est active</td></tr>
+            <tr><td><strong>Briseurs de sorts</strong> (tactique)</td><td><strong>VDéf +4</strong></td><td>Contre une armée dotée d'<em>incantation</em></td></tr>
+            <tr><td><strong>Canalisation d'énergie positive</strong> (pouvoir)</td><td><strong>+1d4 dégâts</strong> contre les morts-vivants — ou soin de <strong>son FPA en PV</strong> (<strong>20 PV</strong>) contre <strong>−½ FPA au MA</strong> pour la phase</td><td>À volonté, chaque phase</td></tr>
+            <tr><td><strong>Grâce</strong> (pouvoir)</td><td>Soigne une maladie d'une armée alliée</td><td>Après la bataille</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <h3>Tactiques de l'unité</h3>
+    <ul class="runes">
+      <li><strong>Standard<span class="ast">*</span></strong> — L'unité combat sans artifice particulier : <strong>aucun modificateur au MA ni à la VDéf</strong>.</li>
+      <li><strong>Battre en retraite<span class="ast">*</span></strong> — L'armée tente d'échapper à toutes celles qui l'attaquent : <strong>test de Moral opposé</strong> à chaque attaquante (une armée peut échouer volontairement). Si tous réussissent, elle quitte le champ de bataille ou passe à une phase à distance ; si seulement certains réussissent, elle peut quand même le faire, mais les autres armées l'attaquent comme au corps à corps. Dans tous les cas, <strong>MA et VDéf −2</strong> pour le reste de la phase.</li>
+      <li><strong>Combat prudent</strong> — L'unité avance prudemment en préservant ses forces : <strong>MA −2</strong>, mais <strong>+2 à tous ses tests de Moral</strong>.</li>
+      <li><strong>Briseurs de sorts</strong> — Les prêtres sont rompus à la contre-magie : <strong>VDéf +4</strong> contre une armée dotée du pouvoir <em>incantation</em>.</li>
+    </ul>
+    <p class="note-table">Les tactiques marquées <span class="ast">*</span> sont connues d'office par toutes les armées — elles ne comptent pas dans le nombre de tactiques apprises. Pour les autres tactiques : voir la page <a class="lien" href="index.html#tactiques">Topo — Le combat de masse</a>.</p>
+
+    <h3>Ressources</h3>
+    <p class="note-table">Les bonus permanents des ressources et des pouvoirs sont déjà compris dans les valeurs des fiches — VDéf, MA…</p>
+    <ul class="runes">
+      <li><strong>Armures améliorées</strong> — armures de maître : <strong>+1 VDéf</strong> et <strong>+1 Consommation</strong>.</li>
+      <li><strong>Armes améliorées</strong> — armes de maître : <strong>+1 MA</strong> et <strong>+1 Consommation</strong>.</li>
+    </ul>
+
+    <h3>Pouvoirs spéciaux</h3>
+    <ul class="runes">
+      <li><strong>Incantation</strong> — Les prêtres lancent des sorts de niveau 6 : <strong>+6 MA et +6 VDéf</strong> <em>(déjà compris dans les fiches)</em> ; leurs sorts offensifs à distance permettent à l'unité de faire des <strong>attaques à distance</strong>.</li>
+      <li><strong>Canalisation d'énergie positive</strong> — En <strong>phase de mêlée</strong> : <strong>+1d4 dégâts</strong> contre une armée de <strong>morts-vivants</strong>. Ou bien l'unité se soigne : en subissant un <strong>malus au MA égal à la moitié de son FPA</strong> pendant une phase de tir ou de mêlée, elle récupère un nombre de <strong>PV égal à son FPA</strong> <em>(aucune limite d'utilisation — règle officielle)</em>.</li>
+      <li><strong>Grâce</strong> — Après une bataille, l'unité peut <strong>soigner une maladie</strong> qui affecte une <strong>armée alliée</strong>.</li>
+    </ul>
+  </section>
+
+  <p class="rappel-camp">Les légions infernales</p>
+
+  <!-- ===================== VI. CHEVALIERS INFERNAUX ===================== -->
+  <section class="section reveal unite" id="chevaliers" style="--teinte:#9b2226;--teinte-fonce:#5e1416">
+    <h2 class="titre-section"><span class="medaillon" aria-hidden="true">🔥</span><span class="intitule">Chevaliers infernaux <span class="badge-fp">FP 12</span></span></h2>
+
+    <div class="fiche-armee fiche-unite">
+      <header class="fiche-entete">
+        <h4>Chevaliers infernaux — élite de la Légion Infernales (humains)</h4>
+        <span class="fiche-fpa">FP 12 · d10</span>
+      </header>
+      <dl class="fiche-stats">
+        <div><dt>Taille de référence</dt><dd>2 000 (Colossale)</dd></div>
+        <div><dt>FPA</dt><dd>20</dd></div>
+        <div><dt>PV</dt><dd>110</dd></div>
+        <div><dt>VDéf</dt><dd>33</dd></div>
+        <div><dt>MA</dt><dd>+21</dd></div>
+        <div><dt>Moral</dt><dd>+0</dd></div>
+        <div><dt>Vitesse</dt><dd>6 m (4 cases)</dd></div>
+        <div><dt>PV par FPA</dt><dd>× 5,5 (d10)</dd></div>
+      </dl>
+    </div>
+
+    <h3>Toutes les tailles</h3>
+    <div class="bloc-taille">
+      <div class="defile">
+        <table class="tableau-tailles">
+          <thead><tr><th>Taille</th><th>Effectif</th><th>FPA</th><th>PV</th><th>VDéf</th><th>MA</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Titanesque</strong></td><td>10 000</td><td>24</td><td>132</td><td>37</td><td>+25</td></tr>
+            <tr><td><strong>Monumentale</strong></td><td>5 000</td><td>22</td><td>121</td><td>35</td><td>+23</td></tr>
+            <tr class="reference"><td><strong>Colossale</strong> <span class="ref-note">référence</span></td><td>2 000</td><td>20</td><td>110</td><td>33</td><td>+21</td></tr>
+            <tr><td><strong>Gargantuesque</strong></td><td>1 000</td><td>18</td><td>99</td><td>31</td><td>+19</td></tr>
+            <tr><td><strong>Très grande</strong></td><td>500</td><td>16</td><td>88</td><td>29</td><td>+17</td></tr>
+            <tr><td><strong>Grande</strong></td><td>200</td><td>14</td><td>77</td><td>27</td><td>+15</td></tr>
+            <tr><td><strong>Moyenne</strong></td><td>100</td><td>12</td><td>66</td><td>25</td><td>+13</td></tr>
+            <tr><td><strong>Petite</strong></td><td>50</td><td>10</td><td>55</td><td>23</td><td>+11</td></tr>
+            <tr><td><strong>Très petite</strong></td><td>25</td><td>8</td><td>44</td><td>21</td><td>+9</td></tr>
+            <tr><td><strong>Minuscule</strong></td><td>10</td><td>6</td><td>33</td><td>19</td><td>+7</td></tr>
+            <tr><td><strong>Infime</strong></td><td>1</td><td>4</td><td>22</td><td>17</td><td>+5</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <p class="note-table">Toutes les tailles : <strong>Moral +0</strong> et <strong>Vitesse 6 m (4 cases)</strong>. Les tailles <em>Monumentale</em> (5 000) et <em>Titanesque</em> (10 000) sont des extensions maison : <strong>+2 de FPA par palier</strong>, dans la continuité de la table officielle.</p>
+
+    <h3>Bonus et malus non compris</h3>
+    <p class="note-table">Ces effets ne sont <strong>pas</strong> comptés dans le tableau ci-dessus — à appliquer selon la situation.</p>
+    <div class="bloc-tableau">
+      <div class="defile">
+        <table>
+          <thead><tr><th>Source</th><th>Effet</th><th>Quand</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Battre en retraite<span class="ast">*</span></strong> (tactique)</td><td><strong>MA −2, VDéf −2</strong></td><td>La phase où l'unité se retire</td></tr>
+            <tr><td><strong>Défense totale</strong> (tactique)</td><td><strong>VDéf +4, MA −4</strong></td><td>Tant que la tactique est active</td></tr>
+            <tr><td><strong>Briseurs de sorts</strong> (tactique)</td><td><strong>VDéf +4</strong></td><td>Contre une armée dotée d'<em>incantation</em></td></tr>
+            <tr><td><strong>Bouclier</strong> (ressource)</td><td><strong>−2 dégâts subis</strong> (minimum 0)</td><td>À chaque attaque subie qui inflige des dégâts</td></tr>
+            <tr><td><strong>Armes en fer froid</strong> (ressource)</td><td>Annule la <strong>Défense importante</strong> des démons (<strong>+10 VDéf</strong> ennemie)</td><td>Contre les armées de démons</td></tr>
+            <tr><td><strong>Châtiment du Chaos</strong> (pouvoir)</td><td><strong>+2 MA</strong> — <strong>+4</strong> contre démons / extérieurs chaotiques</td><td>1 phase de mêlée par bataille</td></tr>
+            <tr><td><strong>Force de volonté</strong> (pouvoir)</td><td><strong>+2 aux tests de Moral</strong></td><td>Contre la terreur et la déroute</td></tr>
+            <tr><td><strong>Résistance à la magie</strong> (pouvoir)</td><td><strong>+6 VDéf</strong></td><td>Contre une armée dotée d'<em>incantation</em></td></tr>
+            <tr><td><strong>Immunité au feu</strong> (pouvoir)</td><td>Dégâts de feu ignorés</td><td>Contre les capacités et attaques de feu</td></tr>
+            <tr><td><strong>Vision dans les ténèbres</strong> (pouvoir)</td><td>Aucun malus d'obscurité (sinon −2 MA / −3 VDéf)</td><td>La nuit ou dans le noir</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <h3>Tactiques de l'unité</h3>
+    <ul class="runes">
+      <li><strong>Standard<span class="ast">*</span></strong> — L'unité combat sans artifice particulier : <strong>aucun modificateur au MA ni à la VDéf</strong>.</li>
+      <li><strong>Battre en retraite<span class="ast">*</span></strong> — L'armée tente d'échapper à toutes celles qui l'attaquent : <strong>test de Moral opposé</strong> à chaque attaquante (une armée peut échouer volontairement). Si tous réussissent, elle quitte le champ de bataille ou passe à une phase à distance ; si seulement certains réussissent, elle peut quand même le faire, mais les autres armées l'attaquent comme au corps à corps. Dans tous les cas, <strong>MA et VDéf −2</strong> pour le reste de la phase.</li>
+      <li><strong>Défense totale</strong> — L'unité se retranche derrière ses boucliers et ne frappe que pour se dégager : <strong>VDéf +4, MA −4</strong>.</li>
+      <li><strong>Briseurs de sorts</strong> — Les chevaliers sont rompus à la contre-magie : <strong>VDéf +4</strong> contre une armée dotée du pouvoir <em>incantation</em>.</li>
+    </ul>
+    <p class="note-table">Les tactiques marquées <span class="ast">*</span> sont connues d'office par toutes les armées — elles ne comptent pas dans le nombre de tactiques apprises. Pour les autres tactiques : voir la page <a class="lien" href="index.html#tactiques">Topo — Le combat de masse</a>.</p>
+
+    <h3>Ressources</h3>
+    <p class="note-table">Les bonus permanents sont déjà compris dans les valeurs des fiches — l'armure en VDéf, les armes en MA ; le bouclier réduit les dégâts au moment où ils sont subis.</p>
+    <ul class="runes">
+      <li><strong>Armures magiques (+3)</strong> — plaques magiques : <strong>+3 VDéf</strong> et <strong>+3 Consommation</strong>.</li>
+      <li><strong>Bouclier</strong> — bouclier lourd : <strong>−2 aux dégâts subis</strong> (minimum 0) ; <strong>+1 Consommation</strong>.</li>
+      <li><strong>Armes améliorées</strong> — armes de maître : <strong>+1 MA</strong> et <strong>+1 Consommation</strong>.</li>
+      <li><strong>Armes en fer froid</strong> — les lames du contingent sont forgées en fer froid : elles <strong>percent la Défense importante (pouvoir spécial) des démons</strong> — leur <strong>+10 VDéf</strong> ne s'applique pas contre cette unité ; <strong>+1 Consommation</strong>.</li>
+    </ul>
+
+    <h3>Pouvoirs spéciaux</h3>
+    <ul class="runes">
+      <li><strong>Châtiment du Chaos</strong> — Une fois par bataille, pendant <strong>une phase de mêlée</strong> : <strong>+2 MA</strong> contre une armée d'alignement chaotique ; <strong>+4 MA</strong> au lieu de +2 si la cible est composée de <strong>démons (extérieurs chaotiques)</strong>.</li>
+      <li><strong>Force de volonté</strong> — Appliquez le bonus de courage des chevaliers aux tests de Moral contre la terreur et la déroute (soit <strong>+2</strong> pour eux).</li>
+      <li><strong>Résistance à la magie</strong> — <strong>+6 VDéf</strong> contre les armées dotées du pouvoir <em>incantation</em>.</li>
+      <li><strong>Immunité au feu</strong> — Les capacités et attaques de feu des armées ennemies (souffles, sorts, engins incendiaires) n'ont aucune prise sur l'unité.</li>
+      <li><strong>Vision dans les ténèbres</strong> — L'unité ne subit <strong>aucun malus de MA ni de VDéf</strong> en lumière faible ou dans l'obscurité — <strong>même les ténèbres magiques</strong> (la condition <em>Ténèbres</em> du champ de bataille ne l'affecte pas).</li>
+    </ul>
+  </section>
+
+  <!-- ===================== VII. SOURCES ===================== -->
+  <section class="section reveal" id="sources">
+    <h2 class="titre-section"><span class="medaillon" aria-hidden="true">VII</span><span class="intitule">Sources &amp; liens</span></h2>
+
+    <ul class="runes">
+      <li>Fiches rédigées à partir des fichiers du coffre : <em>Croisés FP 8</em>, <em>Paladins FP 12</em>, <em>Paladins FP 15</em>, <em>Prêtres FP 12</em>, <em>Chevaliers infernaux FP 12</em> (dossier <em>Troupes</em>).</li>
+      <li>Règles du combat de masse : <a class="lien" href="index.html">Topo — Le combat de masse</a> (phases, stratégies, tactiques, moral, déroute, bienfaits de commandement).</li>
+      <li><a class="lien" href="https://www.pathfinder-fr.org/wiki/GetFile.aspx?File=ADJ%2fPathfinder-RPG%2fAide-de-Jeu-Combat-de-Masse.pdf" target="_blank" rel="noopener">Aide de jeu : Les combats de masse (PDF, Pathfinder-FR)</a> — compilation des règles par Black et Coki.</li>
+      <li><em>Ultimate Campaign</em>, pp. 234-251 (combat de masse) — <a class="lien" href="https://aonprd.com/Rules.aspx?ID=1565" target="_blank" rel="noopener">règles en ligne (Archives of Nethys)</a>.</li>
+    </ul>
+  </section>
+  </div>
+</main>
+
+<!-- ===================== PIED DE PAGE ===================== -->
+<footer class="pied">
+  <span class="fleur" aria-hidden="true">❦</span>
+  <p>Fiches d'unités pour la campagne <em>La Colère des Justes</em> — page liée au <a href="index.html">Topo du combat de masse</a>.</p>
+  <p class="mini">Règles : <em>Ultimate Campaign</em> (combat de masse) et <em>Bestiaire 6</em> (sous-type troupe), d'après le wiki Pathfinder-FR.<br>
+  Astuce : cliquez sur les formules <span class="jet">1d20 + MA</span> pour faire tinter les dés. <a href="#sommaire">Retour au sommaire</a>.</p>
+</footer>
+
+<button id="retour-haut" title="Remonter au parchemin" aria-label="Revenir en haut de la page">⇧</button>
+
+<script>
+(function(){
+  "use strict";
+  var reduire = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* --- Étiquettes de colonnes pour l'affichage « fiches empilées » sur téléphone ---
+     Les en-têtes de tableau sont recopiés dans un attribut data-label sur chaque
+     cellule ; le CSS mobile s'en sert via ::before. Sur ordinateur : aucun effet. */
+  [].slice.call(document.querySelectorAll("table")).forEach(function(t){
+    var entetes = [].slice.call(t.querySelectorAll("thead th"));
+    if (!entetes.length) { return; }
+    [].slice.call(t.querySelectorAll("tbody tr")).forEach(function(tr){
+      var cellules = tr.children;
+      for (var i = 0; i < cellules.length; i++){
+        var etiquette = entetes[i] ? entetes[i].textContent.replace(/\s+/g, " ").trim() : "";
+        if (etiquette) { cellules[i].setAttribute("data-label", etiquette); }
+      }
+    });
+  });
+
+  /* --- Apparition des sections au défilement --- */  var cibles = [].slice.call(document.querySelectorAll(".reveal"));
+  if (reduire || !("IntersectionObserver" in window)) {
+    cibles.forEach(function(el){ el.classList.add("vu"); });
+  } else {
+    var obs = new IntersectionObserver(function(entrees){
+      entrees.forEach(function(e){
+        if (e.isIntersecting) { e.target.classList.add("vu"); obs.unobserve(e.target); }
+      });
+    }, { threshold: 0.08, rootMargin: "0px 0px -8% 0px" });
+    cibles.forEach(function(el){ obs.observe(el); });
+  }
+
+  /* --- Barre de progression + bouton de retour ---
+     Un seul calcul par image affichée (requestAnimationFrame) : sur un téléphone,
+     le défilement émet beaucoup plus d'événements que d'images. */
+  var barre = document.getElementById("progression");
+  var bouton = document.getElementById("retour-haut");
+  var prevu = false;
+  function maj(){
+    prevu = false;
+    var h = document.documentElement;
+    var max = h.scrollHeight - h.clientHeight;
+    var y = window.pageYOffset || h.scrollTop || 0;
+    var p = max > 0 ? y / max : 0;
+    if (barre) { barre.style.width = (p * 100).toFixed(2) + "%"; }
+    if (bouton) { bouton.classList.toggle("visible", y > 600); }
+  }
+  function planifier(){
+    if (prevu) { return; }
+    prevu = true;
+    if (window.requestAnimationFrame) { window.requestAnimationFrame(maj); } else { maj(); }
+  }
+  window.addEventListener("scroll", planifier, { passive: true });
+  window.addEventListener("resize", planifier);
+  maj();
+  if (bouton) {
+    bouton.addEventListener("click", function(){
+      window.scrollTo({ top: 0, behavior: reduire ? "auto" : "smooth" });
+    });
+  }
+
+  /* --- Ruban : section active --- */
+  var liens = [].slice.call(document.querySelectorAll(".ruban a.ruban-lien"));
+  var sections = liens.map(function(l){
+    var href = l.getAttribute("href") || "";
+    return href.charAt(0) === "#" ? document.querySelector(href) : null;
+  }).filter(Boolean);
+  if (sections.length && "IntersectionObserver" in window) {
+    var spy = new IntersectionObserver(function(entrees){
+      entrees.forEach(function(e){
+        if (!e.isIntersecting) { return; }
+        liens.forEach(function(l){
+          l.classList.toggle("actif", l.getAttribute("href") === "#" + e.target.id);
+        });
+      });
+    }, { rootMargin: "-45% 0px -50% 0px", threshold: 0 });
+    sections.forEach(function(s){ spy.observe(s); });
+  }
+
+  /* --- Les jetons de formule tressaillent au clic (décoratif) --- */
+  if (!reduire) {
+    [].slice.call(document.querySelectorAll(".jet")).forEach(function(j){
+      j.addEventListener("click", function(){
+        j.classList.remove("secoue");
+        void j.offsetWidth; /* relance l'animation */
+        j.classList.add("secoue");
+      });
+    });
+  }
+})();
+</script>
+</body>
+</html>
