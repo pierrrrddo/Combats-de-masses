@@ -99,6 +99,8 @@ body::after{
 
 ::selection{ background:rgba(176,141,74,.4); color:#2b1c0c; }
 
+html{ -webkit-tap-highlight-color:rgba(176,141,74,.25); }
+
 /* Poussière dorée flottant au-dessus du bureau */
 .poussiere{ position:fixed; inset:0; z-index:2; pointer-events:none; overflow:hidden; }
 .poussiere span{
@@ -321,6 +323,13 @@ a.lien:hover{ color:#c0392b; background:rgba(192,57,43,.10); border-bottom-style
   opacity:0; transform:translateY(3px); transition:opacity .3s, transform .3s;
 }
 .ruban a.ruban-lien.futur:hover::before{ opacity:1; transform:translateY(0); }
+/* voile de droite : n'apparaît que sur téléphone pour indiquer que le ruban défile */
+.voile{
+  display:none;
+  position:absolute; top:0; right:0; bottom:0; width:24px; z-index:1;
+  pointer-events:none;
+  background:linear-gradient(90deg, rgba(36,20,7,0), rgba(36,20,7,.92));
+}
 
 /* ---------- 6. Sections & apparitions ---------- */
 main{ position:relative; z-index:2; max-width:1080px; margin:0 auto; padding:0 16px 40px; }
@@ -451,7 +460,7 @@ td .jet{ font-size:.82em; }
 
 /* ---------- 9. Listes : phases, étapes, runes ---------- */
 .phases{
-  display:grid; grid-template-columns:repeat(auto-fit,minmax(238px,1fr)); gap:16px; margin:20px 0 6px;
+  display:grid; grid-template-columns:repeat(auto-fit,minmax(min(238px,100%),1fr)); gap:16px; margin:20px 0 6px;
 }
 .phase{
   position:relative; overflow:hidden; padding:20px 20px 18px;
@@ -495,7 +504,7 @@ ul.runes li:hover::before{ color:var(--cire-clair); transform:rotate(45deg) scal
 
 /* ---------- 10. Cartes de tactiques ---------- */
 .grille-tactiques{
-  display:grid; grid-template-columns:repeat(auto-fill,minmax(268px,1fr)); gap:15px; margin:20px 0 6px;
+  display:grid; grid-template-columns:repeat(auto-fill,minmax(min(268px,100%),1fr)); gap:15px; margin:20px 0 6px;
 }
 .tactique{
   position:relative; overflow:hidden;
@@ -590,7 +599,7 @@ ul.runes li:hover::before{ color:var(--cire-clair); transform:rotate(45deg) scal
   font-family:var(--font-code); font-size:.8rem; line-height:1.6; color:#4c3a22;
   background:rgba(255,252,240,.7); border:1px dashed rgba(107,84,58,.5); border-radius:5px;
 }
-.apercu-grille{ display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:14px; margin-top:18px; }
+.apercu-grille{ display:grid; grid-template-columns:repeat(auto-fit,minmax(min(220px,100%),1fr)); gap:14px; margin-top:18px; }
 
 /* Gabarit de fiche d'armée — prêt pour la future page « Armées » */
 .fiche-armee{
@@ -612,7 +621,7 @@ ul.runes li:hover::before{ color:var(--cire-clair); transform:rotate(45deg) scal
   border:1px solid #6d4f1e; border-radius:999px; padding:2px 10px;
 }
 .fiche-armee .fiche-stats{
-  display:grid; grid-template-columns:repeat(auto-fit,minmax(112px,1fr));
+  display:grid; grid-template-columns:repeat(auto-fit,minmax(min(112px,100%),1fr));
   gap:1px; margin:0; background:rgba(107,84,58,.25);
 }
 .fiche-armee .fiche-stats > div{ background:rgba(255,252,242,.92); padding:8px 12px; }
@@ -651,18 +660,135 @@ ul.runes li:hover::before{ color:var(--cire-clair); transform:rotate(45deg) scal
 .pied a:hover{ color:#fff3d4; border-bottom-style:solid; }
 
 /* ---------- 14. Responsive / impression / mouvement réduit ---------- */
+
+/* --- Tablettes & grands téléphones (≤ 760 px) --- */
 @media (max-width:760px){
   body{ font-size:16.5px; }
-  .ruban .interieur{ padding:6px 10px; }
-  .ruban a.ruban-lien{ font-size:.62rem; padding:6px 7px; letter-spacing:.08em; }
-  .ruban .marque{ font-size:.66rem; letter-spacing:.14em; margin-right:6px; }
+  html{ scroll-padding-top:72px; }
+  .section{ scroll-margin-top:72px; }
+
+  /* Le vignettage et les ombres du parchemin sont recalculés pour un écran étroit
+     (sinon ils assombrissent toute la page sur téléphone). */
+  body::after{ background:radial-gradient(ellipse 150% 70% at 50% 45%, transparent 70%, rgba(0,0,0,.30) 100%); }
+  .feuille{
+    box-shadow:
+      inset 0 0 0 1px rgba(120,88,40,.30),
+      inset 0 0 18px rgba(120,80,30,.16),
+      inset 0 0 48px rgba(126,86,32,.20),
+      0 16px 36px rgba(0,0,0,.5),
+      0 5px 14px rgba(0,0,0,.32);
+  }
+
+  /* Le ruban tient sur une ligne : il se fait défiler du doigt */
+  .ruban .interieur{
+    flex-wrap:nowrap; gap:0; padding:6px 10px;
+    overflow-x:auto; overflow-y:hidden;
+    scrollbar-width:none; -ms-overflow-style:none;
+    -webkit-overflow-scrolling:touch; overscroll-behavior-x:contain;
+  }
+  .ruban .interieur::-webkit-scrollbar{ display:none; }
+  .ruban .marque{
+    position:sticky; left:0; z-index:2; margin-right:2px; padding-right:12px;
+    font-size:.64rem; letter-spacing:.12em;
+    background:linear-gradient(90deg,#3a2311 76%, rgba(58,35,17,0));
+  }
+  .ruban .groupe{ border-left:none; padding:0 3px; }
+  .ruban a.ruban-lien{ font-size:.62rem; padding:7px 8px; letter-spacing:.08em; white-space:nowrap; }
+  .voile{ display:block; }
+
   .medaillon{ width:38px; height:38px; font-size:.85rem; }
   .coin{ width:32px; height:32px; }
+  .lettrine::first-letter{ font-size:3em; padding:4px 8px 0 0; }
   ol.etapes{ padding-left:46px; }
   ol.etapes li::before{ left:-46px; width:32px; height:32px; font-size:.85rem; }
   ol.etapes li::after{ left:-31px; top:34px; }
   .carte-future{ padding:18px; gap:16px; }
+  .pied{ padding-bottom:48px; }
   #retour-haut{ right:12px; bottom:12px; width:46px; height:46px; }
+}
+
+/* --- Téléphones (≤ 620 px) : tableaux en fiches, marges resserrées --- */
+@media (max-width:620px){
+  body{ font-size:16px; }
+  .feuille{ margin-top:20px; padding-left:16px; padding-right:16px; }
+  .feuille::after{ inset:10px; outline-offset:3px; }
+  .coin{ width:26px; height:26px; }
+  .hero{ padding-bottom:18px; }
+  .hero .ecusson{ width:84px; }
+  .ornement{ width:min(320px,80%); }
+  h2.titre-section{ gap:11px; }
+  .encadre{ padding:14px 16px 14px 17px; border-left-width:5px; }
+  .encadre::before{ top:-8px; left:-8px; width:16px; height:16px; }
+  blockquote{ font-size:1rem; margin-left:0; padding:8px 14px 8px 22px; }
+  .jet{ white-space:normal; overflow-wrap:break-word; }
+  .formule{
+    display:flex; width:100%; justify-content:center; text-align:center;
+    border-radius:10px; font-size:.82rem; padding:10px 13px; line-height:1.55;
+  }
+  .phase{ padding:17px 17px 15px; }
+  .tactique{ padding:14px 15px 13px; }
+  .phases, .grille-tactiques, .apercu-grille{ grid-template-columns:1fr; }
+  .carte-future{ flex-direction:column; align-items:center; text-align:center; }
+  .carte-future .bouton-armee{ width:100%; justify-content:center; }
+  .legende-tactiques{ gap:8px 14px; font-size:.8rem; }
+  .sceau{ width:64px; height:64px; font-size:1.35rem; }
+  #retour-haut{ width:42px; height:42px; font-size:1.1rem; }
+
+  /* Tableaux (hors table des stratégies) transformés en fiches empilées ;
+     les étiquettes de colonne sont posées par le script (attribut data-label). */
+  html.js .bloc-tableau.hauteur{ max-height:none; overflow:visible; }
+  html.js .bloc-tableau table:not(.strategie){ display:block; }
+  html.js .bloc-tableau table:not(.strategie) thead{ display:none; }
+  html.js .bloc-tableau table:not(.strategie) tbody{ display:block; padding:10px; }
+  html.js .bloc-tableau table:not(.strategie) tbody tr{
+    display:block; padding:12px 14px;
+    background:linear-gradient(180deg, rgba(255,252,241,.86), rgba(240,226,192,.55));
+    border:1px solid rgba(107,84,58,.38); border-radius:6px;
+    box-shadow:0 3px 10px rgba(88,58,20,.12);
+  }
+  html.js .bloc-tableau table:not(.strategie) tbody tr + tr{ margin-top:9px; }
+  html.js .bloc-tableau table:not(.strategie) tbody td,
+  html.js .bloc-tableau table:not(.strategie) tbody tr:nth-child(even) td,
+  html.js .bloc-tableau table:not(.strategie) tbody tr:hover td{
+    display:block; padding:8px 0; border:none;
+    border-top:1px dashed rgba(107,84,58,.30);
+    background:transparent; font-size:.95rem;
+  }
+  html.js .bloc-tableau table:not(.strategie) tbody td:first-child{
+    padding-top:0; border-top:none; font-size:1.03rem;
+  }
+  html.js .bloc-tableau table:not(.strategie) tbody td::before{
+    content:attr(data-label);
+    display:block; margin-bottom:3px;
+    font-family:var(--font-titre); font-size:.58rem; font-weight:600;
+    letter-spacing:.16em; text-transform:uppercase; color:var(--or-sombre);
+  }
+  html.js .bloc-tableau table:not(.strategie) tbody td:first-child::before{ display:none; }
+
+  /* La table des stratégies reste un tableau (colonnes courtes, à comparer d'un coup d'œil) */
+  .bloc-tableau table.strategie{ font-size:.84rem; }
+  .bloc-tableau table.strategie thead th{ font-size:.56rem; letter-spacing:.06em; padding:8px 6px; }
+  .bloc-tableau table.strategie tbody td{ padding:8px 6px; }
+  .bloc-tableau table.strategie td:first-child{ border-left-width:4px; }
+  .bloc-tableau table.strategie .valeur{ font-size:.76rem; padding:1px 6px; }
+}
+
+/* --- Petits téléphones (≤ 400 px) --- */
+@media (max-width:400px){
+  body{ font-size:15.5px; }
+  .feuille{ padding-left:13px; padding-right:13px; }
+  h2.titre-section{ font-size:1.14rem; gap:9px; }
+  .medaillon{ width:32px; height:32px; font-size:.74rem; }
+  .hero .sous-titre{ font-size:.96rem; }
+  .puces .puce{ font-size:.6rem; padding:4px 10px; letter-spacing:.1em; }
+  ol.etapes{ padding-left:38px; }
+  ol.etapes li::before{ left:-38px; width:28px; height:28px; font-size:.76rem; }
+  ol.etapes li::after{ left:-25px; top:30px; }
+  .tactique h4{ font-size:.9rem; }
+  .bouton-armee{ font-size:.64rem; padding:9px 14px; }
+  .bloc-tableau table.strategie{ font-size:.78rem; }
+  .bloc-tableau table.strategie thead th{ font-size:.52rem; padding:7px 4px; }
+  .bloc-tableau table.strategie tbody td{ padding:7px 4px; }
 }
 @media print{
   body{ background:#fff; color:#000; font-size:11.5pt; }
@@ -685,6 +811,9 @@ ul.runes li:hover::before{ color:var(--cire-clair); transform:rotate(45deg) scal
 }
 </style>
 <noscript><style>.reveal{opacity:1 !important;transform:none !important;filter:none !important;}</style></noscript>
+<!-- Marqueur « JS actif » : sert uniquement à activer la version mobile des tableaux.
+     Sans JavaScript, les tableaux restent des tableaux défilables normalement. -->
+<script>document.documentElement.classList.add("js");</script>
 </head>
 
 <body>
@@ -722,6 +851,7 @@ ul.runes li:hover::before{ color:var(--cire-clair); transform:rotate(45deg) scal
       <a class="ruban-lien futur" href="#armees">⚔ Armées</a>
     </span>
   </div>
+  <span class="voile" aria-hidden="true"></span>
 </nav>
 
 <main>
@@ -1287,8 +1417,22 @@ ul.runes li:hover::before{ color:var(--cire-clair); transform:rotate(45deg) scal
   "use strict";
   var reduire = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  /* --- Apparition des sections au défilement --- */
-  var cibles = [].slice.call(document.querySelectorAll(".reveal"));
+  /* --- Étiquettes de colonnes pour l'affichage « fiches empilées » sur téléphone ---
+     Les en-têtes de tableau sont recopiés dans un attribut data-label sur chaque
+     cellule ; le CSS mobile s'en sert via ::before. Sur ordinateur : aucun effet. */
+  [].slice.call(document.querySelectorAll("table")).forEach(function(t){
+    var entetes = [].slice.call(t.querySelectorAll("thead th"));
+    if (!entetes.length) { return; }
+    [].slice.call(t.querySelectorAll("tbody tr")).forEach(function(tr){
+      var cellules = tr.children;
+      for (var i = 0; i < cellules.length; i++){
+        var etiquette = entetes[i] ? entetes[i].textContent.replace(/\s+/g, " ").trim() : "";
+        if (etiquette) { cellules[i].setAttribute("data-label", etiquette); }
+      }
+    });
+  });
+
+  /* --- Apparition des sections au défilement --- */  var cibles = [].slice.call(document.querySelectorAll(".reveal"));
   if (reduire || !("IntersectionObserver" in window)) {
     cibles.forEach(function(el){ el.classList.add("vu"); });
   } else {
