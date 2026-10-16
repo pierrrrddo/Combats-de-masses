@@ -5,10 +5,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Le Combat de Masse — Topo pour les PJ</title>
 <meta name="description" content="Aide de jeu Pathfinder 1re édition : comment se résout un combat de masse et ce que les PJ peuvent y faire. Campagne La Colère des Justes.">
-<!-- Polices « manuscrites » (facultatif : hors connexion, repli sur Palatino/Georgia, déjà très parchemin). -->
+<!-- Polices « manuscrites ». Chargement non bloquant : la page s'affiche
+     immédiatement avec Palatino/Georgia, puis les polices arrivent (ou pas,
+     si l'on est hors connexion). -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&amp;family=EB+Garamond:ital,wght@0,400;0,600;1,400&amp;family=IM+Fell+English:ital@0;1&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" media="print" onload="this.media='all'"
+      href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&amp;family=EB+Garamond:ital,wght@0,400;0,600;1,400&amp;family=IM+Fell+English:ital@0;1&amp;display=swap">
+<noscript>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&amp;family=EB+Garamond:ital,wght@0,400;0,600;1,400&amp;family=IM+Fell+English:ital@0;1&amp;display=swap">
+</noscript>
 
 <style>
 /* =========================================================================
@@ -275,7 +281,6 @@ a.lien:hover{ color:#c0392b; background:rgba(192,57,43,.10); border-bottom-style
   position:fixed; top:0; left:0; height:4px; width:0; z-index:70;
   background:linear-gradient(90deg, var(--or-sombre), var(--or), var(--or-clair), var(--cire));
   box-shadow:0 0 10px rgba(255,214,140,.6);
-  transition:width .12s linear;
 }
 .ruban{
   position:sticky; top:0; z-index:60;
@@ -334,6 +339,19 @@ a.lien:hover{ color:#c0392b; background:rgba(192,57,43,.10); border-bottom-style
 /* ---------- 6. Sections & apparitions ---------- */
 main{ position:relative; z-index:2; max-width:1080px; margin:0 auto; padding:0 16px 40px; }
 .section{ padding:26px 0 8px; scroll-margin-top:96px; }
+
+/* Optimisation (aucun effet visuel) : le navigateur ne calcule ni ne peint les
+   gros blocs hors écran (tableaux, grilles de cartes). C'est le poste le plus
+   lourd d'une page longue, surtout sur téléphone.
+   On l'applique aux blocs et non aux sections elles-mêmes, pour ne pas gêner
+   les apparitions au défilement. Les navigateurs qui ignorent la propriété
+   affichent simplement tout, comme avant. */
+.bloc-tableau{ content-visibility:auto; contain-intrinsic-size:auto 380px; }
+.bloc-tableau.hauteur{ contain-intrinsic-size:auto 620px; }
+.grille-tactiques{ content-visibility:auto; contain-intrinsic-size:auto 900px; }
+.phases{ content-visibility:auto; contain-intrinsic-size:auto 260px; }
+.apercu-grille{ content-visibility:auto; contain-intrinsic-size:auto 340px; }
+.carte-future{ content-visibility:auto; contain-intrinsic-size:auto 300px; }
 .section::after{
   content:""; display:block; width:min(440px,70%); height:18px;
   margin:40px auto 0;
@@ -696,6 +714,20 @@ ul.runes li:hover::before{ color:var(--cire-clair); transform:rotate(45deg) scal
   .ruban a.ruban-lien{ font-size:.62rem; padding:7px 8px; letter-spacing:.08em; white-space:nowrap; }
   .voile{ display:block; }
 
+  /* --- Allègement des effets coûteux sur téléphone ---
+     On garde le parchemin, les couleurs et les apparitions, mais on supprime
+     ce qui force le téléphone à repeindre en permanence. */
+  body::before{ display:none; }                    /* couche fixe plein écran en mode fusion */
+  .feuille::before{ mix-blend-mode:normal; opacity:.15; }  /* grain sans fusion */
+  .reveal{ filter:none; transform:translateY(14px); }      /* apparitions sans flou */
+  .hero h1,
+  .hero .ecusson .lame,
+  .ruban::after,
+  .sceau,
+  .pied .fleur{ animation:none; }                  /* plus de boucles infinies */
+  .poussiere span:nth-child(n+4){ display:none; }  /* 3 grains de poussière au lieu de 8 */
+  .encadre, .tactique, .phase, .fiche-armee, .carte-future{ box-shadow:0 3px 9px rgba(88,58,20,.16); }
+
   .medaillon{ width:38px; height:38px; font-size:.85rem; }
   .coin{ width:32px; height:32px; }
   .lettrine::first-letter{ font-size:3em; padding:4px 8px 0 0; }
@@ -771,6 +803,12 @@ ul.runes li:hover::before{ color:var(--cire-clair); transform:rotate(45deg) scal
   .bloc-tableau table.strategie tbody td{ padding:8px 6px; }
   .bloc-tableau table.strategie td:first-child{ border-left-width:4px; }
   .bloc-tableau table.strategie .valeur{ font-size:.76rem; padding:1px 6px; }
+
+  /* Estimations de hauteur adaptées aux tableaux empilés (évite que la page
+     « saute » la première fois qu'un bloc hors écran est rendu) */
+  .bloc-tableau{ contain-intrinsic-size:auto 900px; }
+  .bloc-tableau.hauteur{ contain-intrinsic-size:auto 1700px; }
+  .grille-tactiques{ contain-intrinsic-size:auto 2600px; }
 }
 
 /* --- Petits téléphones (≤ 400 px) --- */
@@ -797,6 +835,8 @@ ul.runes li:hover::before{ color:var(--cire-clair); transform:rotate(45deg) scal
   .feuille::before, .feuille::after, .coin{ display:none; }
   .hero h1{ color:#000; -webkit-text-fill-color:#000; background:none; animation:none; }
   .reveal{ opacity:1 !important; transform:none !important; filter:none !important; }
+  /* tout doit être imprimé, rien ne doit rester « hors écran » */
+  .bloc-tableau, .bloc-tableau.hauteur, .grille-tactiques, .phases, .apercu-grille, .carte-future{ content-visibility:visible; }
   .encadre, .tactique, .phase, .bloc-tableau, .fiche-armee{ break-inside:avoid; box-shadow:none; }
   .section::after{ display:none; }
   table{ font-size:10pt; }
@@ -1444,18 +1484,28 @@ ul.runes li:hover::before{ color:var(--cire-clair); transform:rotate(45deg) scal
     cibles.forEach(function(el){ obs.observe(el); });
   }
 
-  /* --- Barre de progression + bouton de retour --- */
+  /* --- Barre de progression + bouton de retour ---
+     Un seul calcul par image affichée (requestAnimationFrame) : sur un téléphone,
+     le défilement émet beaucoup plus d'événements que d'images. */
   var barre = document.getElementById("progression");
   var bouton = document.getElementById("retour-haut");
+  var prevu = false;
   function maj(){
+    prevu = false;
     var h = document.documentElement;
     var max = h.scrollHeight - h.clientHeight;
-    var p = max > 0 ? (h.scrollTop || document.body.scrollTop) / max : 0;
+    var y = window.pageYOffset || h.scrollTop || 0;
+    var p = max > 0 ? y / max : 0;
     if (barre) { barre.style.width = (p * 100).toFixed(2) + "%"; }
-    if (bouton) { bouton.classList.toggle("visible", (window.pageYOffset || h.scrollTop) > 600); }
+    if (bouton) { bouton.classList.toggle("visible", y > 600); }
   }
-  window.addEventListener("scroll", maj, { passive: true });
-  window.addEventListener("resize", maj);
+  function planifier(){
+    if (prevu) { return; }
+    prevu = true;
+    if (window.requestAnimationFrame) { window.requestAnimationFrame(maj); } else { maj(); }
+  }
+  window.addEventListener("scroll", planifier, { passive: true });
+  window.addEventListener("resize", planifier);
   maj();
   if (bouton) {
     bouton.addEventListener("click", function(){
