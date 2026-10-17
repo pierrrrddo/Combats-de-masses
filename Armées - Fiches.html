@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Les Armées — Fiches d'unités pour le combat de masse</title>
-<meta name="description" content="Fiches d'armées Pathfinder 1re édition pour le combat de masse : croisés, paladins, paladins de légende, prêtres de guerre et chevaliers infernaux, en onze tailles chacun (1 à 10 000 combattants).">
+<title>Les Armées — 10 fiches d'unités pour le combat de masse</title>
+<meta name="description" content="Fiches d'armées Pathfinder 1re édition pour le combat de masse : armées du Bien (croisés, paladins, prêtres, Bâtards, Survivants de Kénabres), légions infernales (chevaliers infernaux, diabolistes et leurs invocations) et drows de Vhal'Zharra — onze tailles chacune.">
 <!-- Page liée à « index.html » (Topo — Le combat de masse).
      Fiches établies à partir du dossier « Troupes » du coffre. -->
 <!-- Polices « manuscrites ». Chargement non bloquant : la page s'affiche
@@ -894,7 +894,10 @@ ul.runes li:hover::before{ color:var(--cire-clair); transform:rotate(45deg) scal
 }
 
 /* Cartes d'accès rapide aux unités */
-.grille-unis{ display:grid; grid-template-columns:repeat(auto-fit,minmax(min(250px,100%),1fr)); gap:14px; margin:20px 0 0; }
+.grille-unis{
+  display:grid; grid-template-columns:repeat(auto-fit,minmax(min(250px,100%),1fr)); gap:14px; margin:20px 0 0;
+  content-visibility:auto; contain-intrinsic-size:auto 900px;
+}
 .carte-unite{
   display:block; text-decoration:none; padding:16px 17px 15px;
   border:1px solid rgba(107,84,58,.4); border-left:6px solid var(--teinte);
@@ -918,6 +921,34 @@ ul.runes li:hover::before{ color:var(--cire-clair); transform:rotate(45deg) scal
 }
 
 /* Bloc de synthèse d'une unité (réutilise .fiche-armee) */
+/* Invocations du Pacte — troupes que seuls les diabolistes peuvent appeler */
+.grille-invoc{
+  display:grid; grid-template-columns:repeat(auto-fit,minmax(min(320px,100%),1fr)); gap:15px; margin:18px 0 0;
+  content-visibility:auto; contain-intrinsic-size:auto 700px;
+}
+.invoc{
+  padding:0 0 15px; overflow:hidden;
+  background:linear-gradient(180deg, rgba(255,252,241,.88), rgba(238,223,190,.60));
+  border:1px solid rgba(107,84,58,.42); border-radius:6px;
+  box-shadow:0 4px 13px rgba(88,58,20,.14);
+}
+.invoc-entete{
+  display:flex; align-items:center; justify-content:space-between; gap:10px;
+  padding:9px 14px;
+  background:linear-gradient(180deg, var(--teinte), var(--teinte-fonce));
+}
+.invoc-entete h4{ color:#f7ecd0; font-size:.95rem; margin:0; letter-spacing:.05em; }
+.invoc-ligne{ padding:9px 14px 0; font-size:.88rem; color:#4a381f; }
+.invoc-titre{
+  margin:13px 14px 6px; padding-bottom:3px;
+  font-family:var(--font-titre); font-size:.62rem; font-weight:600;
+  letter-spacing:.16em; text-transform:uppercase;
+  color:var(--teinte); border-bottom:1px dashed rgba(107,84,58,.4);
+}
+.invoc .runes{ padding:0 14px; margin:0; }
+.invoc .runes li{ font-size:.86rem; }
+
+.fiche-unite{ content-visibility:auto; contain-intrinsic-size:auto 240px; }
 .fiche-unite .fiche-entete{ background:linear-gradient(180deg, var(--teinte), var(--teinte-fonce)); }
 .section.unite h3{ border-bottom:1px dashed var(--teinte); }
 .section.unite .medaillon{
@@ -925,11 +956,12 @@ ul.runes li:hover::before{ color:var(--cire-clair); transform:rotate(45deg) scal
 }
 
 @media (max-width:760px){
-  .carte-unite, .fiche-unite{ box-shadow:0 3px 9px rgba(88,58,20,.16); }
+  .carte-unite, .fiche-unite, .invoc{ box-shadow:0 3px 9px rgba(88,58,20,.16); }
   .rappel-camp{ font-size:.62rem; letter-spacing:.16em; }
 }
 @media (max-width:620px){
   .carte-unite{ padding:14px 15px 13px; }
+  .grille-invoc{ grid-template-columns:1fr; }
   .bloc-taille table{ font-size:.78rem; }
   .bloc-taille thead th{ font-size:.54rem; letter-spacing:.05em; padding:7px 4px; }
   .bloc-taille tbody td{ padding:7px 4px; }
@@ -943,7 +975,41 @@ ul.runes li:hover::before{ color:var(--cire-clair); transform:rotate(45deg) scal
 }
 @media print{
   .bloc-taille{ content-visibility:visible; break-inside:avoid; box-shadow:none; }
-  .carte-unite{ break-inside:avoid; box-shadow:none; }
+  .fiche-unite, .grille-unis, .grille-invoc{ content-visibility:visible; }
+  .carte-unite, .invoc{ break-inside:avoid; box-shadow:none; }
+}
+
+/* ---------- 16. Ruban repliable (libérer la place) ---------- */
+.ruban .interieur{ padding-right:66px; }
+.courant{ display:none; }
+.ruban .reduire{
+  position:absolute; right:10px; top:50%; transform:translateY(-50%); z-index:3;
+  display:inline-flex; align-items:center; gap:6px;
+  font-family:var(--font-titre); font-size:.6rem; font-weight:600;
+  letter-spacing:.13em; text-transform:uppercase; color:#e8d7ae;
+  background:linear-gradient(180deg,#4a2d15,#301d0d);
+  border:1px solid rgba(176,141,74,.55); border-radius:999px;
+  padding:5px 11px; cursor:pointer;
+  transition:color .25s, background .25s, border-color .25s;
+}
+.ruban .reduire:hover{ color:#fff3d4; background:linear-gradient(180deg,#5c3a1c,#3d2714); border-color:rgba(226,199,132,.8); }
+.ruban .reduire:focus-visible{ outline:2px solid var(--or-clair); outline-offset:2px; }
+.ruban .reduire .chevron{ font-size:.85rem; line-height:1; transition:transform .3s cubic-bezier(.2,.8,.2,1); }
+.ruban.replie .reduire .chevron{ transform:rotate(-90deg); }
+.ruban.replie .groupe{ display:none; }
+.ruban.replie .voile{ display:none; }
+.ruban.replie .courant{
+  display:inline-block; margin-left:8px; padding-left:12px;
+  border-left:1px solid rgba(176,141,74,.35);
+  font-family:var(--font-titre); font-size:.64rem; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--or-clair);
+  max-width:54vw; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+}
+@media (max-width:760px){
+  .ruban .interieur{ padding-right:56px; }
+  .ruban .reduire{ padding:5px 9px; }
+  .ruban .reduire .etiquette{ display:none; }
+  .ruban.replie .courant{ max-width:40vw; }
 }
 </style>
 <noscript><style>.reveal{opacity:1 !important;transform:none !important;filter:none !important;}</style></noscript>
@@ -965,22 +1031,36 @@ ul.runes li:hover::before{ color:var(--cire-clair); transform:rotate(45deg) scal
 <nav class="ruban" id="sommaire" aria-label="Sommaire des fiches d'unités">
   <div class="interieur">
     <span class="marque"><span class="glyphe">⚔</span> Les Armées</span>
+    <span class="courant" aria-hidden="true"></span>
     <span class="groupe">
       <a class="ruban-lien" href="index.html">📜 Le topo</a>
       <a class="ruban-lien" href="#apercu">Vue d'ensemble</a>
     </span>
     <span class="groupe">
+      <a class="ruban-lien" href="#bien">⚔ Le Bien</a>
       <a class="ruban-lien" href="#croises">Croisés</a>
       <a class="ruban-lien" href="#paladins-12">Paladins 12</a>
       <a class="ruban-lien" href="#paladins-15">Paladins 15</a>
+      <a class="ruban-lien" href="#pretres">Prêtres</a>
+      <a class="ruban-lien" href="#batards">Bâtards</a>
+      <a class="ruban-lien" href="#survivants">Survivants</a>
     </span>
     <span class="groupe">
-      <a class="ruban-lien" href="#pretres">Prêtres</a>
-      <a class="ruban-lien" href="#chevaliers">Chevaliers infernaux</a>
+      <a class="ruban-lien" href="#enfer">🔥 L'Enfer</a>
+      <a class="ruban-lien" href="#chevaliers">Chevaliers</a>
+      <a class="ruban-lien" href="#diabolistes">Diabolistes</a>
+    </span>
+    <span class="groupe">
+      <a class="ruban-lien" href="#drows">🕸 Les drows</a>
+      <a class="ruban-lien" href="#guerriers-drows">Guerriers</a>
+      <a class="ruban-lien" href="#pretresses">Prêtresses</a>
       <a class="ruban-lien" href="#sources">Sources</a>
     </span>
   </div>
   <span class="voile" aria-hidden="true"></span>
+  <button class="reduire" id="bouton-reduire" type="button" aria-expanded="true" title="Replier le sommaire">
+    <span class="etiquette">Replier</span><span class="chevron" aria-hidden="true">▾</span>
+  </button>
 </nav>
 
 <main>
@@ -1026,12 +1106,12 @@ ul.runes li:hover::before{ color:var(--cire-clair); transform:rotate(45deg) scal
     </svg>
 
     <h1>Les Armées</h1>
-    <p class="sous-titre">Cinq troupes prêtes pour la bataille — croisés, paladins, prêtres de guerre et chevaliers infernaux — chacune déclinée en onze tailles, du combattant isolé à dix mille hommes.</p>
+    <p class="sous-titre">Dix troupes prêtes pour la bataille — les armées du Bien et leurs alliés, les légions infernales, et les drows de Vhal'Zharra — chacune déclinée en onze tailles, du combattant isolé à dix mille hommes. Sans compter les trois troupes de diables que seuls les diabolistes peuvent invoquer.</p>
 
     <div class="puces">
+      <span class="puce">10 unités · 11 tailles</span>
+      <span class="puce">3 invocations du Pacte</span>
       <span class="puce">FPA · PV · VDéf · MA</span>
-      <span class="puce">11 tailles par unité</span>
-      <span class="puce">Règles du combat de masse</span>
       <span class="puce">Campagne La Colère des Justes</span>
     </div>
 
@@ -1073,13 +1153,29 @@ ul.runes li:hover::before{ color:var(--cire-clair); transform:rotate(45deg) scal
               <td><strong>Prêtres</strong></td><td>12</td><td>d8</td><td>20</td><td>90</td><td>37</td><td>+27</td><td>9 m</td>
             </tr>
             <tr>
+              <td><strong>Les Bâtards</strong></td><td>10</td><td>d10</td><td>18</td><td>99</td><td>28</td><td>+19</td><td>9 m</td>
+            </tr>
+            <tr>
+              <td><strong>Les Survivants de Kénabres</strong></td><td>18 <em>(rang 5)</em></td><td>d12</td><td>18</td><td>117</td><td>34</td><td>+24</td><td>9 m</td>
+            </tr>
+            <tr>
               <td><strong>Chevaliers infernaux</strong></td><td>12</td><td>d10</td><td>20</td><td>110</td><td>33</td><td>+21</td><td>6 m</td>
+            </tr>
+            <tr>
+              <td><strong>Diabolistes infernaux</strong></td><td>16</td><td>d6</td><td>24</td><td>84</td><td>44</td><td>+32</td><td>6 m</td>
+            </tr>
+            <tr>
+              <td><strong>Drows guerriers de Vhal'Zharra</strong></td><td>14</td><td>d10</td><td>22</td><td>121</td><td>33</td><td>+25</td><td>12 m</td>
+            </tr>
+            <tr>
+              <td><strong>Prêtresses de Lolth</strong></td><td>14</td><td>d8</td><td>22</td><td>99</td><td>40</td><td>+30</td><td>9 m</td>
             </tr>
           </tbody>
         </table>
       </div>
     </div>
-    <p class="note-table">Moral de départ <strong>+0</strong> pour toutes les unités. Les croisés, paladins et prêtres servent les armées du Bien ; les chevaliers infernaux sont l'élite de la Légion Infernales.</p>
+    <p class="note-table">Moral de départ <strong>+0</strong> pour toutes les unités. Les valeurs indiquées sont celles de la <strong>taille de référence (2 000 combattants, Colossale)</strong> — sauf les <strong>Survivants de Kénabres</strong>, unité unique de 100 combattants (Moyenne) présentée à leur rang mythique 5. Les armées du Bien et leurs alliés affrontent les légions infernales et les drows de Vhal'Zharra.<br>
+    <strong>Hors liste :</strong> les <strong>diables barbus</strong>, <strong>diables osseux</strong> et <strong>érinyes</strong> ne forment pas d'armées indépendantes — ce sont les <strong>trois invocations du Pacte diabolique</strong>, détaillées dans la fiche des <a class="lien" href="#diabolistes">diabolistes infernaux</a>.</p>
 
     <h3>Aller directement à une troupe</h3>
     <div class="grille-unis">
@@ -1103,15 +1199,40 @@ ul.runes li:hover::before{ color:var(--cire-clair); transform:rotate(45deg) scal
         <span class="detail">Clergé guerrier : incantation, soins, canalisation d'énergie positive.</span>
         <span class="stats"><span class="stat">FPA 20</span><span class="stat">PV 90</span><span class="stat">VDéf 37</span><span class="stat">MA +27</span></span>
       </a>
+      <a class="carte-unite" href="#batards" style="--teinte:#2f6b63">
+        <span class="nom"><span class="icone">🏹</span> Les Bâtards <span class="stat">FP 10</span></span>
+        <span class="detail">Chasseurs des profondeurs : ennemis jurés des démons, archers et pisteurs.</span>
+        <span class="stats"><span class="stat">FPA 18</span><span class="stat">PV 99</span><span class="stat">VDéf 28</span><span class="stat">MA +19</span></span>
+      </a>
+      <a class="carte-unite" href="#survivants" style="--teinte:#9c4a1a">
+        <span class="nom"><span class="icone">🏰</span> Survivants de Kénabres <span class="stat">FP évolutif</span></span>
+        <span class="detail">Unité unique de 100 rescapés, qui grandit avec les rangs mythiques des Héros.</span>
+        <span class="stats"><span class="stat">FPA 18 (rang 5)</span><span class="stat">PV 117</span><span class="stat">VDéf 34</span><span class="stat">MA +24</span></span>
+      </a>
       <a class="carte-unite" href="#chevaliers" style="--teinte:#9b2226">
         <span class="nom"><span class="icone">🔥</span> Chevaliers infernaux <span class="stat">FP 12</span></span>
         <span class="detail">Élite de la Légion Infernales : résistance à la magie, vision dans les ténèbres.</span>
         <span class="stats"><span class="stat">FPA 20</span><span class="stat">PV 110</span><span class="stat">VDéf 33</span><span class="stat">MA +21</span></span>
       </a>
+      <a class="carte-unite" href="#diabolistes" style="--teinte:#5a2f7a">
+        <span class="nom"><span class="icone">📖</span> Diabolistes infernaux <span class="stat">FP 16</span></span>
+        <span class="detail">Sorciers du Cheliax : incantation de niveau 8, et le portail qui invoque les diables barbus, osseux et les érinyes.</span>
+        <span class="stats"><span class="stat">FPA 24</span><span class="stat">PV 84</span><span class="stat">VDéf 44</span><span class="stat">MA +32</span></span>
+      </a>
+      <a class="carte-unite" href="#guerriers-drows" style="--teinte:#3f4f8c">
+        <span class="nom"><span class="icone">🗡</span> Drows guerriers <span class="stat">FP 14</span></span>
+        <span class="detail">Lames chanteresses de Vhal'Zharra : invisibilité, deux lames, poison drow.</span>
+        <span class="stats"><span class="stat">FPA 22</span><span class="stat">PV 121</span><span class="stat">VDéf 33</span><span class="stat">MA +25</span></span>
+      </a>
+      <a class="carte-unite" href="#pretresses" style="--teinte:#7a3f8c">
+        <span class="nom"><span class="icone">🕷</span> Prêtresses de Lolth <span class="stat">FP 14</span></span>
+        <span class="detail">Clergé de la Veuve : raillerie, énergie négative, venin de la Toile.</span>
+        <span class="stats"><span class="stat">FPA 22</span><span class="stat">PV 99</span><span class="stat">VDéf 40</span><span class="stat">MA +30</span></span>
+      </a>
     </div>
   </section>
 
-  <p class="rappel-camp">Les armées du Bien</p>
+  <p class="rappel-camp" id="bien">Les armées du Bien &amp; leurs alliés</p>
 
   <!-- ===================== II. CROISÉS ===================== -->
   <section class="section reveal unite" id="croises" style="--teinte:#a9772f;--teinte-fonce:#6a4715">
@@ -1474,7 +1595,208 @@ ul.runes li:hover::before{ color:var(--cire-clair); transform:rotate(45deg) scal
     </ul>
   </section>
 
-  <p class="rappel-camp">Les légions infernales</p>
+    <!-- ===================== LES BÂTARDS ===================== -->
+  <section class="section reveal unite" id="batards" style="--teinte:#2f6b63;--teinte-fonce:#1d443f">
+    <h2 class="titre-section"><span class="medaillon" aria-hidden="true">🏹</span><span class="intitule">Les Bâtards <span class="badge-fp">FP 10</span></span></h2>
+    <p class="note-table">Les chasseurs hors pair des sang-mêlés, nés des tunnels de la Plaie du monde.</p>
+
+    <div class="fiche-armee fiche-unite">
+      <header class="fiche-entete">
+        <h4>Les Bâtards — chasseurs sang-mêlés des profondeurs (humanoïdes)</h4>
+        <span class="fiche-fpa">FP 10 · d10</span>
+      </header>
+      <dl class="fiche-stats">
+        <div><dt>Taille de référence</dt><dd>2 000 (Colossale)</dd></div>
+        <div><dt>FPA</dt><dd>18</dd></div>
+        <div><dt>PV</dt><dd>99</dd></div>
+        <div><dt>VDéf</dt><dd>28</dd></div>
+        <div><dt>MA</dt><dd>+19</dd></div>
+        <div><dt>Moral</dt><dd>+0</dd></div>
+        <div><dt>Vitesse</dt><dd>9 m (6 cases)</dd></div>
+        <div><dt>PV par FPA</dt><dd>× 5,5 (d10)</dd></div>
+      </dl>
+    </div>
+
+    <h3>Toutes les tailles</h3>
+    <div class="bloc-taille">
+      <div class="defile">
+        <table class="tableau-tailles">
+          <thead><tr><th>Taille</th><th>Effectif</th><th>FPA</th><th>PV</th><th>VDéf</th><th>MA</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Titanesque</strong></td><td>10 000</td><td>22</td><td>121</td><td>32</td><td>+23</td></tr>
+            <tr><td><strong>Monumentale</strong></td><td>5 000</td><td>20</td><td>110</td><td>30</td><td>+21</td></tr>
+            <tr class="reference"><td><strong>Colossale</strong> <span class="ref-note">référence</span></td><td>2 000</td><td>18</td><td>99</td><td>28</td><td>+19</td></tr>
+            <tr><td><strong>Gargantuesque</strong></td><td>1 000</td><td>16</td><td>88</td><td>26</td><td>+17</td></tr>
+            <tr><td><strong>Très grande</strong></td><td>500</td><td>14</td><td>77</td><td>24</td><td>+15</td></tr>
+            <tr><td><strong>Grande</strong></td><td>200</td><td>12</td><td>66</td><td>22</td><td>+13</td></tr>
+            <tr><td><strong>Moyenne</strong></td><td>100</td><td>10</td><td>55</td><td>20</td><td>+11</td></tr>
+            <tr><td><strong>Petite</strong></td><td>50</td><td>8</td><td>44</td><td>18</td><td>+9</td></tr>
+            <tr><td><strong>Très petite</strong></td><td>25</td><td>6</td><td>33</td><td>16</td><td>+7</td></tr>
+            <tr><td><strong>Minuscule</strong></td><td>10</td><td>4</td><td>22</td><td>14</td><td>+5</td></tr>
+            <tr><td><strong>Infime</strong></td><td>1</td><td>2</td><td>11</td><td>12</td><td>+3</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <p class="note-table">Toutes les tailles : <strong>Moral +0</strong> et <strong>Vitesse 9 m (6 cases)</strong>. Les tailles <em>Monumentale</em> (5 000) et <em>Titanesque</em> (10 000) sont des extensions maison : <strong>+2 de FPA par palier</strong>, dans la continuité de la table officielle.</p>
+
+    <h3>Bonus et malus non compris</h3>
+    <p class="note-table">Ces effets ne sont <strong>pas</strong> comptés dans le tableau ci-dessus — à appliquer selon la situation.</p>
+    <div class="bloc-tableau">
+      <div class="defile">
+        <table>
+          <thead><tr><th>Source</th><th>Effet</th><th>Quand</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Battre en retraite<span class="ast">*</span></strong> (tactique)</td><td><strong>MA −2, VDéf −2</strong></td><td>La phase où l'unité se retire</td></tr>
+            <tr><td><strong>Snipers en soutien</strong> (tactique)</td><td><strong>+2 dégâts</strong></td><td>En blessant la cible au corps à corps (arcs)</td></tr>
+            <tr><td><strong>Fausse retraite</strong> (tactique)</td><td><strong>MA +6, VDéf +6</strong></td><td>La phase suivant la feinte (1× par combat)</td></tr>
+            <tr><td><strong>Ennemi juré : démon</strong> (pouvoir)</td><td><strong>+1 MA</strong></td><td>Contre les armées de démons</td></tr>
+            <tr><td><strong>Style de combat</strong> (pouvoir)</td><td><strong>+1 MA</strong> (distance <em>ou</em> mêlée)</td><td>1 fois par bataille (pour le reste de la bataille)</td></tr>
+            <tr><td><strong>Spécialisation martiale</strong> (pouvoir)</td><td><strong>+2 MA</strong> (distance <em>ou</em> mêlée)</td><td>1 fois par bataille (pour le reste de la bataille)</td></tr>
+            <tr><td><strong>Pistage</strong> (pouvoir)</td><td><strong>+FPA</strong> (+18) : anti-<em>battre en retraite</em> et <strong>anti-embuscade</strong> ; brouillard : dégâts −¼ au lieu de −½</td><td>En permanence</td></tr>
+            <tr><td><strong>Terrain de prédilection</strong> (pouvoir)</td><td>Les bonus de <strong>terrain</strong> et d'<strong>avantage du champ de bataille</strong> des ennemis sont <strong>réduits de moitié</strong></td><td>En permanence</td></tr>
+            <tr><td><strong>Vision dans le noir</strong> (pouvoir)</td><td>Aucun malus d'obscurité</td><td>La nuit ou dans le noir</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <h3>Tactiques de l'unité</h3>
+    <ul class="runes">
+      <li><strong>Standard<span class="ast">*</span></strong> — L'unité combat sans artifice particulier : <strong>aucun modificateur au MA ni à la VDéf</strong>.</li>
+      <li><strong>Battre en retraite<span class="ast">*</span></strong> — L'armée tente d'échapper à toutes celles qui l'attaquent : <strong>test de Moral opposé</strong> à chaque attaquante (une armée peut échouer volontairement). Si tous réussissent, elle quitte le champ de bataille ou passe à une phase à distance ; si seulement certains réussissent, elle peut quand même le faire, mais les autres armées l'attaquent comme au corps à corps. Dans tous les cas, <strong>MA et VDéf −2</strong> pour le reste de la phase.</li>
+      <li><strong>Snipers en soutien</strong> — Si l'unité blesse la cible au corps à corps, elle inflige <strong>+2 dégâts</strong> grâce à ses archers (nécessite des attaques à distance).</li>
+      <li><strong>Fausse retraite</strong> — Une fois par combat : <strong>pas de test d'attaque</strong> pendant la phase où l'unité feint de fuir, puis <strong>MA et VDéf +6</strong> contre l'armée visée la phase suivante.</li>
+    </ul>
+    <p class="note-table">Les tactiques marquées <span class="ast">*</span> sont connues d'office par toutes les armées — elles ne comptent pas dans le nombre de tactiques apprises. Pour les autres tactiques : voir la page <a class="lien" href="index.html#tactiques">Topo — Le combat de masse</a>.</p>
+
+    <h3>Ressources</h3>
+    <p class="note-table">Les bonus permanents des ressources et des pouvoirs sont déjà compris dans les valeurs des fiches — VDéf, MA…</p>
+    <ul class="runes">
+      <li><strong>Armes améliorées</strong> — arcs et lames de maître : <strong>+1 MA</strong> et <strong>+1 Consommation</strong>.</li>
+      <li><strong>Armes à distance</strong> — arcs de chasse : l'unité dispose d'<strong>attaques à distance</strong> (pour la tactique <em>Snipers en soutien</em>) ; <strong>+1 Consommation</strong>.</li>
+    </ul>
+
+    <h3>Pouvoirs spéciaux</h3>
+    <ul class="runes">
+      <li><strong>Ennemi juré : démon</strong> — Depuis des générations, les Bâtards chassent les créatures de la Plaie : <strong>+1 MA</strong> contre les armées composées de démons (extérieurs mauvais).</li>
+      <li><strong>Style de combat</strong> — Une fois par bataille, l'unité augmente son <strong>MA de +1</strong> pour ses <strong>attaques à distance</strong> ou ses <strong>attaques de mêlée</strong> (au choix), pour le reste de la bataille.</li>
+      <li><strong>Spécialisation martiale</strong> — Une fois par bataille, l'unité augmente son <strong>MA de +2</strong> pour ses <strong>attaques à distance</strong> ou ses <strong>attaques de mêlée</strong> (au choix), pour le reste de la bataille.</li>
+      <li><strong>Pistage</strong> — L'unité ajoute son <strong>FPA</strong> aux <strong>tests de Moral pour empêcher une armée d'utiliser <em>battre en retraite</em></strong>, et à sa <strong>VDéf contre les embuscades</strong> ; dans le <strong>brouillard</strong>, ses dégâts ne sont réduits que d'<strong>un quart</strong> au lieu de la moitié.</li>
+      <li><strong>Terrain de prédilection</strong> — Ils connaissent chaque tunnel par cœur : les bonus de <strong>terrain avantageux</strong> et d'<strong>avantage du champ de bataille</strong> des armées ennemies sont <strong>réduits de moitié</strong>.</li>
+      <li><strong>Vision dans le noir</strong> — L'unité ne subit <strong>aucun malus de MA ni de VDéf</strong> en lumière faible ou dans l'obscurité.</li>
+    </ul>
+  </section>
+
+  <!-- ===================== LES SURVIVANTS DE KÉNABRES ===================== -->
+  <section class="section reveal unite" id="survivants" style="--teinte:#9c4a1a;--teinte-fonce:#632e0f">
+    <h2 class="titre-section"><span class="medaillon" aria-hidden="true">🏰</span><span class="intitule">Les Survivants de Kénabres <span class="badge-fp">FP évolutif</span></span></h2>
+    <p class="note-table">Unité unique et évolutive — les cent rescapés qui ont vu Terendelev tomber, et les Héros de Kénabres triompher.</p>
+
+    <div class="encadre p-info">
+      <p class="titre-encadre"><span class="icone">✎</span> Qui sont les Survivants ?</p>
+      <p>Ils ont vécu l'<strong>assaut terrible</strong> qui a ravagé Kénabres. Ils ont vu la <strong>Protectrice</strong>, le dragon d'argent <strong>Terendelev</strong>, tomber sous les coups des démons. Ils ont vu les <strong>Héros de Kénabres</strong> — vous — sauver la ville et triompher de l'Abysse.</p>
+      <p>Ils ont juré de <strong>venger les morts et de détruire quiconque menacera la cité</strong>. Ils ne sont que <strong>cent</strong> — mais chacun d'eux est prêt à mourir plutôt que de revoir Kénabres tomber.</p>
+    </div>
+
+    <div class="fiche-armee fiche-unite">
+      <header class="fiche-entete">
+        <h4>Les Survivants de Kénabres — rescapés épiques de l'assaut (humains, tieffelins, vétérans mêlés)</h4>
+        <span class="fiche-fpa">FP évolutif · d12</span>
+      </header>
+      <dl class="fiche-stats">
+        <div><dt>Taille</dt><dd>100 (Moyenne) — unique</dd></div>
+        <div><dt>FPA</dt><dd>18 <em>(rang 5)</em></dd></div>
+        <div><dt>PV</dt><dd>117</dd></div>
+        <div><dt>VDéf</dt><dd>34</dd></div>
+        <div><dt>MA</dt><dd>+24</dd></div>
+        <div><dt>Moral</dt><dd>+4 (plafond +9)</dd></div>
+        <div><dt>Vitesse</dt><dd>9 m (6 cases)</dd></div>
+        <div><dt>PV par FPA</dt><dd>× 6,5 (d12)</dd></div>
+      </dl>
+    </div>
+    <p class="note-table">La fiche ci-dessus montre leur état au <strong>rang mythique 5 des Héros</strong>. <strong>FP de base : 8</strong>, <strong>+2 par rang mythique</strong> des Héros de Kénabres (voir le tableau d'évolution ci-dessous).</p>
+
+    <h3>Toutes les tailles — l'évolution avec les Héros</h3>
+    <p class="note-table">Cette unité ne suit pas la table des tailles : elle compte <strong>exactement 100 combattants</strong> (taille <em>Moyenne</em>, modificateur +0), donc <strong>FPA = FP individuel</strong>. La base est <strong>FP 8</strong>, et chaque <strong>rang mythique</strong> gagné par les Héros de Kénabres (les PJ) donne <strong>+2 FP/FPA</strong> aux Survivants — le MA, la VDéf, les PV et leur plafond de Moral suivent automatiquement.</p>
+    <div class="bloc-taille">
+      <div class="defile">
+        <table class="tableau-tailles">
+          <thead><tr><th>Rang mythique</th><th>FP / FPA</th><th>PV</th><th>VDéf</th><th>MA</th><th>Plafond Moral</th><th>Base sous Héros</th></tr></thead>
+          <tbody>
+            <tr><td><strong>0</strong></td><td>8</td><td>52</td><td>24</td><td>+14</td><td>+4</td><td>+2</td></tr>
+            <tr><td><strong>1</strong></td><td>10</td><td>65</td><td>26</td><td>+16</td><td>+5</td><td>+2</td></tr>
+            <tr><td><strong>2</strong></td><td>12</td><td>78</td><td>28</td><td>+18</td><td>+6</td><td>+3</td></tr>
+            <tr><td><strong>3</strong></td><td>14</td><td>91</td><td>30</td><td>+20</td><td>+7</td><td>+3</td></tr>
+            <tr><td><strong>4</strong></td><td>16</td><td>104</td><td>32</td><td>+22</td><td>+8</td><td>+4</td></tr>
+            <tr class="reference"><td><strong>5</strong> <span class="ref-note">état actuel</span></td><td>18</td><td>117</td><td>34</td><td>+24</td><td>+9</td><td>+4</td></tr>
+            <tr><td><strong>6</strong></td><td>20</td><td>130</td><td>36</td><td>+26</td><td>+10</td><td>+5</td></tr>
+            <tr><td><strong>7</strong></td><td>22</td><td>143</td><td>38</td><td>+28</td><td>+11</td><td>+5</td></tr>
+            <tr><td><strong>8</strong></td><td>24</td><td>156</td><td>40</td><td>+30</td><td>+12</td><td>+6</td></tr>
+            <tr><td><strong>9</strong></td><td>26</td><td>169</td><td>42</td><td>+32</td><td>+13</td><td>+6</td></tr>
+            <tr><td><strong>10</strong></td><td>28</td><td>182</td><td>44</td><td>+34</td><td>+14</td><td>+7</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <p class="note-table">À chaque rang mythique gagné : les statistiques ci-dessus (bonus permanents déjà compris — armures +1, armes +1, <strong>Épique +5</strong>). <em>Pour la voie de la <strong>Légende</strong> : on compte comme des <strong>rangs mythiques</strong> — pas son rang de Légende.</em><br>
+    <strong>Moral des Survivants :</strong> plafond <strong>+4 + rang mythique</strong> (soit <strong>+9</strong> au rang 5). Tant qu'ils sont <strong>commandés par un Héros de Kénabres au début de la bataille</strong>, leur <strong>Moral de base est la moitié du plafond</strong> (arrondie à l'inférieur — <strong>+4</strong> au rang 5) ; sans Héros à leur tête, le Moral de base reste <strong>+2</strong> (le serment seul).</p>
+
+    <h3>Bonus et malus non compris</h3>
+    <p class="note-table">Ces effets ne sont <strong>pas</strong> comptés dans le tableau ci-dessus — à appliquer selon la situation.</p>
+    <div class="bloc-tableau">
+      <div class="defile">
+        <table>
+          <thead><tr><th>Source</th><th>Effet</th><th>Quand</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Brutes infatigables</strong> (tactique)</td><td><strong>MA +4, VDéf −4</strong></td><td>Tant que la tactique est active</td></tr>
+            <tr><td><strong>Vengeur</strong> (tactique)</td><td><strong>+½ FPA au MA</strong> (soit <strong>+9</strong>)</td><td>Contre une armée ayant détruit une unité alliée</td></tr>
+            <tr><td><strong>1 contre tous</strong> (tactique)</td><td><strong>+2 MA et +2 VDéf</strong> par armée ennemie au <strong>corps à corps</strong></td><td>À chaque phase de mêlée</td></tr>
+            <tr><td><strong>Briseurs de siège</strong> (tactique)</td><td>Détruit une <strong>arme de siège</strong> ennemie</td><td>En blessant la cible : 2<sup>e</sup> test d'attaque (sans effet sans engins)</td></tr>
+            <tr><td><strong>Armes en fer froid</strong> (ressource)</td><td>Annule la <strong>Défense importante</strong> des démons (<strong>+10 VDéf</strong> ennemie)</td><td>Contre les armées de démons</td></tr>
+            <tr><td><strong>Serment de vengeance</strong> (pouvoir)</td><td><strong>Immunité à la terreur</strong> ; <strong>+4 aux tests de Moral</strong> contre la déroute</td><td>En permanence</td></tr>
+            <tr><td><strong>Les Héros veillent</strong> (pouvoir)</td><td><strong>+2 MA et +2 VDéf</strong></td><td>Tant qu'un Héros de Kénabres (un PJ) est présent dans la bataille</td></tr>
+            <tr><td><strong>Éventration sanglante</strong> (pouvoir)</td><td><strong>+2 dégâts</strong></td><td>Quand l'unité blesse en mêlée</td></tr>
+            <tr><td><strong>Férocité</strong> (pouvoir)</td><td><strong>Une phase de mêlée de plus</strong> (MA et VDéf −4) même vaincue ou en déroute</td><td>À la défaite ou à la retraite</td></tr>
+            <tr><td><strong>1 pour tous</strong> (pouvoir)</td><td>Frappe <strong>toutes les armées au contact</strong> d'un seul test d'attaque</td><td>En phase de mêlée (plusieurs ennemis)</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <h3>Tactiques de l'unité</h3>
+    <ul class="runes">
+      <li><strong>Brutes infatigables</strong> — L'unité frappe avec une brutalité sans frein : <strong>MA +4, VDéf −4</strong>.</li>
+      <li><strong>Vengeur</strong> — La rage des survivants se déchaîne contre ceux qui ont versé le sang des leurs : <strong>+½ FPA au MA</strong> (soit <strong>+9</strong> au rang 5) contre toute armée ayant <strong>détruit une unité alliée</strong>.</li>
+      <li><strong>1 contre tous</strong> — Seuls contre tous, les rescapés se renforcent à mesure que les ennemis les encerclent : <strong>+2 MA et +2 VDéf par armée ennemie au corps à corps</strong>.</li>
+      <li><strong>Briseurs de siège</strong> — Ils ont vécu l'assaut et savent comment abattre les machines : si l'unité <strong>blesse</strong> la cible, un <strong>2<sup>e</sup> test d'attaque</strong> réussi <strong>détruit une arme de siège</strong> ennemie (sans effet si l'ennemi n'en a pas).</li>
+    </ul>
+    <div class="encadre p-resume">
+      <p class="titre-encadre"><span class="icone">❧</span> Commandement des Héros</p>
+      <p>Si l'unité est commandée par l'un des <strong>Héros de Kénabres</strong>, elle peut utiliser <strong>deux tactiques en même temps</strong>.</p>
+    </div>
+    <p class="note-table">Standard et Battre en retraite restent connues d'office par toutes les armées — seules leurs tactiques propres sont listées ici. Pour les autres tactiques : voir la page <a class="lien" href="index.html#tactiques">Topo — Le combat de masse</a>.</p>
+
+    <h3>Ressources</h3>
+    <p class="note-table">Les bonus permanents des ressources et des pouvoirs sont déjà compris dans les valeurs des fiches — VDéf, MA…</p>
+    <ul class="runes">
+      <li><strong>Armures améliorées</strong> — pièces d'armure renforcées, entretenues avec soin : <strong>+1 VDéf</strong> et <strong>+1 Consommation</strong>.</li>
+      <li><strong>Armes améliorées</strong> — armes de maître : <strong>+1 MA</strong> et <strong>+1 Consommation</strong>.</li>
+      <li><strong>Armes en fer froid</strong> — Depuis l'assaut, leurs lames sont forgées dans le fer froid : elles <strong>percent la Défense importante (pouvoir spécial) des démons</strong> — leur <strong>+10 VDéf</strong> ne s'applique pas contre cette unité ; <strong>+1 Consommation</strong>.</li>
+    </ul>
+
+    <h3>Pouvoirs spéciaux</h3>
+    <ul class="runes">
+      <li><strong>Serment de vengeance</strong> — Ils ont juré devant les morts : <strong>immunité à la terreur</strong>, et <strong>+4 aux tests de Moral pour éviter la déroute</strong> — leur serment ne se brise pas.</li>
+      <li><strong>Épique</strong> — La légende qui les précède les rend surhumains : <strong>+5 MA et +5 VDéf</strong> <em>(déjà compris dans les fiches)</em>.</li>
+      <li><strong>Les Héros veillent</strong> — Tant qu'au moins un <strong>Héros de Kénabres</strong> (un PJ) se trouve dans la bataille, l'unité gagne <strong>+2 MA et +2 VDéf</strong> — les survivants se transcendent sous les yeux de leurs sauveurs.</li>
+      <li><strong>Éventration sanglante</strong> — Les coups des survivants visent les entrailles : <strong>+2 dégâts</strong> chaque fois que l'unité <strong>blesse</strong> en mêlée.</li>
+      <li><strong>Férocité</strong> — Même vaincue ou en déroute, l'unité peut poursuivre le combat <strong>une phase de mêlée supplémentaire</strong> (<strong>MA et VDéf −4</strong> pendant cette phase) : ils ne se rendent jamais.</li>
+      <li><strong>1 pour tous</strong> — En phase de mêlée, si <strong>plusieurs armées ennemies</strong> sont au contact, l'unité les frappe <strong>toutes</strong> au lieu d'une seule (un seul test d'attaque, dégâts appliqués à chacune).</li>
+    </ul>
+    <p class="note-table"><em>D'autres capacités pourront s'ajouter au fil de la campagne.</em></p>
+  </section>
+  <p class="rappel-camp" id="enfer">Les légions infernales</p>
 
   <!-- ===================== VI. CHEVALIERS INFERNAUX ===================== -->
   <section class="section reveal unite" id="chevaliers" style="--teinte:#9b2226;--teinte-fonce:#5e1416">
@@ -1570,12 +1892,416 @@ ul.runes li:hover::before{ color:var(--cire-clair); transform:rotate(45deg) scal
     </ul>
   </section>
 
+  <!-- ===================== DIABOLISTES INFERNAUX ===================== -->
+  <section class="section reveal unite" id="diabolistes" style="--teinte:#5a2f7a;--teinte-fonce:#381c4c">
+    <h2 class="titre-section"><span class="medaillon" aria-hidden="true">📖</span><span class="intitule">Diabolistes infernaux <span class="badge-fp">FP 16</span></span></h2>
+    <p class="note-table">Les maîtres sorciers de la Légion Infernales, au service du Cheliax.</p>
+
+    <div class="fiche-armee fiche-unite">
+      <header class="fiche-entete">
+        <h4>Diabolistes infernaux — hauts lanceurs de sorts du Cheliax (humains)</h4>
+        <span class="fiche-fpa">FP 16 · d6</span>
+      </header>
+      <dl class="fiche-stats">
+        <div><dt>Taille de référence</dt><dd>2 000 (Colossale)</dd></div>
+        <div><dt>FPA</dt><dd>24</dd></div>
+        <div><dt>PV</dt><dd>84</dd></div>
+        <div><dt>VDéf</dt><dd>44</dd></div>
+        <div><dt>MA</dt><dd>+32</dd></div>
+        <div><dt>Moral</dt><dd>+0</dd></div>
+        <div><dt>Vitesse</dt><dd>6 m (4 cases)</dd></div>
+        <div><dt>PV par FPA</dt><dd>× 3,5 (d6)</dd></div>
+      </dl>
+    </div>
+
+    <h3>Toutes les tailles</h3>
+    <div class="bloc-taille">
+      <div class="defile">
+        <table class="tableau-tailles">
+          <thead><tr><th>Taille</th><th>Effectif</th><th>FPA</th><th>PV</th><th>VDéf</th><th>MA</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Titanesque</strong></td><td>10 000</td><td>28</td><td>98</td><td>48</td><td>+36</td></tr>
+            <tr><td><strong>Monumentale</strong></td><td>5 000</td><td>26</td><td>91</td><td>46</td><td>+34</td></tr>
+            <tr class="reference"><td><strong>Colossale</strong> <span class="ref-note">référence</span></td><td>2 000</td><td>24</td><td>84</td><td>44</td><td>+32</td></tr>
+            <tr><td><strong>Gargantuesque</strong></td><td>1 000</td><td>22</td><td>77</td><td>42</td><td>+30</td></tr>
+            <tr><td><strong>Très grande</strong></td><td>500</td><td>20</td><td>70</td><td>40</td><td>+28</td></tr>
+            <tr><td><strong>Grande</strong></td><td>200</td><td>18</td><td>63</td><td>38</td><td>+26</td></tr>
+            <tr><td><strong>Moyenne</strong></td><td>100</td><td>16</td><td>56</td><td>36</td><td>+24</td></tr>
+            <tr><td><strong>Petite</strong></td><td>50</td><td>14</td><td>49</td><td>34</td><td>+22</td></tr>
+            <tr><td><strong>Très petite</strong></td><td>25</td><td>12</td><td>42</td><td>32</td><td>+20</td></tr>
+            <tr><td><strong>Minuscule</strong></td><td>10</td><td>10</td><td>35</td><td>30</td><td>+18</td></tr>
+            <tr><td><strong>Infime</strong></td><td>1</td><td>8</td><td>28</td><td>28</td><td>+16</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <p class="note-table">Toutes les tailles : <strong>Moral +0</strong> et <strong>Vitesse 6 m (4 cases)</strong>. Dé de vie <strong>d6</strong> : les PV valent <strong>FPA × 3,5</strong>. Les tailles <em>Monumentale</em> (5 000) et <em>Titanesque</em> (10 000) sont des extensions maison : <strong>+2 de FPA par palier</strong>.</p>
+
+    <h3>Bonus et malus non compris</h3>
+    <p class="note-table">Ces effets ne sont <strong>pas</strong> comptés dans le tableau ci-dessus — à appliquer selon la situation.</p>
+    <div class="bloc-tableau">
+      <div class="defile">
+        <table>
+          <thead><tr><th>Source</th><th>Effet</th><th>Quand</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Battre en retraite<span class="ast">*</span></strong> (tactique)</td><td><strong>MA −2, VDéf −2</strong></td><td>La phase où l'unité se retire</td></tr>
+            <tr><td><strong>Sales coups</strong> (tactique)</td><td><strong>MA +6</strong></td><td>Une phase de mêlée par bataille</td></tr>
+            <tr><td><strong>Briseurs de sorts</strong> (tactique)</td><td><strong>VDéf +4</strong></td><td>Contre une armée dotée d'<em>incantation</em></td></tr>
+            <tr><td><strong>Briseurs de siège</strong> (tactique)</td><td>Détruit une <strong>arme de siège</strong> ennemie</td><td>En blessant la cible : 2<sup>e</sup> test d'attaque (sans effet sans engins)</td></tr>
+            <tr><td><strong>Armure du pacte infernale</strong> (ressource)</td><td><strong>La moitié des dégâts subis</strong> est transférée à une armée alliée de la Légion Infernales</td><td>À chaque fois que l'unité subit des dégâts</td></tr>
+            <tr><td><strong>Pacte diabolique</strong> (pouvoir)</td><td>Une <strong>armée de diables</strong> alliée de <strong>FPA 12</strong> (= ½ du FPA de l'unité) rejoint la bataille</td><td>1 fois par bataille</td></tr>
+            <tr><td><strong>Résistance à la magie</strong> (pouvoir)</td><td><strong>+6 VDéf</strong></td><td>Contre une armée dotée d'<em>incantation</em></td></tr>
+            <tr><td><strong>Immunité au feu</strong> (pouvoir)</td><td>Dégâts de feu ignorés</td><td>Contre les capacités et attaques de feu</td></tr>
+            <tr><td><strong>Vision dans les ténèbres</strong> (pouvoir)</td><td>Aucun malus d'obscurité — même les ténèbres magiques (sinon −2 MA / −3 VDéf)</td><td>La nuit ou dans le noir</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <h3>Tactiques de l'unité</h3>
+    <ul class="runes">
+      <li><strong>Standard<span class="ast">*</span></strong> — L'unité combat sans artifice particulier : <strong>aucun modificateur au MA ni à la VDéf</strong>.</li>
+      <li><strong>Battre en retraite<span class="ast">*</span></strong> — L'armée tente d'échapper à toutes celles qui l'attaquent : <strong>test de Moral opposé</strong> à chaque attaquante (une armée peut échouer volontairement). Si tous réussissent, elle quitte le champ de bataille ou passe à une phase à distance ; si seulement certains réussissent, elle peut quand même le faire, mais les autres armées l'attaquent comme au corps à corps. Dans tous les cas, <strong>MA et VDéf −2</strong> pour le reste de la phase.</li>
+      <li><strong>Sales coups</strong> — L'unité frappe bas et sans honneur, à la manière des diables : <strong>MA +6</strong> pendant <strong>une phase de mêlée</strong> par bataille.</li>
+      <li><strong>Briseurs de sorts</strong> — Les diabolistes brisent la magie adverse : <strong>VDéf +4</strong> contre une armée dotée du pouvoir <em>incantation</em>.</li>
+      <li><strong>Briseurs de siège</strong> — Les flammes infernales s'abattent sur les machines de guerre : si l'unité <strong>blesse</strong> la cible, un <strong>2<sup>e</sup> test d'attaque</strong> réussi <strong>détruit une arme de siège</strong> ennemie (sans effet si l'ennemi n'en a pas).</li>
+    </ul>
+    <p class="note-table">Les tactiques marquées <span class="ast">*</span> sont connues d'office par toutes les armées — elles ne comptent pas dans le nombre de tactiques apprises. Pour les autres tactiques : voir la page <a class="lien" href="index.html#tactiques">Topo — Le combat de masse</a>.</p>
+
+    <h3>Ressources</h3>
+    <p class="note-table">Les bonus permanents des ressources et des pouvoirs sont déjà compris dans les valeurs des fiches — VDéf, MA…</p>
+    <ul class="runes">
+      <li><strong>Armure magique (+2)</strong> — protections enchantées : <strong>+2 VDéf</strong> et <strong>+2 Consommation</strong>.</li>
+      <li><strong>Armure du pacte infernale</strong> — <em>Le tribut du pacte</em> : chaque fois que l'unité subit des dégâts, <strong>la moitié</strong> (arrondie à l'inférieur) est <strong>transférée à une armée alliée de la Légion Infernales</strong>, désignée au début de la bataille — le pacte exige son dû. Si l'allié est détruit, l'unité subit à nouveau <strong>100 %</strong> des dégâts.</li>
+    </ul>
+
+    <h3>Pouvoirs spéciaux</h3>
+    <ul class="runes">
+      <li><strong>Incantation</strong> — Les diabolistes lancent des sorts de niveau 8 : <strong>+8 MA et +8 VDéf</strong> <em>(déjà compris dans les fiches)</em> ; leurs sorts offensifs à distance permettent à l'unité de faire des <strong>attaques à distance</strong>.</li>
+      <li><strong>Pacte diabolique</strong> — <strong>Une fois par bataille</strong>, l'unité ouvre un portail : une <strong>armée de diables alliée</strong> rejoint le champ de bataille. Son <strong>FPA est égal à la moitié</strong> de celui des diabolistes — voir le <strong>tableau du portail</strong> ci-dessous pour chaque taille et des exemples de composition. Elle combat comme une armée normale jusqu'à la fin de la bataille ou sa destruction.</li>
+      <li><strong>Résistance à la magie</strong> — <strong>+6 VDéf</strong> contre les armées dotées du pouvoir <em>incantation</em>.</li>
+      <li><strong>Immunité au feu</strong> — Les capacités et attaques de feu des armées ennemies (souffles, sorts, engins incendiaires) n'ont aucune prise sur l'unité.</li>
+      <li><strong>Vision dans les ténèbres</strong> — L'unité ne subit <strong>aucun malus de MA ni de VDéf</strong> en lumière faible ou dans l'obscurité — <strong>même les ténèbres magiques</strong>.</li>
+    </ul>
+
+    <h3>Le portail du pacte — invocation selon la taille</h3>
+    <p class="note-table">L'armée invoquée a toujours un <strong>FPA égal à la moitié</strong> de celui des diabolistes (arrondi à l'inférieur). Composition libre : <span class="jet">FP des diables + modificateur de taille = FPA invoqué</span>.</p>
+    <div class="bloc-taille">
+      <div class="defile">
+        <table class="tableau-tailles">
+          <thead><tr><th>Diabolistes</th><th>FPA</th><th>FPA invoqué</th><th>Exemple de composition</th></tr></thead>
+          <tbody>
+            <tr><td><strong>1</strong> — Infime</td><td>8</td><td><strong>4</strong></td><td>200 diablotins (FP 2)</td></tr>
+            <tr><td><strong>10</strong> — Minuscule</td><td>10</td><td><strong>5</strong></td><td>25 diables osseux (FP 9)</td></tr>
+            <tr><td><strong>25</strong> — Très petite</td><td>12</td><td><strong>6</strong></td><td>50 érinyes (FP 8)</td></tr>
+            <tr><td><strong>50</strong> — Petite</td><td>14</td><td><strong>7</strong></td><td>50 diables osseux (FP 9)</td></tr>
+            <tr><td><strong>100</strong> — Moyenne</td><td>16</td><td><strong>8</strong></td><td>100 érinyes (FP 8)</td></tr>
+            <tr><td><strong>200</strong> — Grande</td><td>18</td><td><strong>9</strong></td><td>100 diables osseux (FP 9)</td></tr>
+            <tr><td><strong>500</strong> — Très grande</td><td>20</td><td><strong>10</strong></td><td>200 érinyes (FP 8)</td></tr>
+            <tr><td><strong>1 000</strong> — Gargantuesque</td><td>22</td><td><strong>11</strong></td><td>1 000 diables barbus (FP 5)</td></tr>
+            <tr class="reference"><td><strong>2 000</strong> — Colossale <span class="ref-note">référence</span></td><td>24</td><td><strong>12</strong></td><td>500 érinyes (FP 8)</td></tr>
+            <tr><td><strong>5 000</strong> — Monumentale</td><td>26</td><td><strong>13</strong></td><td>500 diables osseux (FP 9)</td></tr>
+            <tr><td><strong>10 000</strong> — Titanesque</td><td>28</td><td><strong>14</strong></td><td>1 000 érinyes (FP 8)</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <h3>Les trois invocations du Pacte</h3>
+    <div class="encadre p-attention">
+      <p class="titre-encadre"><span class="icone">⚠</span> Réservées aux diabolistes</p>
+      <p>Les <strong>diables barbus</strong>, les <strong>diables osseux</strong> et les <strong>érinyes</strong> n'existent pas comme armées indépendantes dans cette campagne :
+      ils ne combattent que <strong>sur invocation des diabolistes infernaux</strong>, par le pouvoir <em>Pacte diabolique</em>.
+      Le FPA total de l'armée invoquée vaut <strong>la moitié du FPA des diabolistes</strong> (voir le tableau du portail ci-dessus) — répartissez-le entre les troupes ci-dessous.</p>
+    </div>
+
+    <div class="grille-invoc">
+      <article class="invoc" style="--teinte:#b5521f;--teinte-fonce:#71330f">
+        <header class="invoc-entete">
+          <h4>🪓 Diables barbus</h4>
+          <span class="fiche-fpa">FP 5 · d10</span>
+        </header>
+        <p class="invoc-ligne"><strong>Infanterie infernale</strong> — extérieurs loyaux mauvais · Vitesse <strong>12 m (8 cases)</strong> · PV = FPA × 5,5 (d10)</p>
+        <p class="invoc-ligne"><strong>Effectifs et FPA :</strong> 25 → 1 · 50 → 3 · 100 → 5 · 200 → 7 · 500 → 9 · 1 000 → 11 · 2 000 → 13 · 5 000 → 15 · 10 000 → 17<br>
+        <em>VDéf = FPA + 10 · MA = FPA + 1</em> — en dessous de 25 diables barbus, l'unité n'est pas jouable (FPA sous le minimum de 1/8).</p>
+        <p class="invoc-titre">Tactiques</p>
+        <ul class="runes">
+          <li><strong>Standard<span class="ast">*</span></strong> — aucun modificateur au MA ni à la VDéf.</li>
+          <li><strong>Battre en retraite<span class="ast">*</span></strong> — test de Moral opposé à chaque attaquante ; <strong>MA et VDéf −2</strong> pour la phase.</li>
+          <li><strong>Mur protecteur</strong> — mur de glaives : <strong>MA −2, VDéf +2</strong>.</li>
+          <li><strong>Sales coups</strong> — <strong>MA +6</strong> pendant une phase de mêlée par bataille.</li>
+        </ul>
+        <p class="invoc-titre">Ressources</p>
+        <ul class="runes">
+          <li><strong>Armes améliorées</strong> — glaives infernaux de maître : <strong>+1 MA</strong>, <strong>+1 Consommation</strong>.</li>
+        </ul>
+        <p class="invoc-titre">Pouvoirs spéciaux</p>
+        <ul class="runes">
+          <li><strong>Défense importante</strong> — <strong>+10 VDéf</strong> contre les armées sans <strong>armes en argent ou bénies</strong>.</li>
+          <li><strong>Saignement</strong> — en blessant en mêlée : <strong>+1d6 dégâts</strong> au début de la phase suivante.</li>
+          <li><strong>Immunité au feu</strong> — les attaques de feu n'ont aucune prise.</li>
+          <li><strong>Vision dans les ténèbres</strong> — aucun malus d'obscurité, même magique.</li>
+        </ul>
+      </article>
+
+      <article class="invoc" style="--teinte:#6e6a52;--teinte-fonce:#45422f">
+        <header class="invoc-entete">
+          <h4>🦴 Diables osseux</h4>
+          <span class="fiche-fpa">FP 9 · d10</span>
+        </header>
+        <p class="invoc-ligne"><strong>Inquisiteurs de l'Enfer</strong> — extérieurs loyaux mauvais · Vitesse <strong>12 m (8 cases)</strong> · PV = FPA × 5,5 (d10)</p>
+        <p class="invoc-ligne"><strong>Effectifs et FPA :</strong> 25 → 5 · 50 → 7 · 100 → 9 · 200 → 11 · 500 → 13 · 1 000 → 15 · 2 000 → 17 · 5 000 → 19 · 10 000 → 21<br>
+        <em>VDéf = FPA + 10 · MA = FPA</em> (aucune ressource : ni bonus, ni coût d'entretien).</p>
+        <p class="invoc-titre">Tactiques</p>
+        <ul class="runes">
+          <li><strong>Standard<span class="ast">*</span></strong> — aucun modificateur au MA ni à la VDéf.</li>
+          <li><strong>Battre en retraite<span class="ast">*</span></strong> — test de Moral opposé à chaque attaquante ; <strong>MA et VDéf −2</strong> pour la phase.</li>
+          <li><strong>Briseurs de sorts</strong> — <strong>VDéf +4</strong> contre une armée dotée d'<em>incantation</em>.</li>
+          <li><strong>Combat prudent</strong> — <strong>MA −2</strong>, mais <strong>+2 à tous ses tests de Moral</strong>.</li>
+        </ul>
+        <p class="invoc-titre">Ressources</p>
+        <ul class="runes">
+          <li><strong>Aucune</strong> — ils combattent avec leurs armes naturelles et leur magie infernale.</li>
+        </ul>
+        <p class="invoc-titre">Pouvoirs spéciaux</p>
+        <ul class="runes">
+          <li><strong>Défense importante</strong> — <strong>+10 VDéf</strong> contre les armées sans <strong>armes bénies</strong>.</li>
+          <li><strong>Poison</strong> — en blessant en mêlée : <strong>+1d6 dégâts</strong> au début de la phase suivante.</li>
+          <li><strong>Vol</strong> — non attaquable en mêlée si elle n'attaque pas ; ignore les <strong>murs de ville</strong>.</li>
+          <li><strong>Immunité au feu</strong> · <strong>Vision dans les ténèbres</strong>.</li>
+        </ul>
+      </article>
+
+      <article class="invoc" style="--teinte:#8c2f52;--teinte-fonce:#581d33">
+        <header class="invoc-entete">
+          <h4>🎯 Érinyes</h4>
+          <span class="fiche-fpa">FP 8 · d10</span>
+        </header>
+        <p class="invoc-ligne"><strong>Archères déchues de l'Enfer</strong> — extérieurs loyaux mauvais · Vitesse <strong>9 m (6 cases)</strong> — <strong>vol 15 m (10 cases)</strong> · PV = FPA × 5,5 (d10)</p>
+        <p class="invoc-ligne"><strong>Effectifs et FPA :</strong> 25 → 4 · 50 → 6 · 100 → 8 · 200 → 10 · 500 → 12 · 1 000 → 14 · 2 000 → 16 · 5 000 → 18 · 10 000 → 20<br>
+        <em>VDéf = FPA + 10 · MA = FPA + 1</em> — une érinys seule donne un FPA de 0 : jouez-la alors comme un PNJ.</p>
+        <p class="invoc-titre">Tactiques</p>
+        <ul class="runes">
+          <li><strong>Standard<span class="ast">*</span></strong> — aucun modificateur au MA ni à la VDéf.</li>
+          <li><strong>Battre en retraite<span class="ast">*</span></strong> — test de Moral opposé à chaque attaquante ; <strong>MA et VDéf −2</strong> pour la phase.</li>
+          <li><strong>Snipers en soutien</strong> — <strong>+2 dégâts</strong> en blessant au corps à corps (nécessite des attaques à distance).</li>
+          <li><strong>Fausse retraite</strong> — 1× par combat : pas d'attaque pendant la feinte, puis <strong>MA et VDéf +6</strong> contre l'armée visée.</li>
+        </ul>
+        <p class="invoc-titre">Ressources</p>
+        <ul class="runes">
+          <li><strong>Armes améliorées</strong> — arcs infernaux de maître : <strong>+1 MA</strong>, <strong>+1 Consommation</strong>.</li>
+          <li><strong>Armes à distance</strong> — arcs de guerre : <strong>attaques à distance</strong> (pour <em>Snipers en soutien</em>), <strong>+1 Consommation</strong>.</li>
+        </ul>
+        <p class="invoc-titre">Pouvoirs spéciaux</p>
+        <ul class="runes">
+          <li><strong>Défense importante</strong> — <strong>+10 VDéf</strong> contre les armées sans <strong>armes bénies</strong>.</li>
+          <li><strong>Vol</strong> — non attaquable en mêlée si elle n'attaque pas ; ignore les <strong>murs de ville</strong>.</li>
+          <li><strong>Immunité au feu</strong> · <strong>Vision dans les ténèbres</strong>.</li>
+        </ul>
+      </article>
+    </div>
+  </section>
+
+  <p class="rappel-camp" id="drows">Les drows de Vhal'Zharra — le culte de la Veuve</p>
+
+  <!-- ===================== DROWS GUERRIERS DE VHAL'ZHARRA ===================== -->
+  <section class="section reveal unite" id="guerriers-drows" style="--teinte:#3f4f8c;--teinte-fonce:#26315a">
+    <h2 class="titre-section"><span class="medaillon" aria-hidden="true">🗡</span><span class="intitule">Drows guerriers de Vhal'Zharra <span class="badge-fp">FP 14</span></span></h2>
+    <p class="note-table">Les Lames chanteresses de Vhal'Zharra, la Cité aux Mille Toiles.</p>
+
+    <div class="fiche-armee fiche-unite">
+      <header class="fiche-entete">
+        <h4>Drows guerriers de Vhal'Zharra — Lames chanteresses (humanoïdes)</h4>
+        <span class="fiche-fpa">FP 14 · d10</span>
+      </header>
+      <dl class="fiche-stats">
+        <div><dt>Taille de référence</dt><dd>2 000 (Colossale)</dd></div>
+        <div><dt>FPA</dt><dd>22</dd></div>
+        <div><dt>PV</dt><dd>121</dd></div>
+        <div><dt>VDéf</dt><dd>33</dd></div>
+        <div><dt>MA</dt><dd>+25</dd></div>
+        <div><dt>Moral</dt><dd>+0</dd></div>
+        <div><dt>Vitesse</dt><dd>12 m (8 cases)</dd></div>
+        <div><dt>PV par FPA</dt><dd>× 5,5 (d10)</dd></div>
+      </dl>
+    </div>
+
+    <h3>Toutes les tailles</h3>
+    <div class="bloc-taille">
+      <div class="defile">
+        <table class="tableau-tailles">
+          <thead><tr><th>Taille</th><th>Effectif</th><th>FPA</th><th>PV</th><th>VDéf</th><th>MA</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Titanesque</strong></td><td>10 000</td><td>26</td><td>143</td><td>37</td><td>+29</td></tr>
+            <tr><td><strong>Monumentale</strong></td><td>5 000</td><td>24</td><td>132</td><td>35</td><td>+27</td></tr>
+            <tr class="reference"><td><strong>Colossale</strong> <span class="ref-note">référence</span></td><td>2 000</td><td>22</td><td>121</td><td>33</td><td>+25</td></tr>
+            <tr><td><strong>Gargantuesque</strong></td><td>1 000</td><td>20</td><td>110</td><td>31</td><td>+23</td></tr>
+            <tr><td><strong>Très grande</strong></td><td>500</td><td>18</td><td>99</td><td>29</td><td>+21</td></tr>
+            <tr><td><strong>Grande</strong></td><td>200</td><td>16</td><td>88</td><td>27</td><td>+19</td></tr>
+            <tr><td><strong>Moyenne</strong></td><td>100</td><td>14</td><td>77</td><td>25</td><td>+17</td></tr>
+            <tr><td><strong>Petite</strong></td><td>50</td><td>12</td><td>66</td><td>23</td><td>+15</td></tr>
+            <tr><td><strong>Très petite</strong></td><td>25</td><td>10</td><td>55</td><td>21</td><td>+13</td></tr>
+            <tr><td><strong>Minuscule</strong></td><td>10</td><td>8</td><td>44</td><td>19</td><td>+11</td></tr>
+            <tr><td><strong>Infime</strong></td><td>1</td><td>6</td><td>33</td><td>17</td><td>+9</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <p class="note-table">Toutes les tailles : <strong>Moral +0</strong> et <strong>Vitesse 12 m (8 cases)</strong>. Les tailles <em>Monumentale</em> (5 000) et <em>Titanesque</em> (10 000) sont des extensions maison : <strong>+2 de FPA par palier</strong>, dans la continuité de la table officielle.</p>
+
+    <h3>Bonus et malus non compris</h3>
+    <p class="note-table">Ces effets ne sont <strong>pas</strong> comptés dans le tableau ci-dessus — à appliquer selon la situation.</p>
+    <div class="bloc-tableau">
+      <div class="defile">
+        <table>
+          <thead><tr><th>Source</th><th>Effet</th><th>Quand</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Battre en retraite<span class="ast">*</span></strong> (tactique)</td><td><strong>MA −2, VDéf −2</strong></td><td>La phase où l'unité se retire</td></tr>
+            <tr><td><strong>Spécialistes de l'encerclement</strong> (tactique)</td><td><strong>MA +2, VDéf −2</strong></td><td>Tant que la tactique est active</td></tr>
+            <tr><td><strong>Fausse retraite</strong> (tactique)</td><td><strong>MA +6, VDéf +6</strong></td><td>La phase suivant la feinte (1× par combat)</td></tr>
+            <tr><td><strong>Sales coups</strong> (tactique)</td><td><strong>MA +6</strong></td><td>Une phase de mêlée par bataille</td></tr>
+            <tr><td><strong>Soif du combat</strong> (tactique)</td><td><strong>Vitesse doublée</strong> (24 m)</td><td>En phase de tir, si elle n'est pas au corps à corps</td></tr>
+            <tr><td><strong>Armures de soie d'araignée</strong> (ressource)</td><td><strong>−5 dégâts subis</strong> contre le <strong>tranchant et le perforant</strong> (les contondantes ignorent)</td><td>À chaque attaque subie</td></tr>
+            <tr><td><strong>Tueur invisible</strong> (pouvoir)</td><td><strong>+2 MA et +2 VDéf</strong> (invisibilité : −2 aux tests ennemis) ; retraite non bloquable</td><td>Les deux premières phases de la bataille</td></tr>
+            <tr><td><strong>Combat à deux lames</strong> (pouvoir)</td><td><strong>+4 MA</strong></td><td>Une phase de mêlée par bataille</td></tr>
+            <tr><td><strong>Lames empoisonnées</strong> (pouvoir)</td><td><strong>+1d6 dégâts</strong> automatiques sur la cible</td><td>Au début de la phase suivant une attaque en mêlée réussie</td></tr>
+            <tr><td><strong>Résistance à la magie</strong> (pouvoir)</td><td><strong>+6 VDéf</strong></td><td>Contre une armée dotée d'<em>incantation</em></td></tr>
+            <tr><td><strong>Vision dans le noir</strong> (pouvoir)</td><td>Aucun malus d'obscurité</td><td>La nuit ou dans le noir</td></tr>
+            <tr><td><strong>Aveuglement à la lumière</strong> (faiblesse)</td><td><strong>MA −1</strong></td><td>En plein soleil / lumière vive</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <h3>Tactiques de l'unité</h3>
+    <ul class="runes">
+      <li><strong>Standard<span class="ast">*</span></strong> — L'unité combat sans artifice particulier : <strong>aucun modificateur au MA ni à la VDéf</strong>.</li>
+      <li><strong>Battre en retraite<span class="ast">*</span></strong> — L'armée tente d'échapper à toutes celles qui l'attaquent : <strong>test de Moral opposé</strong> à chaque attaquante (une armée peut échouer volontairement). Si tous réussissent, elle quitte le champ de bataille ou passe à une phase à distance ; si seulement certains réussissent, elle peut quand même le faire, mais les autres armées l'attaquent comme au corps à corps. Dans tous les cas, <strong>MA et VDéf −2</strong> pour le reste de la phase.</li>
+      <li><strong>Spécialistes de l'encerclement</strong> — Les drows débordent l'adversaire en essaim de lames : <strong>MA +2, VDéf −2</strong> (l'armée s'éparpille).</li>
+      <li><strong>Fausse retraite</strong> — Une fois par combat : <strong>pas de test d'attaque</strong> pendant la phase où l'unité feint de fuir, puis <strong>MA et VDéf +6</strong> contre l'armée visée la phase suivante.</li>
+      <li><strong>Sales coups</strong> — L'unité frappe sans honneur ni pitié : <strong>MA +6</strong> pendant <strong>une phase de mêlée</strong> par bataille.</li>
+      <li><strong>Soif du combat</strong> — Lors de la <strong>phase de tir</strong>, tant que l'unité n'est pas au corps à corps, sa <strong>vitesse de déplacement est doublée</strong> (<strong>24 m</strong> au lieu de 12 m) : elle se rue vers le combat.</li>
+    </ul>
+    <p class="note-table">Les tactiques marquées <span class="ast">*</span> sont connues d'office par toutes les armées — elles ne comptent pas dans le nombre de tactiques apprises. Pour les autres tactiques : voir la page <a class="lien" href="index.html#tactiques">Topo — Le combat de masse</a>.</p>
+
+    <h3>Ressources</h3>
+    <p class="note-table">Les bonus permanents des ressources et des pouvoirs sont déjà compris dans les valeurs des fiches — VDéf, MA…</p>
+    <ul class="runes">
+      <li><strong>Armures de soie d'araignée</strong> — souples mais incroyablement résistantes : <strong>−5 dégâts subis contre les attaques tranchantes et perforantes</strong> (minimum 0) ; elles ne ralentissent pas l'unité.</li>
+      <li><strong>Armes magiques (+3)</strong> — paire de lames enchantées : <strong>+3 MA</strong> et <strong>+3 Consommation</strong>.</li>
+    </ul>
+
+    <h3>Pouvoirs spéciaux</h3>
+    <ul class="runes">
+      <li><strong>Tueur invisible</strong> — Les Lames chanteresses se fondent dans l'ombre avant le premier choc : pendant les <strong>deux premières phases</strong> de la bataille, l'unité est <strong>invisible</strong> — toute armée qui l'attaque subit <strong>−2 à son test d'attaque</strong>, toute armée qu'elle attaque subit <strong>−2 à sa VDéf</strong>, et on ne peut pas l'empêcher de battre en retraite.</li>
+      <li><strong>Combat à deux lames</strong> — Le déluge des lames jumelles submerge les défenses : <strong>une fois par bataille</strong>, pendant <strong>une phase de mêlée</strong>, l'unité gagne <strong>+4 MA</strong>.</li>
+      <li><strong>Bouclier de lames</strong> — Les deux lames dansent en parade et dévient les coups : <strong>+1 VDéf</strong> <em>(déjà compris dans les fiches)</em>.</li>
+      <li><strong>Lames empoisonnées</strong> — Les lames sont enduites du <strong>poison drow</strong> : quand l'unité <strong>blesse</strong> en mêlée, la cible subit automatiquement <strong>1d6 dégâts</strong> au début de la phase suivante.</li>
+      <li><strong>Résistance à la magie</strong> — <strong>+6 VDéf</strong> contre les armées dotées du pouvoir <em>incantation</em> (la résistance innée des drows).</li>
+      <li><strong>Vision dans le noir</strong> — L'unité ne subit <strong>aucun malus de MA ni de VDéf</strong> en lumière faible ou dans l'obscurité.</li>
+      <li>⚠️ <strong>Faiblesse — Aveuglement à la lumière</strong> — En plein soleil ou en lumière vive, l'unité subit <strong>−1 MA</strong>.</li>
+    </ul>
+  </section>
+
+  <!-- ===================== PRÊTRESSES DE LOLTH ===================== -->
+  <section class="section reveal unite" id="pretresses" style="--teinte:#7a3f8c;--teinte-fonce:#4c2657">
+    <h2 class="titre-section"><span class="medaillon" aria-hidden="true">🕷</span><span class="intitule">Prêtresses de Lolth <span class="badge-fp">FP 14</span></span></h2>
+    <p class="note-table">Les prêtresses de la Veuve, voix de Lolth sur le champ de bataille.</p>
+
+    <div class="fiche-armee fiche-unite">
+      <header class="fiche-entete">
+        <h4>Prêtresses de Lolth — clergé de la Veuve (drows)</h4>
+        <span class="fiche-fpa">FP 14 · d8</span>
+      </header>
+      <dl class="fiche-stats">
+        <div><dt>Taille de référence</dt><dd>2 000 (Colossale)</dd></div>
+        <div><dt>FPA</dt><dd>22</dd></div>
+        <div><dt>PV</dt><dd>99</dd></div>
+        <div><dt>VDéf</dt><dd>40</dd></div>
+        <div><dt>MA</dt><dd>+30</dd></div>
+        <div><dt>Moral</dt><dd>+0</dd></div>
+        <div><dt>Vitesse</dt><dd>9 m (6 cases)</dd></div>
+        <div><dt>PV par FPA</dt><dd>× 4,5 (d8)</dd></div>
+      </dl>
+    </div>
+
+    <h3>Toutes les tailles</h3>
+    <div class="bloc-taille">
+      <div class="defile">
+        <table class="tableau-tailles">
+          <thead><tr><th>Taille</th><th>Effectif</th><th>FPA</th><th>PV</th><th>VDéf</th><th>MA</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Titanesque</strong></td><td>10 000</td><td>26</td><td>117</td><td>44</td><td>+34</td></tr>
+            <tr><td><strong>Monumentale</strong></td><td>5 000</td><td>24</td><td>108</td><td>42</td><td>+32</td></tr>
+            <tr class="reference"><td><strong>Colossale</strong> <span class="ref-note">référence</span></td><td>2 000</td><td>22</td><td>99</td><td>40</td><td>+30</td></tr>
+            <tr><td><strong>Gargantuesque</strong></td><td>1 000</td><td>20</td><td>90</td><td>38</td><td>+28</td></tr>
+            <tr><td><strong>Très grande</strong></td><td>500</td><td>18</td><td>81</td><td>36</td><td>+26</td></tr>
+            <tr><td><strong>Grande</strong></td><td>200</td><td>16</td><td>72</td><td>34</td><td>+24</td></tr>
+            <tr><td><strong>Moyenne</strong></td><td>100</td><td>14</td><td>63</td><td>32</td><td>+22</td></tr>
+            <tr><td><strong>Petite</strong></td><td>50</td><td>12</td><td>54</td><td>30</td><td>+20</td></tr>
+            <tr><td><strong>Très petite</strong></td><td>25</td><td>10</td><td>45</td><td>28</td><td>+18</td></tr>
+            <tr><td><strong>Minuscule</strong></td><td>10</td><td>8</td><td>36</td><td>26</td><td>+16</td></tr>
+            <tr><td><strong>Infime</strong></td><td>1</td><td>6</td><td>27</td><td>24</td><td>+14</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <p class="note-table">Toutes les tailles : <strong>Moral +0</strong> et <strong>Vitesse 9 m (6 cases)</strong>. Dé de vie <strong>d8</strong> : les PV valent <strong>FPA × 4,5</strong>. Les tailles <em>Monumentale</em> (5 000) et <em>Titanesque</em> (10 000) sont des extensions maison : <strong>+2 de FPA par palier</strong>.</p>
+
+    <h3>Bonus et malus non compris</h3>
+    <p class="note-table">Ces effets ne sont <strong>pas</strong> comptés dans le tableau ci-dessus — à appliquer selon la situation.</p>
+    <div class="bloc-tableau">
+      <div class="defile">
+        <table>
+          <thead><tr><th>Source</th><th>Effet</th><th>Quand</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Battre en retraite<span class="ast">*</span></strong> (tactique)</td><td><strong>MA −2, VDéf −2</strong></td><td>La phase où l'unité se retire</td></tr>
+            <tr><td><strong>Raillerie</strong> (tactique)</td><td>L'ennemi doit réussir un <strong>test de Moral DD = 10 + FPA</strong> (<strong>32</strong> à la taille de référence) ou subir <strong>−2 MA / −2 VDéf</strong> pour la phase</td><td>Au début de chaque phase de tir ou de mêlée</td></tr>
+            <tr><td><strong>Combat prudent</strong> (tactique)</td><td><strong>MA −2</strong> mais <strong>+2 aux tests de Moral</strong></td><td>Tant que la tactique est active</td></tr>
+            <tr><td><strong>Tueur invisible</strong> (pouvoir)</td><td><strong>+2 MA et +2 VDéf</strong> (invisibilité : −2 aux tests ennemis) ; retraite non bloquable</td><td>Les deux premières phases de la bataille</td></tr>
+            <tr><td><strong>Canalisation d'énergie négative</strong> (pouvoir)</td><td><strong>+1d4 dégâts</strong> contre une armée vivante</td><td>En phase de mêlée</td></tr>
+            <tr><td><strong>Venin de la Toile</strong> (pouvoir)</td><td><strong>−1 VDéf cumulatif</strong> pour la cible blessée en mêlée</td><td>Jusqu'à la fin de la bataille</td></tr>
+            <tr><td><strong>Résistance à la magie</strong> (pouvoir)</td><td><strong>+6 VDéf</strong></td><td>Contre une armée dotée d'<em>incantation</em></td></tr>
+            <tr><td><strong>Vision dans le noir</strong> (pouvoir)</td><td>Aucun malus d'obscurité</td><td>La nuit ou dans le noir</td></tr>
+            <tr><td><strong>Aveuglement à la lumière</strong> (faiblesse)</td><td><strong>MA −1</strong></td><td>En plein soleil / lumière vive</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <h3>Tactiques de l'unité</h3>
+    <ul class="runes">
+      <li><strong>Standard<span class="ast">*</span></strong> — L'unité combat sans artifice particulier : <strong>aucun modificateur au MA ni à la VDéf</strong>.</li>
+      <li><strong>Battre en retraite<span class="ast">*</span></strong> — L'armée tente d'échapper à toutes celles qui l'attaquent : <strong>test de Moral opposé</strong> à chaque attaquante (une armée peut échouer volontairement). Si tous réussissent, elle quitte le champ de bataille ou passe à une phase à distance ; si seulement certains réussissent, elle peut quand même le faire, mais les autres armées l'attaquent comme au corps à corps. Dans tous les cas, <strong>MA et VDéf −2</strong> pour le reste de la phase.</li>
+      <li><strong>Raillerie</strong> — Les murmures de la Veuve rongent le courage de l'ennemi : au début de chaque phase de tir ou de mêlée, l'ennemi fait un <strong>test de Moral DD = 10 + FPA</strong> (soit <strong>32</strong> à la taille de référence) ; en cas d'échec, sa <strong>VDéf et son MA baissent de 2</strong> pour la phase. S'il réussit <strong>deux jets consécutifs</strong>, il est immunisé pour le reste de la bataille.</li>
+      <li><strong>Combat prudent</strong> — L'unité avance en préservant ses forces : <strong>MA −2</strong>, mais <strong>+2 à tous ses tests de Moral</strong>.</li>
+    </ul>
+    <p class="note-table">Les tactiques marquées <span class="ast">*</span> sont connues d'office par toutes les armées — elles ne comptent pas dans le nombre de tactiques apprises. Pour les autres tactiques : voir la page <a class="lien" href="index.html#tactiques">Topo — Le combat de masse</a>.</p>
+
+    <h3>Ressources</h3>
+    <p class="note-table">Les bonus permanents des ressources et des pouvoirs sont déjà compris dans les valeurs des fiches — VDéf, MA…</p>
+    <ul class="runes">
+      <li><strong>Armures améliorées</strong> — chemises de mailles de mithral de maître : <strong>+1 VDéf</strong> et <strong>+1 Consommation</strong>.</li>
+      <li><strong>Armes améliorées</strong> — fouets et dagues de maître : <strong>+1 MA</strong> et <strong>+1 Consommation</strong>.</li>
+    </ul>
+
+    <h3>Pouvoirs spéciaux</h3>
+    <ul class="runes">
+      <li><strong>Tueur invisible</strong> — Les prêtresses se fondent dans l'ombre de la Veuve avant le premier choc : pendant les <strong>deux premières phases</strong> de la bataille, l'unité est <strong>invisible</strong> — toute armée qui l'attaque subit <strong>−2 à son test d'attaque</strong>, toute armée qu'elle attaque subit <strong>−2 à sa VDéf</strong>, et on ne peut pas l'empêcher de battre en retraite.</li>
+      <li><strong>Incantation</strong> — Les prêtresses lancent des sorts de niveau 7 : <strong>+7 MA et +7 VDéf</strong> <em>(déjà compris dans les fiches)</em> ; leurs sorts offensifs à distance permettent à l'unité de faire des <strong>attaques à distance</strong>.</li>
+      <li><strong>Canalisation d'énergie négative</strong> — En <strong>phase de mêlée</strong> : <strong>+1d4 dégâts</strong> contre une armée <strong>vivante</strong> — l'énergie négative ronge la chair.</li>
+      <li><strong>Venin de la Toile</strong> — Quand l'unité <strong>blesse</strong> une armée en mêlée, le venin s'infiltre dans ses rangs : la cible subit <strong>−1 VDéf cumulatif</strong> (chaque nouvelle blessure l'aggrave), jusqu'à la fin de la bataille.</li>
+      <li><strong>Résistance à la magie</strong> — <strong>+6 VDéf</strong> contre les armées dotées du pouvoir <em>incantation</em> (la résistance innée des drows).</li>
+      <li><strong>Vision dans le noir</strong> — L'unité ne subit <strong>aucun malus de MA ni de VDéf</strong> en lumière faible ou dans l'obscurité.</li>
+      <li>⚠️ <strong>Faiblesse — Aveuglement à la lumière</strong> — En plein soleil ou en lumière vive, l'unité subit <strong>−1 MA</strong>.</li>
+    </ul>
+  </section>
   <!-- ===================== VII. SOURCES ===================== -->
   <section class="section reveal" id="sources">
     <h2 class="titre-section"><span class="medaillon" aria-hidden="true">VII</span><span class="intitule">Sources &amp; liens</span></h2>
 
     <ul class="runes">
-      <li>Fiches rédigées à partir des fichiers du coffre : <em>Croisés FP 8</em>, <em>Paladins FP 12</em>, <em>Paladins FP 15</em>, <em>Prêtres FP 12</em>, <em>Chevaliers infernaux FP 12</em> (dossier <em>Troupes</em>).</li>
+      <li>Fiches rédigées à partir des fichiers du coffre (dossier <em>Troupes</em>) : <em>Croisés FP 8</em>, <em>Paladins FP 12</em>, <em>Paladins FP 15</em>, <em>Prêtres FP 12</em>, <em>Les Bâtards FP 10</em>, <em>Les Survivants de Kénabres</em>, <em>Chevaliers infernaux FP 12</em>, <em>Diabolistes infernaux FP 16</em>, <em>Drows guerriers de Vhal'Zharra FP 14</em> et <em>Prêtresses de Lolth FP 14</em>.</li>
+      <li>Les <strong>trois invocations du Pacte</strong> (diables barbus, diables osseux, érinyes) sont tirées des fiches du même dossier, mais ne sont présentées que comme troupes invoquées par les diabolistes.</li>
       <li>Règles du combat de masse : <a class="lien" href="index.html">Topo — Le combat de masse</a> (phases, stratégies, tactiques, moral, déroute, bienfaits de commandement).</li>
       <li><a class="lien" href="https://www.pathfinder-fr.org/wiki/GetFile.aspx?File=ADJ%2fPathfinder-RPG%2fAide-de-Jeu-Combat-de-Masse.pdf" target="_blank" rel="noopener">Aide de jeu : Les combats de masse (PDF, Pathfinder-FR)</a> — compilation des règles par Black et Coki.</li>
       <li><em>Ultimate Campaign</em>, pp. 234-251 (combat de masse) — <a class="lien" href="https://aonprd.com/Rules.aspx?ID=1565" target="_blank" rel="noopener">règles en ligne (Archives of Nethys)</a>.</li>
@@ -1668,10 +2394,49 @@ ul.runes li:hover::before{ color:var(--cire-clair); transform:rotate(45deg) scal
         liens.forEach(function(l){
           l.classList.toggle("actif", l.getAttribute("href") === "#" + e.target.id);
         });
+        majCourant();
       });
     }, { rootMargin: "-45% 0px -50% 0px", threshold: 0 });
     sections.forEach(function(s){ spy.observe(s); });
   }
+
+  /* --- Ruban repliable : garder la place sur l'écran ---
+     L'état (replié / déplié) est mémorisé et suivi d'une page à l'autre.
+     Replié, le ruban n'affiche plus que son titre et la section en cours. */
+  function majCourant(){
+    var c = document.querySelector(".ruban .courant");
+    if (!c) { return; }
+    var a = document.querySelector(".ruban a.ruban-lien.actif");
+    c.textContent = a ? "› " + a.textContent.trim() : "";
+  }
+  (function(){
+    var ruban = document.querySelector(".ruban");
+    var bouton = document.getElementById("bouton-reduire");
+    if (!ruban || !bouton) { return; }
+    var memoire = null;
+    try { memoire = window.localStorage; } catch (e) { memoire = null; }
+    function lire(){
+      try { return memoire && memoire.getItem("ruban-replie") === "1"; } catch (e) { return false; }
+    }
+    function ecrire(v){
+      try { if (memoire) { memoire.setItem("ruban-replie", v ? "1" : "0"); } } catch (e) {}
+    }
+    var replie = lire();
+    function appliquer(){
+      ruban.classList.toggle("replie", replie);
+      bouton.setAttribute("aria-expanded", replie ? "false" : "true");
+      bouton.title = replie ? "Déplier le sommaire" : "Replier le sommaire";
+      var etiquette = bouton.querySelector(".etiquette");
+      if (etiquette) { etiquette.textContent = replie ? "Sommaire" : "Replier"; }
+      majCourant();
+    }
+    bouton.addEventListener("click", function(){
+      replie = !replie;
+      ecrire(replie);
+      appliquer();
+    });
+    appliquer();
+  })();
 
   /* --- Les jetons de formule tressaillent au clic (décoratif) --- */
   if (!reduire) {

@@ -850,6 +850,39 @@ ul.runes li:hover::before{ color:var(--cire-clair); transform:rotate(45deg) scal
   .reveal{ opacity:1; transform:none; filter:none; }
   .poussiere{ display:none; }
 }
+
+/* ---------- 15. Ruban repliable (libérer la place) ---------- */
+.ruban .interieur{ padding-right:66px; }
+.courant{ display:none; }
+.ruban .reduire{
+  position:absolute; right:10px; top:50%; transform:translateY(-50%); z-index:3;
+  display:inline-flex; align-items:center; gap:6px;
+  font-family:var(--font-titre); font-size:.6rem; font-weight:600;
+  letter-spacing:.13em; text-transform:uppercase; color:#e8d7ae;
+  background:linear-gradient(180deg,#4a2d15,#301d0d);
+  border:1px solid rgba(176,141,74,.55); border-radius:999px;
+  padding:5px 11px; cursor:pointer;
+  transition:color .25s, background .25s, border-color .25s;
+}
+.ruban .reduire:hover{ color:#fff3d4; background:linear-gradient(180deg,#5c3a1c,#3d2714); border-color:rgba(226,199,132,.8); }
+.ruban .reduire:focus-visible{ outline:2px solid var(--or-clair); outline-offset:2px; }
+.ruban .reduire .chevron{ font-size:.85rem; line-height:1; transition:transform .3s cubic-bezier(.2,.8,.2,1); }
+.ruban.replie .reduire .chevron{ transform:rotate(-90deg); }
+.ruban.replie .groupe{ display:none; }
+.ruban.replie .voile{ display:none; }
+.ruban.replie .courant{
+  display:inline-block; margin-left:8px; padding-left:12px;
+  border-left:1px solid rgba(176,141,74,.35);
+  font-family:var(--font-titre); font-size:.64rem; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--or-clair);
+  max-width:54vw; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+}
+@media (max-width:760px){
+  .ruban .interieur{ padding-right:56px; }
+  .ruban .reduire{ padding:5px 9px; }
+  .ruban .reduire .etiquette{ display:none; }
+  .ruban.replie .courant{ max-width:40vw; }
+}
 </style>
 <noscript><style>.reveal{opacity:1 !important;transform:none !important;filter:none !important;}</style></noscript>
 <!-- Marqueur « JS actif » : sert uniquement à activer la version mobile des tableaux.
@@ -870,6 +903,7 @@ ul.runes li:hover::before{ color:var(--cire-clair); transform:rotate(45deg) scal
 <nav class="ruban" id="sommaire" aria-label="Sommaire du topo">
   <div class="interieur">
     <span class="marque"><span class="glyphe">⚔</span> Combat de masse</span>
+    <span class="courant" aria-hidden="true"></span>
     <span class="groupe">
       <a class="ruban-lien" href="#principe">Principe</a>
       <a class="ruban-lien" href="#fiche">Fiche d'armée</a>
@@ -892,6 +926,9 @@ ul.runes li:hover::before{ color:var(--cire-clair); transform:rotate(45deg) scal
     </span>
   </div>
   <span class="voile" aria-hidden="true"></span>
+  <button class="reduire" id="bouton-reduire" type="button" aria-expanded="true" title="Replier le sommaire">
+    <span class="etiquette">Replier</span><span class="chevron" aria-hidden="true">▾</span>
+  </button>
 </nav>
 
 <main>
@@ -1355,100 +1392,50 @@ ul.runes li:hover::before{ color:var(--cire-clair); transform:rotate(45deg) scal
 
   <!-- ===================== XI. LES ARMÉES =====================
        Renvoie vers la page « Armées - Fiches.html » (même dossier), qui contient
-       les fiches d'unités : croisés, paladins (FP 12 et 15), prêtres de guerre
-       et chevaliers infernaux, chacune en onze tailles. -->
+       les dix fiches d'unités — armées du Bien et alliés, légions infernales
+       et drows de Vhal'Zharra — plus les trois invocations du Pacte diabolique. -->
   <section class="section reveal" id="armees">
     <h2 class="titre-section"><span class="medaillon" aria-hidden="true">⚔</span><span class="intitule">Les Armées — fiches d'unités</span></h2>
 
     <div class="carte-future">
       <div class="sceau" aria-hidden="true">⚔</div>
       <div class="corps">
-        <h4>Cinq troupes prêtes pour la bataille</h4>
-        <p>La page <strong>Les Armées</strong> rassemble les fiches d'unités de la campagne : <strong>croisés</strong>, <strong>paladins</strong> (FP 12 et FP 15),
-        <strong>prêtres de guerre</strong> et <strong>chevaliers infernaux</strong> de la Légion Infernales.</p>
+        <h4>Dix troupes prêtes pour la bataille</h4>
+        <p>La page <strong>Les Armées</strong> rassemble les fiches d'unités de la campagne, rangées en trois camps :
+        les <strong>armées du Bien et leurs alliés</strong> (croisés, paladins FP 12 et FP 15, prêtres de guerre, les Bâtards, les Survivants de Kénabres),
+        les <strong>légions infernales</strong> (chevaliers infernaux et diabolistes du Cheliax)
+        et les <strong>drows de Vhal'Zharra</strong> (Lames chanteresses et prêtresses de Lolth).</p>
         <p>Chaque troupe y est déclinée en <strong>onze tailles</strong>, du combattant isolé (Infime) à 10 000 hommes (Titanesque), avec ses valeurs de FPA, PV, VDéf et MA,
-        ses bonus et malus à appliquer au moment voulu, ses tactiques, ses ressources et ses pouvoirs spéciaux.</p>
+        ses bonus et malus à appliquer au moment voulu, ses tactiques, ses ressources et ses pouvoirs spéciaux —
+        plus les <strong>Survivants de Kénabres</strong>, unité unique et évolutive qui grandit avec les rangs mythiques des Héros.</p>
+        <p>La fiche des diabolistes contient en outre les <strong>trois invocations du Pacte diabolique</strong> — diables barbus, diables osseux et érinyes — qui ne combattent
+        <strong>jamais comme armées indépendantes</strong> et ne rejoignent la bataille que par leur portail.</p>
         <a class="bouton-armee" href="Armées - Fiches.html">⚔ Feuilleter les armées</a>
       </div>
     </div>
 
-    <!-- Aperçu des fiches de la page « Les Armées » — valeurs à 2 000 combattants (Colossale) -->
-    <div class="apercu-grille">
-      <article class="fiche-armee reveal" style="--i:0">
-        <header class="fiche-entete">
-          <h4>Croisés — FP 8</h4>
-          <span class="fiche-fpa">2 000 (Colossale)</span>
-        </header>
-        <dl class="fiche-stats">
-          <div><dt>FPA</dt><dd>16</dd></div>
-          <div><dt>PV</dt><dd>88</dd></div>
-          <div><dt>VDéf</dt><dd>27</dd></div>
-          <div><dt>MA</dt><dd>+17</dd></div>
-        </dl>
-        <p class="fiche-tactiques"><strong>Tactiques :</strong> Standard<span class="ast">*</span>, Battre en retraite<span class="ast">*</span>, Mur protecteur</p>
-        <p class="fiche-note"><strong>Points forts :</strong> fer froid (perce la Défense importante des démons), potions de soins, Châtiment du Mal.</p>
-      </article>
-
-      <article class="fiche-armee reveal" style="--i:1">
-        <header class="fiche-entete">
-          <h4>Paladins — FP 12</h4>
-          <span class="fiche-fpa">2 000 (Colossale)</span>
-        </header>
-        <dl class="fiche-stats">
-          <div><dt>FPA</dt><dd>20</dd></div>
-          <div><dt>PV</dt><dd>110</dd></div>
-          <div><dt>VDéf</dt><dd>31</dd></div>
-          <div><dt>MA</dt><dd>+22</dd></div>
-        </dl>
-        <p class="fiche-tactiques"><strong>Tactiques :</strong> Standard<span class="ast">*</span>, Battre en retraite<span class="ast">*</span>, Snipers en soutien, Fausse retraite</p>
-        <p class="fiche-note"><strong>Points forts :</strong> réussite automatique des tests de déroute, archers, Châtiment du Mal.</p>
-      </article>
-
-      <article class="fiche-armee reveal" style="--i:2">
-        <header class="fiche-entete">
-          <h4>Paladins de légende — FP 15</h4>
-          <span class="fiche-fpa">2 000 (Colossale)</span>
-        </header>
-        <dl class="fiche-stats">
-          <div><dt>FPA</dt><dd>23</dd></div>
-          <div><dt>PV</dt><dd>126</dd></div>
-          <div><dt>VDéf</dt><dd>37</dd></div>
-          <div><dt>MA</dt><dd>+29</dd></div>
-        </dl>
-        <p class="fiche-tactiques"><strong>Tactiques :</strong> Standard<span class="ast">*</span>, Battre en retraite<span class="ast">*</span>, Cavaliers experts, Spécialistes de l'encerclement</p>
-        <p class="fiche-note"><strong>Points forts :</strong> montures célestes, vitesse 12 m — la troupe la plus puissante des armées du Bien.</p>
-      </article>
-
-      <article class="fiche-armee reveal" style="--i:0">
-        <header class="fiche-entete">
-          <h4>Prêtres — FP 12</h4>
-          <span class="fiche-fpa">2 000 (Colossale)</span>
-        </header>
-        <dl class="fiche-stats">
-          <div><dt>FPA</dt><dd>20</dd></div>
-          <div><dt>PV</dt><dd>90</dd></div>
-          <div><dt>VDéf</dt><dd>37</dd></div>
-          <div><dt>MA</dt><dd>+27</dd></div>
-        </dl>
-        <p class="fiche-tactiques"><strong>Tactiques :</strong> Standard<span class="ast">*</span>, Battre en retraite<span class="ast">*</span>, Combat prudent, Briseurs de sorts</p>
-        <p class="fiche-note"><strong>Points forts :</strong> incantation (sorts de niveau 6), soins, canalisation d'énergie positive.</p>
-      </article>
-
-      <article class="fiche-armee reveal" style="--i:1">
-        <header class="fiche-entete">
-          <h4>Chevaliers infernaux — FP 12</h4>
-          <span class="fiche-fpa">2 000 (Colossale)</span>
-        </header>
-        <dl class="fiche-stats">
-          <div><dt>FPA</dt><dd>20</dd></div>
-          <div><dt>PV</dt><dd>110</dd></div>
-          <div><dt>VDéf</dt><dd>33</dd></div>
-          <div><dt>MA</dt><dd>+21</dd></div>
-        </dl>
-        <p class="fiche-tactiques"><strong>Tactiques :</strong> Standard<span class="ast">*</span>, Battre en retraite<span class="ast">*</span>, Défense totale, Briseurs de sorts</p>
-        <p class="fiche-note"><strong>Points forts :</strong> résistance à la magie (+6 VDéf), immunité au feu, vision dans les ténèbres.</p>
-      </article>
+    <h3>Les dix unités</h3>
+    <div class="bloc-tableau">
+      <div class="defile">
+        <table>
+          <thead><tr><th>Unité</th><th>Camp</th><th>FP individuel</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Croisés</strong></td><td>Le Bien &amp; alliés</td><td>8</td></tr>
+            <tr><td><strong>Paladins</strong></td><td>Le Bien &amp; alliés</td><td>12</td></tr>
+            <tr><td><strong>Paladins de légende</strong></td><td>Le Bien &amp; alliés</td><td>15</td></tr>
+            <tr><td><strong>Prêtres de guerre</strong></td><td>Le Bien &amp; alliés</td><td>12</td></tr>
+            <tr><td><strong>Les Bâtards</strong></td><td>Le Bien &amp; alliés</td><td>10</td></tr>
+            <tr><td><strong>Les Survivants de Kénabres</strong></td><td>Le Bien &amp; alliés</td><td>8 → 28 <em>(évolutif)</em></td></tr>
+            <tr><td><strong>Chevaliers infernaux</strong></td><td>Les légions infernales</td><td>12</td></tr>
+            <tr><td><strong>Diabolistes infernaux</strong></td><td>Les légions infernales</td><td>16</td></tr>
+            <tr><td><strong>Drows guerriers de Vhal'Zharra</strong></td><td>Les drows de Vhal'Zharra</td><td>14</td></tr>
+            <tr><td><strong>Prêtresses de Lolth</strong></td><td>Les drows de Vhal'Zharra</td><td>14</td></tr>
+          </tbody>
+        </table>
+      </div>
     </div>
+    <p class="note-table">Chaque fiche est donnée à sa <strong>taille de référence (2 000 combattants, Colossale)</strong> puis déclinée en <strong>onze tailles</strong>, de 1 à 10 000 combattants — sauf les <strong>Survivants de Kénabres</strong>, unité unique de 100 rescapés qui grandit avec les rangs mythiques des Héros.<br>
+    <strong>Invocations :</strong> les <strong>diables barbus</strong> (FP 5), <strong>diables osseux</strong> (FP 9) et <strong>érinyes</strong> (FP 8) ne sont pas des armées à part entière — ils ne sont appelés que par le <em>Pacte diabolique</em> des diabolistes infernaux, et sont détaillés dans leur fiche.</p>
   </section>
 </div>
 </main>
@@ -1537,10 +1524,49 @@ ul.runes li:hover::before{ color:var(--cire-clair); transform:rotate(45deg) scal
         liens.forEach(function(l){
           l.classList.toggle("actif", l.getAttribute("href") === "#" + e.target.id);
         });
+        majCourant();
       });
     }, { rootMargin: "-45% 0px -50% 0px", threshold: 0 });
     sections.forEach(function(s){ spy.observe(s); });
   }
+
+  /* --- Ruban repliable : garder la place sur l'écran ---
+     L'état (replié / déplié) est mémorisé et suivi d'une page à l'autre.
+     Replié, le ruban n'affiche plus que son titre et la section en cours. */
+  function majCourant(){
+    var c = document.querySelector(".ruban .courant");
+    if (!c) { return; }
+    var a = document.querySelector(".ruban a.ruban-lien.actif");
+    c.textContent = a ? "› " + a.textContent.trim() : "";
+  }
+  (function(){
+    var ruban = document.querySelector(".ruban");
+    var bouton = document.getElementById("bouton-reduire");
+    if (!ruban || !bouton) { return; }
+    var memoire = null;
+    try { memoire = window.localStorage; } catch (e) { memoire = null; }
+    function lire(){
+      try { return memoire && memoire.getItem("ruban-replie") === "1"; } catch (e) { return false; }
+    }
+    function ecrire(v){
+      try { if (memoire) { memoire.setItem("ruban-replie", v ? "1" : "0"); } } catch (e) {}
+    }
+    var replie = lire();
+    function appliquer(){
+      ruban.classList.toggle("replie", replie);
+      bouton.setAttribute("aria-expanded", replie ? "false" : "true");
+      bouton.title = replie ? "Déplier le sommaire" : "Replier le sommaire";
+      var etiquette = bouton.querySelector(".etiquette");
+      if (etiquette) { etiquette.textContent = replie ? "Sommaire" : "Replier"; }
+      majCourant();
+    }
+    bouton.addEventListener("click", function(){
+      replie = !replie;
+      ecrire(replie);
+      appliquer();
+    });
+    appliquer();
+  })();
 
   /* --- Les jetons de formule tressaillent au clic (décoratif) --- */
   if (!reduire) {
